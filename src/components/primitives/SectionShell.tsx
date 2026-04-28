@@ -47,7 +47,7 @@ export function SectionShell({
       aria-labelledby={ariaLabelledBy}
       aria-label={ariaLabel}
       className={`relative px-6 py-12 md:py-16 ${
-        warmLight ? "warm-light" : ""
+        warmLight ? "warm-section" : ""
       } ${fullHeight ? "min-h-screen flex items-center" : ""} ${className}`}
       {...rest}
     >
