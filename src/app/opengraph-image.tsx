@@ -20,7 +20,7 @@ import { ImageResponse } from "next/og";
  * Statically optimized at build time — runs once, PNG cached for the build lifetime.
  */
 
-export const alt = "JJ Walker builds your AiOS.";
+export const alt = "Let's Build Your AiOS.";
 
 export const size = {
   width: 1200,
@@ -72,7 +72,7 @@ export default function Image() {
             paddingBottom: "80px",
           }}
         >
-          <span>JJ Walker builds your&nbsp;</span>
+          <span>Let&#39;s Build Your&nbsp;</span>
           <span style={{ color: "#D9933A" }}>AiOS.</span>
         </div>
 

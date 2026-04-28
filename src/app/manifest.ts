@@ -11,7 +11,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "JFly.ai",
     short_name: "JFly.ai",
-    description: "JJ Walker builds your AiOS — Denver",
+    description: "Let's Build Your AiOS — Denver",
     start_url: "/",
     display: "standalone",
     background_color: "#0E0C0A",

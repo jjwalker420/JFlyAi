@@ -28,9 +28,9 @@ const vt323 = VT323({
 
 const SITE_URL = "https://www.jfly.ai";
 const SITE_NAME = "JFly.ai";
-const SITE_TITLE = "JFly.ai — JJ Walker builds your AiOS";
+const SITE_TITLE = "JFly.ai — Let's Build Your AiOS";
 const SITE_DESCRIPTION =
-  "JJ Walker installs your AiOS — the personalized setup of Claude, ChatGPT, and the tools that run your work — at your desk, in person, in Denver.";
+  "Let's Build Your AiOS — 1-on-1 setup of Claude Desktop and the tools that will change your life. Installed in person in Denver, CO.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
