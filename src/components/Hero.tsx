@@ -127,11 +127,12 @@ export function Hero() {
         />
 
         {/* Mobile-only: solid dark mask over the text area so the image only
-            appears as a clean band below the subtext. Fades from full ink-black
-            at the top to transparent at ~48vh (just below "tools that will
-            change your life."). Desktop hidden — desktop uses the vignette above. */}
+            appears as a clean band below the subtext. Sized so it ends just
+            below the body copy now that the headline + subhead sit higher up,
+            giving the time-machine image more visible canvas underneath.
+            Desktop hidden — desktop uses the vignette above. */}
         <div
-          className="md:hidden pointer-events-none absolute inset-x-0 top-0 h-[48vh]"
+          className="md:hidden pointer-events-none absolute inset-x-0 top-0 h-[34vh]"
           style={{ background: "linear-gradient(to bottom, #0E0C0A 70%, transparent 100%)" }}
           aria-hidden="true"
         />
@@ -159,11 +160,11 @@ export function Hero() {
         */}
         <div className="relative z-10 flex h-full flex-col justify-between isolate">
           {/* Header clearance */}
-          <div className="h-20 shrink-0" aria-hidden="true" />
+          <div className="h-12 shrink-0 md:h-20" aria-hidden="true" />
 
           {/* Centered content */}
           <motion.div
-            className="flex flex-1 items-stretch justify-center px-6 pt-2 md:items-center md:pt-0"
+            className="flex flex-1 items-stretch justify-center px-6 md:items-center"
             style={{
               opacity: prefersReducedMotion ? 1 : copyOpacity,
               y: prefersReducedMotion ? 0 : copyY,
@@ -192,7 +193,7 @@ export function Hero() {
                 as="h1"
                 size="xl"
                 id="hero-headline"
-                className="mb-8"
+                className="mb-4 md:mb-8"
               >
                 Let&rsquo;s Build Your{" "}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-sunset-red via-sunset-orange to-sunset-yellow">
