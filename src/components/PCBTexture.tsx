@@ -3,18 +3,23 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 
-function calcOpacity(scrollY: number, totalH: number, viewportH: number): number {
-  const progress = scrollY / Math.max(totalH - viewportH, 1);
-  if (progress <= 0.05) return 0;
-  if (progress <= 0.15) return ((progress - 0.05) / 0.10) * 0.13;
-  if (progress <= 0.92) return 0.13;
-  if (progress <= 1.0)  return ((1.0 - progress) / 0.08) * 0.13;
+// Scroll progress 0–1 across the active band; 0 in hero (≤5%) and tail (>1.0)
+function calcProgress(scrollY: number, totalH: number, viewportH: number): number {
+  const p = scrollY / Math.max(totalH - viewportH, 1);
+  if (p <= 0.05) return 0;
+  if (p <= 0.15) return (p - 0.05) / 0.10;
+  if (p <= 0.92) return 1;
+  if (p <= 1.0) return (1.0 - p) / 0.08;
   return 0;
 }
 
+const TRACE_MAX = 0.08;   // PCB pattern ceiling — ambient, not foreground
+const WASH_MAX = 0.7;     // wash wrapper × bg-color 0.05 ≈ 3.5% effective warm lift
+
 export function PCBTexture() {
   const reduced = useReducedMotion();
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const washRef = useRef<HTMLDivElement>(null);
+  const tracesRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -25,12 +30,10 @@ export function PCBTexture() {
   }, []);
 
   useEffect(() => {
-    const el = wrapperRef.current;
-    if (!el) return;
     const update = () => {
-      el.style.opacity = String(
-        calcOpacity(window.scrollY, document.body.scrollHeight, window.innerHeight)
-      );
+      const p = calcProgress(window.scrollY, document.body.scrollHeight, window.innerHeight);
+      if (washRef.current) washRef.current.style.opacity = String(p * WASH_MAX);
+      if (tracesRef.current) tracesRef.current.style.opacity = String(p * TRACE_MAX);
     };
     update();
     window.addEventListener("scroll", update, { passive: true });
@@ -40,42 +43,56 @@ export function PCBTexture() {
   if (isMobile) return null;
 
   return (
-    <div
-      ref={wrapperRef}
-      aria-hidden="true"
-      style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 1,
-        pointerEvents: "none",
-        opacity: 0,
-      }}
-    >
-      {/* Static base texture */}
+    <>
+      {/* Layer 1 — warm-amber wash that lifts dark section backgrounds */}
       <div
+        ref={washRef}
+        aria-hidden="true"
         style={{
-          position: "absolute",
+          position: "fixed",
           inset: 0,
-          backgroundImage: "url(/textures/pcb-trace-bg.svg)",
-          backgroundRepeat: "repeat",
-          backgroundSize: "512px 512px",
+          zIndex: 1,
+          pointerEvents: "none",
+          opacity: 0,
+          backgroundColor: "rgba(217, 147, 58, 0.05)",
         }}
       />
 
-      {/* Spark overlay — gated by prefers-reduced-motion */}
-      {!reduced && (
+      {/* Layer 2 — PCB trace pattern */}
+      <div
+        ref={tracesRef}
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 1,
+          pointerEvents: "none",
+          opacity: 0,
+        }}
+      >
         <div
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: "url(/textures/pcb-spark-overlay.svg)",
+            backgroundImage: "url(/textures/pcb-trace-bg.svg)",
             backgroundRepeat: "repeat",
             backgroundSize: "512px 512px",
-            mixBlendMode: "screen",
-            animation: "pcb-spark-pulse 7s ease-in-out infinite alternate",
           }}
         />
-      )}
-    </div>
+        {!reduced && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: "url(/textures/pcb-spark-overlay.svg)",
+              backgroundRepeat: "repeat",
+              backgroundSize: "512px 512px",
+              mixBlendMode: "screen",
+              animation: "pcb-spark-pulse 7s ease-in-out infinite alternate",
+            }}
+          />
+        )}
+      </div>
+    </>
   );
 }
