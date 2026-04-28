@@ -388,6 +388,14 @@ body {
     var(--color-ink-black);
 }
 
+/* === PCB texture spark pulse =============================================== */
+
+@keyframes pcb-spark-pulse {
+  0%   { opacity: 0.3; }
+  50%  { opacity: 0.8; }
+  100% { opacity: 0.4; }
+}
+
 /* === Reduced motion (non-negotiable) ======================================= */
 
 @media (prefers-reduced-motion: reduce) {

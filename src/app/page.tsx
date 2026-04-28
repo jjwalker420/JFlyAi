@@ -1,3 +1,4 @@
+import { PCBTexture } from "@/components/PCBTexture";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { DiagnosticTest } from "@/components/DiagnosticTest";
@@ -13,6 +14,7 @@ import { SectionDivider } from "@/components/SectionDivider";
 export default function Home() {
   return (
     <>
+      <PCBTexture />
       <Header />
       <main id="main">
         <Hero />

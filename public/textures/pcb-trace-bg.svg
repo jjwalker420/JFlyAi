@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+
+  <!-- ===== HORIZONTAL BUS TRACES (full-width, 7 rows) ===== -->
+  <line x1="0" y1="36"  x2="512" y2="36"  stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="0" y1="96"  x2="512" y2="96"  stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="0" y1="164" x2="512" y2="164" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="0" y1="232" x2="512" y2="232" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="0" y1="300" x2="512" y2="300" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="0" y1="368" x2="512" y2="368" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="0" y1="436" x2="512" y2="436" stroke="#D9933A" stroke-width="1.5"/>
+
+  <!-- ===== VERTICAL CONNECTORS (between bus rows) ===== -->
+  <line x1="64"  y1="36"  x2="64"  y2="96"  stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="200" y1="164" x2="200" y2="232" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="340" y1="232" x2="340" y2="300" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="460" y1="96"  x2="460" y2="164" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="112" y1="300" x2="112" y2="368" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="380" y1="368" x2="380" y2="436" stroke="#D9933A" stroke-width="1.5"/>
+
+  <!-- ===== BRANCH SUB-TRACES (short horizontal stubs) ===== -->
+  <line x1="64"  y1="64"  x2="120" y2="64"  stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="200" y1="200" x2="260" y2="200" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="280" y1="264" x2="340" y2="264" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="112" y1="336" x2="160" y2="336" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="380" y1="400" x2="436" y2="400" stroke="#D9933A" stroke-width="1.5"/>
+
+  <!-- ===== IC CHIP 1: 80×32 at (24,80) — spans H2 y=96 ===== -->
+  <rect x="24" y="80" width="80" height="32" stroke="#D9933A" stroke-width="2"/>
+  <line x1="40"  y1="80"  x2="40"  y2="68"  stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="56"  y1="80"  x2="56"  y2="68"  stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="72"  y1="80"  x2="72"  y2="68"  stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="88"  y1="80"  x2="88"  y2="68"  stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="40"  y1="112" x2="40"  y2="124" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="56"  y1="112" x2="56"  y2="124" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="72"  y1="112" x2="72"  y2="124" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="88"  y1="112" x2="88"  y2="124" stroke="#D9933A" stroke-width="1.5"/>
+
+  <!-- ===== IC CHIP 2: 96×32 at (152,216) — spans H4 y=232 ===== -->
+  <rect x="152" y="216" width="96" height="32" stroke="#D9933A" stroke-width="2"/>
+  <line x1="168" y1="216" x2="168" y2="204" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="184" y1="216" x2="184" y2="204" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="200" y1="216" x2="200" y2="204" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="216" y1="216" x2="216" y2="204" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="232" y1="216" x2="232" y2="204" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="168" y1="248" x2="168" y2="260" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="184" y1="248" x2="184" y2="260" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="200" y1="248" x2="200" y2="260" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="216" y1="248" x2="216" y2="260" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="248" y1="228" x2="260" y2="228" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="248" y1="240" x2="260" y2="240" stroke="#D9933A" stroke-width="1.5"/>
+
+  <!-- ===== IC CHIP 3: 80×32 at (300,284) — spans H5 y=300 ===== -->
+  <rect x="300" y="284" width="80" height="32" stroke="#D9933A" stroke-width="2"/>
+  <line x1="316" y1="284" x2="316" y2="272" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="332" y1="284" x2="332" y2="272" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="348" y1="284" x2="348" y2="272" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="364" y1="284" x2="364" y2="272" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="316" y1="316" x2="316" y2="328" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="332" y1="316" x2="332" y2="328" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="348" y1="316" x2="348" y2="328" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="300" y1="296" x2="288" y2="296" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="300" y1="308" x2="288" y2="308" stroke="#D9933A" stroke-width="1.5"/>
+
+  <!-- ===== IC CHIP 4: 56×24 at (432,152) — near V4 x=460 ===== -->
+  <rect x="432" y="152" width="56" height="24" stroke="#D9933A" stroke-width="2"/>
+  <line x1="448" y1="152" x2="448" y2="140" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="464" y1="152" x2="464" y2="140" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="480" y1="152" x2="480" y2="140" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="448" y1="176" x2="448" y2="188" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="464" y1="176" x2="464" y2="188" stroke="#D9933A" stroke-width="1.5"/>
+
+  <!-- ===== IC CHIP 5: 56×24 at (84,356) — spans H6 y=368 ===== -->
+  <rect x="84" y="356" width="56" height="24" stroke="#D9933A" stroke-width="2"/>
+  <line x1="100" y1="356" x2="100" y2="344" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="116" y1="356" x2="116" y2="344" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="132" y1="356" x2="132" y2="344" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="100" y1="380" x2="100" y2="392" stroke="#D9933A" stroke-width="1.5"/>
+  <line x1="116" y1="380" x2="116" y2="392" stroke="#D9933A" stroke-width="1.5"/>
+
+  <!-- ===== VIAS — r=3.5 at V-H junctions ===== -->
+  <circle cx="64"  cy="36"  r="3.5" fill="#D9933A"/>
+  <circle cx="64"  cy="96"  r="3.5" fill="#D9933A"/>
+  <circle cx="200" cy="164" r="3.5" fill="#D9933A"/>
+  <circle cx="200" cy="232" r="3.5" fill="#D9933A"/>
+  <circle cx="340" cy="232" r="3.5" fill="#D9933A"/>
+  <circle cx="340" cy="300" r="3.5" fill="#D9933A"/>
+  <circle cx="460" cy="96"  r="3.5" fill="#D9933A"/>
+  <circle cx="460" cy="164" r="3.5" fill="#D9933A"/>
+  <circle cx="112" cy="300" r="3.5" fill="#D9933A"/>
+  <circle cx="112" cy="368" r="3.5" fill="#D9933A"/>
+  <circle cx="380" cy="368" r="3.5" fill="#D9933A"/>
+  <circle cx="380" cy="436" r="3.5" fill="#D9933A"/>
+
+  <!-- ===== VIAS — r=2.5 at sub-trace ends and mid-bus points ===== -->
+  <circle cx="120" cy="64"  r="2.5" fill="#D9933A"/>
+  <circle cx="260" cy="200" r="2.5" fill="#D9933A"/>
+  <circle cx="280" cy="264" r="2.5" fill="#D9933A"/>
+  <circle cx="160" cy="336" r="2.5" fill="#D9933A"/>
+  <circle cx="436" cy="400" r="2.5" fill="#D9933A"/>
+  <circle cx="256" cy="36"  r="2.5" fill="#D9933A"/>
+  <circle cx="384" cy="96"  r="2.5" fill="#D9933A"/>
+  <circle cx="128" cy="164" r="2.5" fill="#D9933A"/>
+  <circle cx="416" cy="232" r="2.5" fill="#D9933A"/>
+  <circle cx="256" cy="300" r="2.5" fill="#D9933A"/>
+  <circle cx="192" cy="368" r="2.5" fill="#D9933A"/>
+  <circle cx="320" cy="436" r="2.5" fill="#D9933A"/>
+
+</svg>

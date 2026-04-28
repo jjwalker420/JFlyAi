@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+
+  <!-- Spark segments overlaid on key trace paths from pcb-trace-bg.svg.
+       CSS animation on the parent div pulses opacity (pcb-spark-pulse).
+       stroke-linecap="round" gives each spark a soft electrical-charge look. -->
+
+  <!-- Spark 1 — amber: H2 (y=96) east of chip 1 toward mid-bus via -->
+  <line x1="104" y1="96" x2="220" y2="96"
+        stroke="#D9933A" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Spark 2 — amber: V2 connector (x=200, y=164→232) -->
+  <line x1="200" y1="172" x2="200" y2="224"
+        stroke="#D9933A" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Spark 3 — phosphor green: H5 (y=300) approaching chip 3 -->
+  <line x1="236" y1="300" x2="300" y2="300"
+        stroke="#8DD93B" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Spark 4 — amber: H6 (y=368) between V5 and V6 -->
+  <line x1="140" y1="368" x2="380" y2="368"
+        stroke="#D9933A" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Spark 5 — amber: branch stub at y=64 (x=64→120) -->
+  <line x1="64" y1="64" x2="120" y2="64"
+        stroke="#D9933A" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Spark 6 — amber: V6 connector (x=380, y=368→436) -->
+  <line x1="380" y1="378" x2="380" y2="426"
+        stroke="#D9933A" stroke-width="2" stroke-linecap="round"/>
+
+</svg>
