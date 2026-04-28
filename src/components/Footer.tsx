@@ -97,8 +97,6 @@ export function Footer() {
             </a>
             <span aria-hidden="true" className="text-bone/30"> · </span>
             <TextLink href="/privacy" tone="muted">Privacy</TextLink>
-            <span aria-hidden="true" className="text-bone/30"> · </span>
-            <TextLink href="/terms" tone="muted">Terms</TextLink>
           </div>
 
           {/* Line 3: Copyright */}
