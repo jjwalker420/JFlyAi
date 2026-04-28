@@ -104,7 +104,7 @@ export function Hero() {
             preload
             sizes="100vw"
             quality={85}
-            className="object-contain object-[center_78%] scale-125 brightness-125 md:object-cover md:object-center md:scale-100 md:brightness-100"
+            className="object-contain object-[center_49%] scale-[2.25] brightness-125 md:object-cover md:object-center md:scale-100 md:brightness-100"
           />
         </motion.div>
 
