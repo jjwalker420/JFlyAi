@@ -104,7 +104,7 @@ export function Hero() {
             preload
             sizes="100vw"
             quality={85}
-            className="object-contain object-center scale-125 brightness-125 md:object-cover md:object-center md:scale-100 md:brightness-100"
+            className="object-contain object-top scale-125 brightness-125 md:object-cover md:object-center md:scale-100 md:brightness-100"
           />
         </motion.div>
 
@@ -154,7 +154,7 @@ export function Hero() {
 
           {/* Centered content */}
           <motion.div
-            className="flex flex-1 items-center justify-center px-6"
+            className="flex flex-1 items-start justify-center px-6 pt-12 md:items-center md:pt-0"
             style={{
               opacity: prefersReducedMotion ? 1 : copyOpacity,
               y: prefersReducedMotion ? 0 : copyY,
@@ -185,16 +185,15 @@ export function Hero() {
                 id="hero-headline"
                 className="mb-8"
               >
-                JJ Walker builds your{" "}
+                Let&rsquo;s Build Your{" "}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-sunset-red via-sunset-orange to-sunset-yellow">
                   AiOS
                 </span>
                 .
               </DisplayHeading>
               <BodyCopy size="lg" tone="primary" className="mx-auto mb-10 max-w-[760px]">
-                Your AiOS — the personalized setup of Claude, ChatGPT, and the
-                tools that run your work — installed at your desk, in person, in
-                Denver.
+                1-on-1 setup of Claude Desktop and the tools that will change
+                your life — installed in person, in Denver, CO.
               </BodyCopy>
               {/*
                 The button row sits inside the hero where a soft-light amber
