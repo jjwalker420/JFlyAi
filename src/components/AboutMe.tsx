@@ -44,14 +44,14 @@ export function AboutMe() {
       <div className="grid grid-cols-1 gap-12 md:grid-cols-[5fr_7fr] md:items-start md:gap-16">
         {/* LEFT — editorial portrait */}
         <div>
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md">
+          <div className="relative z-[2] aspect-[4/5] w-full overflow-hidden rounded-md">
             <Image
               src="/jj-walker-portrait.png"
               alt="JJ Walker"
               fill
               sizes="(max-width: 768px) 100vw, 502px"
               quality={90}
-              className="object-cover object-top opacity-75"
+              className="object-cover object-top opacity-90"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-black/60 to-transparent p-5">
               <Caption tone="muted">JJ Walker · Denver, CO</Caption>
