@@ -373,12 +373,9 @@ body {
   pointer-events: none;
   z-index: -1;
   background:
-    /* top-left corner — lamp warmth bleeds into the section */
-    radial-gradient(ellipse 640px 420px at 6% 0%, rgb(217 147 58 / 0.06), transparent 62%),
-    /* bottom-right corner — counterweight glow */
-    radial-gradient(ellipse 640px 420px at 94% 100%, rgb(217 147 58 / 0.05), transparent 62%),
-    /* heading halo — soft top-center wash so DisplayHeading sits in lamp light */
-    radial-gradient(ellipse 880px 340px at 50% 6%, rgb(217 147 58 / 0.05), transparent 55%);
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgb(217 147 58 / 0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgb(217 147 58 / 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 30% at 50% 6%, rgb(217 147 58 / 0.04) 0%, transparent 55%);
 }
 
 /* === Reduced motion (non-negotiable) ======================================= */

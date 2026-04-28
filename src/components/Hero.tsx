@@ -60,7 +60,7 @@ export function Hero() {
   );
 
   // Subtle scale-in over the whole scroll (1.0 → 1.04) — restrained, not bombast.
-  const imgScale = useTransform(smoothProgress, [0, 1], [1, 1.04]);
+  const imgScale = useTransform(smoothProgress, [0, 1], [1, 1.05]);
 
   // Lamp-amber overlay intensifies — the lamp turns up across the journey.
   const amberOpacity = useTransform(smoothProgress, [0, 1], [0.18, 0.42]);
@@ -125,6 +125,16 @@ export function Hero() {
         <div
           className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink-black/65 via-ink-black/25 to-ink-black/90"
           aria-hidden="true"
+        />
+
+        {/* Full-canvas radial: subhead legibility over bright Claude UI region */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, rgba(14, 12, 10, 0.5) 0%, rgba(14, 12, 10, 0.2) 60%, rgba(14, 12, 10, 0) 100%)",
+          }}
         />
 
         {/*

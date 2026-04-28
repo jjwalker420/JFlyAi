@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { DenverClock } from "./DenverClock";
 
 const NAV: Array<{ href: string; label: string }> = [
   { href: "#about", label: "About" },
@@ -22,13 +23,13 @@ export function Header() {
   return (
     <header
       role="banner"
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-200 ease-out ${
         scrolled
           ? "border-b border-bone/12 bg-ink-black/80 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-[1280px] items-center justify-between px-6 py-2">
         <a
           href="#hero"
           className="font-display text-2xl font-bold leading-none text-bone"
@@ -48,12 +49,15 @@ export function Header() {
                 </a>
               </li>
             ))}
+            <li aria-hidden="true">
+              <DenverClock />
+            </li>
             <li>
               <a
                 href="https://cal.com/jjwalker"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] items-center rounded-md bg-sunset-orange px-5 py-3 font-display font-semibold text-ink-black transition-colors duration-200 hover:bg-sunset-yellow"
+                className="inline-flex min-h-[44px] items-center rounded-md bg-sunset-orange px-5 py-2 font-display font-semibold text-ink-black transition-colors duration-200 hover:bg-sunset-yellow"
               >
                 Book a call
               </a>

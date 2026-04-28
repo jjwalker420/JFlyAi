@@ -222,7 +222,7 @@ function ServiceCard({ card }: { card: Card }) {
       */}
       <details className="group [&[open]_.details-body]:mt-5">
         <summary
-          className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-md py-2 font-mono text-[0.78rem] uppercase tracking-[0.18em] text-trust-blue-tint transition-colors duration-200 hover:text-bone focus-visible:outline-none [&::-webkit-details-marker]:hidden"
+          className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-md py-2 font-mono text-[0.78rem] uppercase tracking-[0.18em] text-lamp-amber transition-colors duration-200 hover:text-bone focus-visible:outline-none [&::-webkit-details-marker]:hidden"
           style={{ transitionTimingFunction: "var(--ease-deliberate)" }}
         >
           <span className="select-none">
