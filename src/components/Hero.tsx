@@ -104,7 +104,7 @@ export function Hero() {
             preload
             sizes="100vw"
             quality={85}
-            className="object-cover object-center"
+            className="object-contain object-center md:object-cover md:object-center"
           />
         </motion.div>
 
