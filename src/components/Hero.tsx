@@ -127,6 +127,16 @@ export function Hero() {
           aria-hidden="true"
         />
 
+        {/* Mobile-only: solid dark mask over the text area so the image only
+            appears as a clean band below the subtext. Fades from full ink-black
+            at the top to transparent at ~48vh (just below "tools that will
+            change your life."). Desktop hidden — desktop uses the vignette above. */}
+        <div
+          className="md:hidden pointer-events-none absolute inset-x-0 top-0 h-[48vh]"
+          style={{ background: "linear-gradient(to bottom, #0E0C0A 70%, transparent 100%)" }}
+          aria-hidden="true"
+        />
+
         {/* Full-canvas radial: subhead legibility over bright Claude UI region */}
         <div
           aria-hidden="true"
