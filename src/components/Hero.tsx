@@ -104,7 +104,7 @@ export function Hero() {
             preload
             sizes="100vw"
             quality={85}
-            className="object-contain object-top scale-125 brightness-125 md:object-cover md:object-center md:scale-100 md:brightness-100"
+            className="object-contain object-[center_60%] scale-125 brightness-125 md:object-cover md:object-center md:scale-100 md:brightness-100"
           />
         </motion.div>
 
@@ -193,7 +193,7 @@ export function Hero() {
               </DisplayHeading>
               <BodyCopy size="lg" tone="primary" className="mx-auto mb-10 max-w-[760px]">
                 1-on-1 setup of Claude Desktop and the tools that will change
-                your life — installed in person, in Denver, CO.
+                your life.
               </BodyCopy>
               {/*
                 The button row sits inside the hero where a soft-light amber
