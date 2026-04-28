@@ -23,7 +23,7 @@ export function MechanismStrip() {
             >
               <a
                 href={`#${p.id}`}
-                className="inline-flex min-h-[44px] items-center whitespace-nowrap px-2 py-2 font-medium tracking-[0.18em] text-bone transition-colors duration-200 hover:text-lamp-amber md:px-3"
+                className="inline-flex min-h-[36px] items-center whitespace-nowrap px-2 py-1 font-medium tracking-[0.18em] text-bone transition-colors duration-200 hover:text-lamp-amber md:min-h-[44px] md:px-3 md:py-2"
               >
                 {p.label}
               </a>
