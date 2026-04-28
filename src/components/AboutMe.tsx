@@ -51,7 +51,7 @@ export function AboutMe() {
               fill
               sizes="(max-width: 768px) 100vw, 502px"
               quality={90}
-              className="object-cover object-top"
+              className="object-cover object-top opacity-75"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-black/60 to-transparent p-5">
               <Caption tone="muted">JJ Walker · Denver, CO</Caption>

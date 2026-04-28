@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 
 // Scroll progress 0–1 across the active band; 0 in hero (≤5%) and tail (>1.0)
@@ -20,14 +20,6 @@ export function PCBTexture() {
   const reduced = useReducedMotion();
   const washRef = useRef<HTMLDivElement>(null);
   const tracesRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
 
   useEffect(() => {
     const update = () => {
@@ -39,8 +31,6 @@ export function PCBTexture() {
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
-
-  if (isMobile) return null;
 
   return (
     <>
