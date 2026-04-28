@@ -1,20 +1,22 @@
 "use client";
 
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
+
+function calcOpacity(scrollY: number, totalH: number, viewportH: number): number {
+  const progress = scrollY / Math.max(totalH - viewportH, 1);
+  if (progress <= 0.05) return 0;
+  if (progress <= 0.15) return ((progress - 0.05) / 0.10) * 0.18;
+  if (progress <= 0.85) return 0.18;
+  if (progress <= 0.95) return ((0.95 - progress) / 0.10) * 0.18;
+  return 0;
+}
 
 export function PCBTexture() {
   const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll();
-
-  // Invisible in hero (0) → ramps in at first content section → holds through middle → fades at CTA
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.05, 0.15, 0.85, 0.95, 1],
-    [0, 0, 0.12, 0.12, 0, 0]
-  );
-
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640);
     check();
@@ -22,20 +24,34 @@ export function PCBTexture() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const update = () => {
+      el.style.opacity = String(
+        calcOpacity(window.scrollY, document.body.scrollHeight, window.innerHeight)
+      );
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
   if (isMobile) return null;
 
   return (
-    <motion.div
+    <div
+      ref={wrapperRef}
       aria-hidden="true"
       style={{
         position: "fixed",
         inset: 0,
         zIndex: 0,
         pointerEvents: "none",
-        opacity,
+        opacity: 0,
       }}
     >
-      {/* Static base texture — always present on desktop */}
+      {/* Static base texture */}
       <div
         style={{
           position: "absolute",
@@ -46,7 +62,7 @@ export function PCBTexture() {
         }}
       />
 
-      {/* Spark overlay — pulsing opacity animation, gated by prefers-reduced-motion */}
+      {/* Spark overlay — gated by prefers-reduced-motion */}
       {!reduced && (
         <div
           style={{
@@ -60,6 +76,6 @@ export function PCBTexture() {
           }}
         />
       )}
-    </motion.div>
+    </div>
   );
 }
