@@ -1,50 +1,28 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { SectionShell } from "@/components/primitives";
+import { TermlyEmbed } from "@/components/TermlyEmbed";
 
 export const metadata: Metadata = {
   title: "Privacy — JFly.ai",
   description: "Privacy practices for jfly.ai inquiries and intake form data.",
+  robots: { index: true, follow: true },
 };
+
+const TERMLY_WEBSITE_UUID = "f3b42b48-c745-4a76-85ca-90c7f0c26ce4";
+const TERMLY_PRIVACY_POLICY_UUID = "c792f35b-47be-4b09-9c03-a484d5365cfe";
 
 export default function PrivacyPage() {
   return (
     <>
       <Header />
-      <main id="main">
-        <SectionShell
-          id="privacy"
-          scene="privacy"
-          ariaLabel="Privacy Policy"
-          contentWidth="text"
-          className="pt-32"
-        >
-          <h1 className="font-display text-4xl font-medium text-bone mb-8">
-            Privacy Policy
-          </h1>
-          <div className="font-body text-base text-bone/85 leading-relaxed space-y-4">
-            <p>
-              This privacy policy is being finalized. Until then, here&rsquo;s
-              what you need to know: when you submit an intake form on jfly.ai,
-              your name, email, and message are stored in a Supabase database
-              that only JJ Walker can access. The data is used solely to
-              evaluate AiOS engagement fit and respond to your inquiry. We
-              don&rsquo;t share, sell, or use the data for advertising.
-              Questions?{" "}
-              <a
-                href="mailto:jj@jfly.ai"
-                className="text-bone/70 underline-offset-4 transition-colors duration-200 hover:text-trust-blue"
-              >
-                Email jj@jfly.ai
-              </a>
-              .
-            </p>
-          </div>
-          <p className="mt-12 font-mono text-[0.75rem] text-bone/50">
-            Last updated: April 28, 2026
-          </p>
-        </SectionShell>
+      <main id="main" className="bg-ink-black min-h-screen pt-32 pb-24 px-6">
+        <div className="mx-auto max-w-[860px]">
+          <TermlyEmbed
+            policyId={TERMLY_PRIVACY_POLICY_UUID}
+            websiteId={TERMLY_WEBSITE_UUID}
+          />
+        </div>
       </main>
       <Footer />
     </>
