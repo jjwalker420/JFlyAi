@@ -26,12 +26,11 @@ const vt323 = VT323({
   weight: "400",
 });
 
-const SITE_URL = "https://jfly.ai";
+const SITE_URL = "https://www.jfly.ai";
 const SITE_NAME = "JFly.ai";
 const SITE_TITLE = "JFly.ai — JJ Walker builds your AiOS";
 const SITE_DESCRIPTION =
   "JJ Walker installs your AiOS — the personalized setup of Claude, ChatGPT, and the tools that run your work — at your desk, in person, in Denver.";
-const HERO_IMAGE = `${SITE_URL}/time-machine-hero.png`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -51,20 +50,11 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     locale: "en_US",
-    images: [
-      {
-        url: HERO_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: "JJ Walker's Time Machine — vintage workshop transitioning to a modern AI command station.",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    images: [HERO_IMAGE],
   },
   robots: {
     index: true,
@@ -109,6 +99,31 @@ const personSchema = {
   },
   description:
     "JJ Walker is a non-technical founder with 25 years of operating experience. He installs personalized AiOS setups (Claude, ChatGPT, AntiGravity, and supporting tools) at clients' desks in person in Denver.",
+  sameAs: ["https://www.linkedin.com/in/jjwalkerdenver/"],
+};
+
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: SITE_NAME,
+  description:
+    "Personalized AiOS setup and AI consulting for non-technical operators. In-person in Denver, Colorado.",
+  url: SITE_URL,
+  image: `${SITE_URL}/opengraph-image`,
+  priceRange: "$599-$1,299",
+  founder: {
+    "@type": "Person",
+    name: "JJ Walker",
+    sameAs: ["https://www.linkedin.com/in/jjwalkerdenver/"],
+  },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Denver",
+    addressRegion: "CO",
+    addressCountry: "US",
+  },
+  areaServed: "Denver Metro Area",
+  sameAs: ["https://www.linkedin.com/in/jjwalkerdenver/"],
 };
 
 const serviceSchema = {
@@ -177,8 +192,14 @@ export default function RootLayout({
         <div className="grain-overlay" aria-hidden="true" />
         <script
           type="application/ld+json"
-          // Static schema; safe to render via dangerouslySetInnerHTML.
+          // Static schemas; safe to render via dangerouslySetInnerHTML.
           // JSON.stringify escapes all user-controllable input by definition.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessSchema),
+          }}
+        />
+        <script
+          type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(personSchema),
           }}

@@ -12,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://jfly.ai/sitemap.xml",
-    host: "https://jfly.ai",
+    sitemap: "https://www.jfly.ai/sitemap.xml",
+    host: "https://www.jfly.ai",
   };
 }
