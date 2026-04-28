@@ -1,0 +1,33 @@
+const PHASES = [
+  { id: "phase-audit", label: "AUDIT" },
+  { id: "phase-setup", label: "SETUP" },
+  { id: "phase-optimize", label: "OPTIMIZE" },
+  { id: "phase-maintain", label: "MAINTAIN" },
+];
+
+export function MechanismStrip() {
+  return (
+    <nav
+      aria-label="JFly.ai four-phase delivery process"
+      data-component="mechanism-strip"
+    >
+      <ol className="flex flex-wrap items-center justify-center gap-x-1 gap-y-1 font-display text-[0.875rem] md:gap-x-5 md:text-base">
+        {PHASES.map((p, i) => (
+          <li key={p.id} className="flex items-center gap-x-1 md:gap-x-5">
+            <a
+              href={`#${p.id}`}
+              className="inline-flex min-h-[44px] items-center whitespace-nowrap px-2 py-2 font-medium tracking-[0.18em] text-bone transition-colors duration-200 hover:text-lamp-amber md:px-3"
+            >
+              {p.label}
+            </a>
+            {i < PHASES.length - 1 && (
+              <span aria-hidden="true" className="text-lamp-amber/70">
+                ·
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}

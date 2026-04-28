@@ -1,26 +1,400 @@
 @import "tailwindcss";
 
+/* =============================================================================
+   JFly.ai — Time Machine palette (locked 2026-04-27, Agent 2 of 8-agent build)
+   =============================================================================
+
+   This file replaces the prior Mythic Frontier palette with the Time Machine
+   palette per Branding/VISUAL-LANGUAGE.md + Branding/BRAND-DIRECTION.md.
+
+   ---------------------------------------------------------------------------
+   MIGRATION MAP — old token → new token (for Agents 4 / 5 / 6 / 7)
+   ---------------------------------------------------------------------------
+     OLD (Mythic Frontier)        →   NEW (Time Machine)
+     --------------------------------------------------------------------
+     --color-deep-stone           →   --color-ink-black           (page ground)
+     --color-rocket-white         →   --color-bone                (primary text on ground)
+     --color-jfly-blue            →   --color-trust-blue          (primary brand color)
+     --color-amber-flame          →   --color-sunset-orange       (signature stripe role only)
+     --color-horizon-gold         →   --color-sunset-yellow       (signature stripe role only)
+     --color-data-amber           →   --color-lamp-amber          (1985-side warmth)
+     --color-hologram-cyan        →   --color-monitor-glow        (2026-side glow, sparingly)
+     --color-frontier-moss        →   --color-crt-phosphor-green  (CRT moments ONLY)
+     --color-dusk-navy            →   --color-deep-navy           (2026 modern UI surface)
+
+   Old utility names ALIAS to the new tokens below (so existing component code
+   like `bg-deep-stone`, `text-rocket-white`, `bg-amber-flame` still resolves
+   while Agents 4-7 update components). Aliases will be removed after the
+   migration sweep — DO NOT add new code that uses the old names.
+
+   ---------------------------------------------------------------------------
+   STRUCTURAL CHANGES vs. prior globals.css
+   ---------------------------------------------------------------------------
+   - Grain overlay (.grain-overlay) PRESERVED at 0.03 opacity.
+   - .holo-panel — retuned from cyan-tinted glass to warm-amber-glass elevation.
+     Cyan-glass treatment was provisional per Mission-Control-as-metaphor lock
+     (Branding/CLAUDE.md hard rule #5). Cyan moves to bridge-moment usage only.
+   - .glass-mission — retuned with trust-blue + bone tint (was moss + gold).
+   - .glass-cta — retuned with lamp-amber + sunset-orange (was horizon-gold + amber-flame);
+     the CTA elevation keeps its warm-glow character but in the new palette.
+   - .god-rays family REMOVED 2026-04-27 (Stage 5 cleanup): the Orbit /
+     MissionControl sections that consumed it were deleted in Phase 2, leaving
+     these classes orphaned. Removed wholesale.
+   - Focus ring — switched from cyan to trust-blue (primary brand color).
+   - Skip link — switched from amber-flame to sunset-orange (signature accent role).
+
+   ---------------------------------------------------------------------------
+   FONT WIRING — Agent 4 must update src/app/layout.tsx
+   ---------------------------------------------------------------------------
+   (Updated by Agent 2.5: Manrope replaces Inter for body per JJ Hard Gate 1.)
+   Replace the current `Geist` + `Space_Grotesk` next/font/google imports with:
+
+     import { Fraunces, Manrope, JetBrains_Mono, VT323 } from "next/font/google";
+
+     const fraunces = Fraunces({
+       variable: "--font-display",
+       subsets: ["latin"],
+       axes: ["opsz", "SOFT"],     // variable axes (weight omitted: variable font default)
+     });
+     const manrope = Manrope({
+       variable: "--font-body",
+       subsets: ["latin"],
+       weight: ["400", "500", "600", "700"],
+     });
+     const jetbrainsMono = JetBrains_Mono({
+       variable: "--font-mono",
+       subsets: ["latin"],
+       weight: ["400", "500", "700"],
+     });
+     const vt323 = VT323({
+       variable: "--font-vintage",
+       subsets: ["latin"],
+       weight: "400",   // VT323 ships single weight
+     });
+
+   Then on the <html> element apply:
+     className={`${fraunces.variable} ${manrope.variable} ${jetbrainsMono.variable} ${vt323.variable}`}
+
+   Type triad reasoning (all free / Google Fonts loadable):
+     - Display: Fraunces — variable serif with refined retro character; soft optical
+       sizing axis lets it carry display-XL warmth without paid GT Sectra. Free.
+     - Body:    Manrope — open-source modern geometric sans; warmer than Inter,
+       crisp at small sizes, fluid weight range 400-700. Free.
+     - Mono:    JetBrains Mono — best free "command-deck" monospace; reads correctly
+       at small caption sizes; alt: IBM Plex Mono if Berkeley Mono ever licensed.
+     - Vintage: VT323 — free 1980s-faithful pixel font; ONLY for explicit 1985-side
+       moments per Branding/VISUAL-LANGUAGE.md hard rule "NEVER primary."
+
+   ============================================================================= */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ── Foundation (always-on) ─────────────────────────────────────────────── */
+  --color-ink-black:           #0E0C0A;   /* warm-undertone primary base; NOT pure black */
+  --color-bone:                #F2EBDD;   /* warm cream surface text; NEVER cool white */
+  --color-mid-gray:            #A8A09A;   /* warm-tinted secondary text */
+
+  /* ── Trust Anchor (primary brand color) ─────────────────────────────────── */
+  --color-trust-blue:          #1D4D7A;   /* deep aerospace blue; Aviator-Nation-adjacent */
+  --color-trust-blue-deep:     #143452;   /* darker variant for hovers/borders */
+  --color-trust-blue-tint:     #2E6FA4;   /* lighter variant for highlights */
+
+  /* ── Signature Stripe (Aviator move; ACCENT only, NEVER background fill) ── */
+  --color-sunset-red:          #C5443B;   /* warm vintage red */
+  --color-sunset-orange:       #E07B3F;   /* warm orange (replaces amber-flame role) */
+  --color-sunset-yellow:       #E6B547;   /* warm vintage yellow */
+  --color-sunset-gold:         #C9893E;   /* optional gold band */
+
+  /* ── Time Machine Tones (era markers) ───────────────────────────────────── */
+  --color-lamp-amber:          #D9933A;   /* 1985-side warm tungsten lamp glow */
+  --color-crt-phosphor-green:  #8DD93B;   /* CRT moments ONLY — sparingly */
+  --color-monitor-glow:        #D8E8EC;   /* 2026-side soft cyan-white monitor backlight */
+  --color-deep-navy:           #0F1F33;   /* 2026-side modern UI surfaces */
+
+  /* ── Aliases (TEMPORARY — Agents 4-7 to remove from components) ─────────── */
+  --color-deep-stone:          var(--color-ink-black);
+  --color-rocket-white:        var(--color-bone);
+  --color-jfly-blue:           var(--color-trust-blue);
+  --color-amber-flame:         var(--color-sunset-orange);
+  --color-horizon-gold:        var(--color-sunset-yellow);
+  --color-data-amber:          var(--color-lamp-amber);
+  --color-hologram-cyan:       var(--color-monitor-glow);
+  --color-frontier-moss:       var(--color-crt-phosphor-green);
+  --color-dusk-navy:           var(--color-deep-navy);
+
+  /* ── Motion (Severance-deliberate pole) ─────────────────────────────────── */
+  --ease-deliberate:    cubic-bezier(0.32, 0.72, 0, 1);   /* controlled deceleration */
+  --ease-architectural: cubic-bezier(0.4, 0, 0.2, 1);     /* Material-standard for UI */
+  --ease-bridge:        cubic-bezier(0.65, 0, 0.35, 1);   /* smooth in-out for era-bridge */
+  --ease-cinematic:     cubic-bezier(0.32, 0.72, 0, 1);   /* alias of --ease-deliberate (compat) */
+
+  --dur-fast:    200ms;   /* micro-interactions, focus rings */
+  --dur-base:    400ms;   /* component transitions */
+  --dur-slow:    800ms;   /* deliberate reveals, scroll-bound moments */
+  --dur-canvas: 1200ms;   /* hero canvas crossfades, era bridges */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* ── Color utilities (Time Machine — primary names) ─────────────────────── */
+  --color-ink-black:           var(--color-ink-black);
+  --color-bone:                var(--color-bone);
+  --color-mid-gray:            var(--color-mid-gray);
+  --color-trust-blue:          var(--color-trust-blue);
+  --color-trust-blue-deep:     var(--color-trust-blue-deep);
+  --color-trust-blue-tint:     var(--color-trust-blue-tint);
+  --color-sunset-red:          var(--color-sunset-red);
+  --color-sunset-orange:       var(--color-sunset-orange);
+  --color-sunset-yellow:       var(--color-sunset-yellow);
+  --color-sunset-gold:         var(--color-sunset-gold);
+  --color-lamp-amber:          var(--color-lamp-amber);
+  --color-crt-phosphor-green:  var(--color-crt-phosphor-green);
+  --color-monitor-glow:        var(--color-monitor-glow);
+  --color-deep-navy:           var(--color-deep-navy);
+
+  /* ── Color utilities (legacy aliases — REMOVE after migration sweep) ────── */
+  --color-deep-stone:    var(--color-ink-black);
+  --color-rocket-white:  var(--color-bone);
+  --color-jfly-blue:     var(--color-trust-blue);
+  --color-amber-flame:   var(--color-sunset-orange);
+  --color-horizon-gold:  var(--color-sunset-yellow);
+  --color-data-amber:    var(--color-lamp-amber);
+  --color-hologram-cyan: var(--color-monitor-glow);
+  --color-frontier-moss: var(--color-crt-phosphor-green);
+  --color-dusk-navy:     var(--color-deep-navy);
+
+  /* ── Font utilities ─────────────────────────────────────────────────────── */
+  /* New names (Agent 4 to wire in layout.tsx via next/font/google) */
+  --font-display: var(--font-display), Georgia, "Times New Roman", serif;
+  --font-body:    var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:    var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-vintage: var(--font-vintage), "Courier New", monospace;
+
+  /* ── Type scale — modular 1.250 (major third) anchored at 16px ──────────── */
+  --text-display-xl: 5rem;       /* 80px */
+  --text-display-lg: 3.052rem;   /* ~49px */
+  --text-display-md: 2.441rem;   /* ~39px */
+  --text-body-lg: 1.25rem;       /* 20px */
+  --text-body: 1rem;             /* 16px */
+  --text-caption: 0.8rem;        /* ~13px */
+
+  /* ── 8px-grid spacing ───────────────────────────────────────────────────── */
+  --spacing: 8px;
+
+  /* ── Radii ──────────────────────────────────────────────────────────────── */
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 28px;
+
+  /* ── Motion tokens (exposed as Tailwind ease-X and duration-X utilities) ── */
+  --ease-deliberate:    var(--ease-deliberate);
+  --ease-architectural: var(--ease-architectural);
+  --ease-bridge:        var(--ease-bridge);
+  --ease-cinematic:     var(--ease-cinematic);
+
+  --duration-fast:   var(--dur-fast);
+  --duration-base:   var(--dur-base);
+  --duration-slow:   var(--dur-slow);
+  --duration-canvas: var(--dur-canvas);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* === Base ================================================================== */
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ink-black);
+  color: var(--color-bone);
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* === Skip link ============================================================= */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--color-sunset-orange);
+  color: var(--color-ink-black);
+  padding: 12px 20px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+}
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+  outline: 3px solid rgb(29 77 122 / 0.55);   /* trust-blue ring */
+  outline-offset: 4px;
+}
+
+/* === Cinematic grain (preserved at 0.03 opacity) =========================== */
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* === Elevation: warm-amber-glass panel (was holo-panel cyan) ===============
+   Retuned per Branding/CLAUDE.md hard rule #5: Mission Control = METAPHOR only,
+   cyan-glass treatment was provisional. Cyan now reserved for bridge-moment use.
+*/
+
+.holo-panel {
+  background: rgb(242 235 221 / 0.04);                        /* bone-tinted glass */
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgb(242 235 221 / 0.12);
+  box-shadow:
+    0 0 0 1px rgb(217 147 58 / 0.18) inset,                   /* lamp-amber inner ring */
+    0 12px 40px rgb(14 12 10 / 0.5);                          /* ink-black drop */
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  animation: holo-drift 8s linear infinite;
+}
+.holo-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 2px,
+    rgb(217 147 58 / 0.04) 2px,                               /* lamp-amber scan, was cyan */
+    rgb(217 147 58 / 0.04) 3px
+  );
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+@keyframes holo-drift {
+  0%   { transform: rotateY(-1.2deg) rotateX(0.8deg)  translateY(0px); }
+  50%  { transform: rotateY(1.2deg)  rotateX(-0.8deg) translateY(-3px); }
+  100% { transform: rotateY(-1.2deg) rotateX(0.8deg)  translateY(0px); }
+}
+
+/* === Elevation: Mission Control glass (retuned to trust-blue + bone) ====== */
+
+.glass-mission {
+  background: linear-gradient(
+    180deg,
+    rgb(29 77 122 / 0.18),                                    /* trust-blue tint, was moss */
+    rgb(14 12 10 / 0.55)                                      /* ink-black floor */
+  );
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgb(242 235 221 / 0.18);                  /* bone hairline */
+  box-shadow:
+    0 0 0 1px rgb(217 147 58 / 0.10) inset,                   /* lamp-amber inner */
+    0 24px 64px rgb(14 12 10 / 0.6);
+  border-radius: var(--radius-md);
+}
+
+/* === Elevation: CTA holo-panel (warm-amber + sunset-orange glow) =========== */
+
+.glass-cta {
+  background: rgb(217 147 58 / 0.08);                         /* lamp-amber wash */
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgb(224 123 63 / 0.35);                   /* sunset-orange edge */
+  box-shadow:
+    0 0 0 1px rgb(224 123 63 / 0.20) inset,
+    0 32px 80px rgb(14 12 10 / 0.7),
+    0 0 80px rgb(224 123 63 / 0.20);                          /* sunset-orange outer glow */
+  border-radius: var(--radius-lg);
+}
+
+/* === Sunset-stripe signature element ======================================
+   Discipline: NEVER as background fill. Only as a controlled signature accent
+   (dividers, wordmark mark, loading indicator, micro-underlines, era-bridge
+   gradient). Components that need the stripe should use `.sunset-stripe`
+   (horizontal bar) or `.sunset-gradient` (gradient fill for bridge moments).
+*/
+
+.sunset-stripe {
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--color-sunset-red) 0%,
+    var(--color-sunset-orange) 33%,
+    var(--color-sunset-yellow) 66%,
+    var(--color-sunset-gold) 100%
+  );
+  border-radius: 999px;
+}
+
+.sunset-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-sunset-red) 0%,
+    var(--color-sunset-orange) 40%,
+    var(--color-sunset-yellow) 80%,
+    var(--color-sunset-gold) 100%
+  );
+}
+
+/* === Focus ring — switched from cyan to trust-blue ========================= */
+
+:focus-visible {
+  outline: 3px solid rgb(29 77 122 / 0.55);                   /* trust-blue */
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* === Warm-light layer — architectural-warm pole pairing ====================
+   VISUAL-LANGUAGE.md pole pairing: Severance-cold + architectural-warm-light.
+   Without these radials the page reads pure flat-dark. Three faint lamp-amber
+   gradients (top-left corner, bottom-right corner, centered heading halo)
+   keep every section lit-dark, never flat-dark.
+
+   Discipline: each radial sits between 4–6% opacity. Anything stronger reads
+   as a colored fill and breaks the dim-room metaphor.
+
+   Applied via SectionShell `warmLight` prop (default true, opt-out for the
+   hero which owns its own lamp-amber treatment).
+*/
+
+.warm-light {
+  isolation: isolate;
+}
+.warm-light::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    /* top-left corner — lamp warmth bleeds into the section */
+    radial-gradient(ellipse 640px 420px at 6% 0%, rgb(217 147 58 / 0.06), transparent 62%),
+    /* bottom-right corner — counterweight glow */
+    radial-gradient(ellipse 640px 420px at 94% 100%, rgb(217 147 58 / 0.05), transparent 62%),
+    /* heading halo — soft top-center wash so DisplayHeading sits in lamp light */
+    radial-gradient(ellipse 880px 340px at 50% 6%, rgb(217 147 58 / 0.05), transparent 55%);
+}
+
+/* === Reduced motion (non-negotiable) ======================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .holo-panel {
+    animation: none !important;
+  }
 }
