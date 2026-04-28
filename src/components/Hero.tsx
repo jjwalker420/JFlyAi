@@ -75,10 +75,9 @@ export function Hero() {
       id="hero"
       data-scene="time-machine"
       aria-labelledby="hero-headline"
-      className="relative w-full"
-      style={{ height: "180vh" }}
+      className="relative h-[120vh] w-full md:h-[180vh]"
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div className="sticky top-0 h-dvh w-full overflow-hidden">
         {/*
           Canonical Time Machine hero image — single-frame canvas treatment.
           Migrated from CSS background-image to next/image (Next 16) so the LCP
@@ -164,13 +163,13 @@ export function Hero() {
 
           {/* Centered content */}
           <motion.div
-            className="flex flex-1 items-start justify-center px-6 pt-2 md:items-center md:pt-0"
+            className="flex flex-1 items-stretch justify-center px-6 pt-2 md:items-center md:pt-0"
             style={{
               opacity: prefersReducedMotion ? 1 : copyOpacity,
               y: prefersReducedMotion ? 0 : copyY,
             }}
           >
-            <div className="relative isolate w-full max-w-[920px] text-center">
+            <div className="relative isolate flex w-full max-w-[920px] flex-col text-center md:block">
               {/*
                 P0 legibility layer (added 2026-04-27 PM): radial darkening
                 pad so the headline + subhead + CTAs read cleanly over the
@@ -201,7 +200,7 @@ export function Hero() {
                 </span>
                 .
               </DisplayHeading>
-              <BodyCopy size="lg" tone="primary" className="mx-auto mb-[35vh] md:mb-10 max-w-[760px]">
+              <BodyCopy size="lg" tone="primary" className="mx-auto mb-10 max-w-[760px]">
                 1-on-1 setup of Claude Desktop and the tools that will change
                 your life.
               </BodyCopy>
@@ -216,7 +215,7 @@ export function Hero() {
                 button's own pixels — same effect every browser already
                 renders visually.
               */}
-              <div className="relative isolate z-10 flex flex-col items-center justify-center gap-4 sm:flex-row [transform:translateZ(0)]">
+              <div className="relative isolate z-10 mt-auto flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-0 [transform:translateZ(0)]">
                 <PrimaryButtonLink
                   href="https://cal.com/jjwalker"
                   target="_blank"
