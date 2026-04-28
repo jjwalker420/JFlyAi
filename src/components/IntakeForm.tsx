@@ -84,6 +84,16 @@ export function IntakeForm() {
           {state.message}
         </p>
       )}
+      <p className="font-mono text-[0.75rem] text-bone/70 pt-4">
+        By submitting, you agree to JJ contacting you about AiOS services. We
+        don&rsquo;t share your data.{" "}
+        <a
+          href="/privacy"
+          className="underline-offset-4 transition-colors duration-200 text-bone/70 hover:text-trust-blue"
+        >
+          Privacy →
+        </a>
+      </p>
       <SubmitButton />
     </form>
   );

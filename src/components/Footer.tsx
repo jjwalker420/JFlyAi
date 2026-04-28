@@ -1,4 +1,4 @@
-import { BodyCopy, Caption } from "./primitives";
+import { BodyCopy, Caption, TextLink } from "./primitives";
 
 /**
  * Footer — COPY-VOICE.md §10 ("Requirements / Travel / brand attribution")
@@ -12,6 +12,27 @@ import { BodyCopy, Caption } from "./primitives";
  * navigation lives in Header.tsx (owned by Hero Reframer agent this phase),
  * which is the right place for it per Klaassens-restraint.
  */
+function PyramidMark() {
+  return (
+    <svg
+      width="18"
+      height="16"
+      viewBox="0 0 18 16"
+      fill="none"
+      aria-hidden="true"
+      className="inline-block"
+    >
+      <path
+        d="M9 1 L17 15 L1 15 Z"
+        stroke="#D9933A"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function Footer() {
   return (
     <footer
@@ -49,16 +70,42 @@ export function Footer() {
         <div aria-hidden="true" className="sunset-stripe w-24" />
 
         {/* Block 3 — Brand attribution */}
-        <p
-          id="footer-attribution"
-          className="font-display text-[1rem] font-medium text-bone"
-        >
-          <span className="text-bone">JFly.ai</span>
-          <span className="text-bone/70">
-            {" "}
-            — a consulting practice run by JJ Walker. Denver, Colorado.
-          </span>
-        </p>
+        <div className="flex flex-col gap-3">
+          {/* Line 1: Pyramid mark + attribution */}
+          <p id="footer-attribution" className="flex items-center gap-2 font-display text-[1rem] font-medium text-bone">
+            <PyramidMark />
+            <span>JFly.ai</span>
+            <span className="text-bone/70">— a consulting practice run by JJ Walker. Denver, Colorado.</span>
+          </p>
+
+          {/* Line 2: Social / contact / legal links */}
+          <div className="flex flex-wrap items-center gap-1 font-body text-[0.875rem]">
+            <a
+              href="https://www.linkedin.com/in/jjwalkerdenver/"
+              target="_blank"
+              rel="noopener noreferrer me"
+              className="text-bone/70 underline-offset-4 transition-colors duration-200 hover:text-trust-blue"
+            >
+              LinkedIn <span aria-hidden="true">↗</span>
+            </a>
+            <span aria-hidden="true" className="text-bone/30"> · </span>
+            <a
+              href="mailto:jj@jfly.ai"
+              className="text-bone/70 underline-offset-4 transition-colors duration-200 hover:text-trust-blue"
+            >
+              jj@jfly.ai
+            </a>
+            <span aria-hidden="true" className="text-bone/30"> · </span>
+            <TextLink href="/privacy" tone="muted">Privacy</TextLink>
+            <span aria-hidden="true" className="text-bone/30"> · </span>
+            <TextLink href="/terms" tone="muted">Terms</TextLink>
+          </div>
+
+          {/* Line 3: Copyright */}
+          <p className="font-body text-[0.75rem] text-bone/50">
+            © 2026 JFly.ai&nbsp;&nbsp;·&nbsp;&nbsp;Apple Silicon Mac M1–M4 only&nbsp;&nbsp;·&nbsp;&nbsp;Travel fee outside Denver metro
+          </p>
+        </div>
       </div>
     </footer>
   );
