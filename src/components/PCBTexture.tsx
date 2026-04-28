@@ -6,9 +6,9 @@ import { useReducedMotion } from "framer-motion";
 function calcOpacity(scrollY: number, totalH: number, viewportH: number): number {
   const progress = scrollY / Math.max(totalH - viewportH, 1);
   if (progress <= 0.05) return 0;
-  if (progress <= 0.15) return ((progress - 0.05) / 0.10) * 0.35;
-  if (progress <= 0.92) return 0.35;
-  if (progress <= 1.0)  return ((1.0 - progress) / 0.08) * 0.35;
+  if (progress <= 0.15) return ((progress - 0.05) / 0.10) * 0.22;
+  if (progress <= 0.92) return 0.22;
+  if (progress <= 1.0)  return ((1.0 - progress) / 0.08) * 0.22;
   return 0;
 }
 
@@ -46,7 +46,7 @@ export function PCBTexture() {
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 0,
+        zIndex: 1,
         pointerEvents: "none",
         opacity: 0,
       }}
