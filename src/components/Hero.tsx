@@ -229,7 +229,7 @@ export function Hero() {
                 <TextLink
                   href="#services"
                   tone="trust"
-                  className="px-6 py-3 text-[1.125rem] whitespace-nowrap"
+                  className="hidden sm:inline px-6 py-3 text-[1.125rem] whitespace-nowrap"
                 >
                   See what&rsquo;s included
                 </TextLink>
