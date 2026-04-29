@@ -222,7 +222,7 @@ export function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                   fullWidth
-                  className="translate-y-8 md:translate-y-0"
+                  className="-translate-y-[15vh] md:translate-y-0"
                 >
                   Book a 30-min call
                 </PrimaryButtonLink>
