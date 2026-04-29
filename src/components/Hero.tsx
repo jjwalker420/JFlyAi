@@ -45,9 +45,9 @@ export function Hero() {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 80,
-    damping: 30,
-    mass: 0.5,
+    stiffness: 50,
+    damping: 25,
+    mass: 1,
   });
 
   // Canvas treatment: image stays put, atmosphere shifts.
