@@ -66,7 +66,7 @@ export function Hero() {
   const amberOpacity = useTransform(smoothProgress, [0, 1], [0.18, 0.42]);
 
   // Hero copy fades out as canvas progresses past midway (preserves prior pattern).
-  const copyOpacity = useTransform(smoothProgress, [0, 0.5, 0.8], [1, 1, 0]);
+  const copyOpacity = useTransform(smoothProgress, [0, 0.3, 0.6], [1, 1, 0]);
   const copyY = useTransform(smoothProgress, [0, 1], [0, -40]);
 
   return (
@@ -216,7 +216,7 @@ export function Hero() {
                 button's own pixels — same effect every browser already
                 renders visually.
               */}
-              <div className="relative isolate z-10 mt-auto flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-0">
+              <div className="relative isolate z-10 mt-auto mb-2 flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-0 md:mb-0">
                 <PrimaryButtonLink
                   href="https://cal.com/jjwalker"
                   target="_blank"
