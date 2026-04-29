@@ -216,7 +216,7 @@ export function Hero() {
                 button's own pixels — same effect every browser already
                 renders visually.
               */}
-              <div className="relative isolate z-10 mt-auto mb-[15vh] flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-0 md:mb-0 [transform:translateZ(0)]">
+              <div className="relative isolate z-10 mt-auto flex flex-col items-center justify-center gap-4 sm:flex-row md:mt-0">
                 <PrimaryButtonLink
                   href="https://cal.com/jjwalker"
                   target="_blank"
