@@ -59,8 +59,9 @@ export function Hero() {
     ["saturate(0.65) brightness(0.78)", "saturate(1.05) brightness(1)"]
   );
 
-  // Subtle scale-in over the whole scroll (1.0 → 1.04) — restrained, not bombast.
-  const imgScale = useTransform(smoothProgress, [0, 1], [1, 1.05]);
+  // Scale intentionally disabled — the 1.05 zoom caused a jarring visual jerk
+  // on first mobile scroll gesture (GPU compositing pop). Static scale instead.
+  const imgScale = 1;
 
   // Lamp-amber overlay intensifies — the lamp turns up across the journey.
   const amberOpacity = useTransform(smoothProgress, [0, 1], [0.18, 0.42]);
