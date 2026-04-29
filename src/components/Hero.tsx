@@ -238,7 +238,7 @@ export function Hero() {
           </motion.div>
 
           {/* Mechanism strip — pinned at bottom of hero zone */}
-          <div className="shrink-0 pb-[10vh] md:pb-12">
+          <div className="shrink-0 pb-0 md:pb-12">
             <MechanismStrip />
           </div>
         </div>
