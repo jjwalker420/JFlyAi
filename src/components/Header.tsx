@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { DenverClock } from "./DenverClock";
 
 const NAV: Array<{ href: string; label: string }> = [
-  { href: "#about", label: "About" },
-  { href: "#services", label: "Services" },
-  { href: "#setup", label: "What's included" },
+  { href: "/#about", label: "About" },
+  { href: "/#services", label: "Services" },
+  { href: "/#setup", label: "What's included" },
   { href: "#cta", label: "Book a call" },
 ];
 
@@ -31,7 +31,7 @@ export function Header() {
     >
       <div className="mx-auto flex max-w-[1280px] items-center justify-between px-6 py-2">
         <a
-          href="#hero"
+          href="/"
           className="font-display text-2xl font-bold leading-none text-bone"
           aria-label="JFly.ai — return to top"
         >
