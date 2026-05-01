@@ -1,0 +1,483 @@
+{
+  "lastUpdated": "2026-04-30",
+  "phasesShipped": "1-9",
+  "phasesPending": "10B-13",
+  "tiers": [
+    { "n": 1, "name": "Global config", "publicName": "Foundation rules" },
+    { "n": 2, "name": "Auto-memory", "publicName": "Persistent memory" },
+    { "n": 3, "name": "HOME root", "publicName": "Home router" },
+    { "n": 4, "name": "Knowledge files (Claude_Home/)", "publicName": "Knowledge files" },
+    { "n": 5, "name": "Project CLAUDE.mds", "publicName": "Project context files" },
+    { "n": 6, "name": "Agents", "publicName": "Agents" },
+    { "n": 7, "name": "Hooks · Output styles · Skills", "publicName": "Hooks, output styles, skills" },
+    { "n": 8, "name": "External memory", "publicName": "External memory" }
+  ],
+  "columns": [
+    { "n": 1, "label": "User Config", "publicLabel": "User Config" },
+    { "n": 2, "label": "HOME Context", "publicLabel": "Home Context" },
+    { "n": 3, "label": "Project CLAUDE.mds", "publicLabel": "Project Layer" },
+    { "n": 4, "label": "Behavior Layer", "publicLabel": "Behavior Layer" },
+    { "n": 5, "label": "External Memory", "publicLabel": "External Memory" }
+  ],
+  "nodes": [
+    {
+      "id": "n-global",
+      "tier": 1,
+      "column": 1,
+      "label": "~/.claude/CLAUDE.md",
+      "publicLabel": "Global operating manual",
+      "status": "live",
+      "visibility": "both",
+      "description": "Global operating manual. Loads at start of every session. Hosts @file imports.",
+      "publicDescription": "The root rules file. Loads at the start of every session and pulls in the knowledge files via @file imports."
+    },
+    {
+      "id": "n-mem-index",
+      "tier": 2,
+      "column": 1,
+      "label": "memory/MEMORY.md",
+      "publicLabel": "Memory index",
+      "status": "live",
+      "visibility": "both",
+      "description": "Auto-loaded memory index. Persists across sessions.",
+      "publicDescription": "Auto-loaded memory index. Persists across sessions."
+    },
+    {
+      "id": "n-mem-lessons",
+      "tier": 2,
+      "column": 1,
+      "label": "memory/lessons.md",
+      "publicLabel": "Lessons cache",
+      "status": "live",
+      "visibility": "both",
+      "description": "Short-rule extract for runtime. Boris loop. Re-injected by SessionStart hook.",
+      "publicDescription": "Short-rule extract for runtime. Re-injected on every session start so corrections never get lost.",
+      "badges": ["Hook re-inject"]
+    },
+    {
+      "id": "n-home",
+      "tier": 3,
+      "column": 2,
+      "label": "~/Desktop/HOME/CLAUDE.md",
+      "publicLabel": "Home root router",
+      "status": "live",
+      "visibility": "both",
+      "description": "Entry point at HOME. Routes by venture. Owns Artifacts rule.",
+      "publicDescription": "Entry point at the home directory. Routes work to the right venture folder."
+    },
+    {
+      "id": "n-current",
+      "tier": 4,
+      "column": 2,
+      "label": "current.md (live priority cache · daily P0/P1 stack)",
+      "publicLabel": "Live priority cache",
+      "status": "live",
+      "visibility": "both",
+      "description": "Walker Framework hot cache · daily priority stack. Updated by /eod-sync.",
+      "publicDescription": "Daily priority cache. Updated at end-of-day. Holds what's hot today, never stale.",
+      "badges": ["@import"]
+    },
+    {
+      "id": "n-profile",
+      "tier": 4,
+      "column": 2,
+      "label": "jj-profile.md",
+      "publicLabel": "Operator profile",
+      "status": "live",
+      "visibility": "both",
+      "description": "V5 KB condensed · identity, voice, frameworks, current focus.",
+      "publicDescription": "Condensed identity file: voice, frameworks, current focus. Loaded every session.",
+      "badges": ["@import"]
+    },
+    {
+      "id": "n-roster",
+      "tier": 4,
+      "column": 2,
+      "label": "agent-roster.md",
+      "publicLabel": "Agent roster",
+      "status": "live",
+      "visibility": "both",
+      "description": "Single source of truth for agent inventory. Never hardcoded elsewhere.",
+      "publicDescription": "Single source of truth for the agent inventory. Never hardcoded elsewhere.",
+      "badges": ["@import"]
+    },
+    {
+      "id": "n-lessons",
+      "tier": 4,
+      "column": 2,
+      "label": "lessons.md",
+      "publicLabel": "Corrections log",
+      "status": "live",
+      "visibility": "both",
+      "description": "Full corrections log. Boris loop. Companion to memory/lessons.md.",
+      "publicDescription": "Full corrections log. Every correction the operator gives gets logged here, then collapsed into the lessons cache.",
+      "badges": ["@import"]
+    },
+    {
+      "id": "n-dataflow",
+      "tier": 4,
+      "column": 2,
+      "label": "data-flow.md",
+      "publicLabel": "Data classification + PII scan",
+      "status": "live",
+      "visibility": "both",
+      "description": "Data classification + PII scan. MUST READ before any external service call.",
+      "publicDescription": "Data classification + PII scan rules. Required read before any external service call.",
+      "badges": ["@import"]
+    },
+    {
+      "id": "n-arch",
+      "tier": 4,
+      "column": 2,
+      "label": "system-architecture-references.md",
+      "publicLabel": "Architecture references",
+      "status": "live",
+      "visibility": "both",
+      "description": "Boris/Ruben/community synthesis · planning research.",
+      "publicDescription": "Synthesis of community architecture references. Planning ground truth.",
+      "badges": ["@import"]
+    },
+    {
+      "id": "n-index",
+      "tier": 4,
+      "column": 2,
+      "label": "index.md",
+      "publicLabel": "Topic index",
+      "status": "live",
+      "visibility": "both",
+      "description": "Topic → file path map. Pre-Pinecone retrieval (until Phase 11).",
+      "publicDescription": "Topic to file map. Hand-rolled retrieval layer until vector search lands.",
+      "badges": ["@import"]
+    },
+    {
+      "id": "n-people",
+      "tier": 4,
+      "column": 2,
+      "label": "people.md (relationship map · collision rules · firewall flags)",
+      "publicLabel": "Relationship map",
+      "status": "live",
+      "visibility": "both",
+      "description": "Relationship map. Collision rules · firewall flags (Gavin, Kat Miller, Lex).",
+      "publicDescription": "Relationship map with collision rules and firewall flags. Read on-trigger when a request involves a named person.",
+      "badges": ["On-trigger"]
+    },
+    {
+      "id": "n-debug",
+      "tier": 4,
+      "column": 2,
+      "label": "debug-playbook.md",
+      "publicLabel": "Debug playbook",
+      "status": "live",
+      "visibility": "both",
+      "description": "10 enumerated failure modes + escalation tier + incidents log.",
+      "publicDescription": "Enumerated failure modes plus an escalation tier and incidents log.",
+      "badges": ["On-trigger"]
+    },
+    {
+      "id": "n-frameworks",
+      "tier": 4,
+      "column": 2,
+      "label": "frameworks.md",
+      "publicLabel": "Frameworks",
+      "status": "live",
+      "visibility": "both",
+      "description": "JJ's mental models, decision patterns, hard-won frameworks.",
+      "publicDescription": "Mental models, decision patterns, and hard-won frameworks. Read on-trigger when one applies to the current decision.",
+      "badges": ["On-trigger"]
+    },
+    {
+      "id": "n-content",
+      "tier": 4,
+      "column": 2,
+      "label": "content-voice.md",
+      "publicLabel": "Voice scaffolding",
+      "status": "live",
+      "visibility": "both",
+      "description": "Multi-surface voice scaffolding. Read before any external content draft.",
+      "publicDescription": "Multi-surface voice scaffolding. Read before any external content draft.",
+      "badges": ["On-trigger"]
+    },
+    {
+      "id": "n-lessons-archive",
+      "tier": 4,
+      "column": 2,
+      "label": "lessons-archive.md",
+      "publicLabel": "Lessons archive",
+      "status": "live",
+      "visibility": "both",
+      "description": "Deprecated rules · history, never deleted.",
+      "publicDescription": "Deprecated rules. Kept for history, never deleted."
+    },
+    {
+      "id": "n-jfly",
+      "tier": 5,
+      "column": 3,
+      "label": "JFly.Ai/CLAUDE.md",
+      "publicLabel": "Brand + product layer",
+      "status": "live",
+      "visibility": "both",
+      "description": "Customer-facing company. Brand + consulting + product layers.",
+      "publicDescription": "Customer-facing brand and product context. Routes to brand, consulting, and live-site sub-folders.",
+      "children": [
+        {
+          "id": "n-jfly-consulting",
+          "label": "consulting/CLAUDE.md",
+          "publicLabel": "Consulting practice",
+          "status": "live",
+          "visibility": "both",
+          "description": "Consulting practice (renamed from AIOSJJ/ on 2026-04-30).",
+          "publicDescription": "Consulting practice operating manual."
+        },
+        {
+          "id": "n-jfly-branding",
+          "label": "Branding/CLAUDE.md",
+          "publicLabel": "Brand master",
+          "status": "live",
+          "visibility": "both",
+          "description": "Brand master. Time Machine direction. Hero line locked.",
+          "publicDescription": "Brand master file. Holds the visual language, voice, and locked decisions."
+        }
+      ]
+    },
+    {
+      "id": "n-c360",
+      "tier": 5,
+      "column": 3,
+      "label": "Collective360/CLAUDE.md (events: Coloween, Resolution NYE)",
+      "publicLabel": "Events business context",
+      "status": "live",
+      "visibility": "both",
+      "description": "JJ Walker LLC · events (Coloween, Resolution NYE).",
+      "publicDescription": "Events business context file."
+    },
+    {
+      "id": "n-re",
+      "tier": 5,
+      "column": 3,
+      "label": "RealEstate/CLAUDE.md (Walker Properties · 3 props, 2 LLCs)",
+      "publicLabel": "Real estate context",
+      "status": "live",
+      "visibility": "both",
+      "description": "Walker Properties · 3 props, 2 LLCs.",
+      "publicDescription": "Real estate context file. Property portfolio operating notes."
+    },
+    {
+      "id": "n-fin",
+      "tier": 5,
+      "column": 3,
+      "label": "Finances/CLAUDE.md",
+      "publicLabel": "Finance context",
+      "status": "live",
+      "visibility": "both",
+      "description": "Personal + entity-level finance. SUGGEST ONLY default tier.",
+      "publicDescription": "Finance context file. Defaults to a propose-only autonomy tier — the agent never moves money on its own."
+    },
+    {
+      "id": "n-tax",
+      "tier": 5,
+      "column": 3,
+      "label": "Taxes/CLAUDE.md",
+      "publicLabel": "Tax context",
+      "status": "live",
+      "visibility": "both",
+      "description": "Entity tax docs.",
+      "publicDescription": "Entity tax document context."
+    },
+    {
+      "id": "n-cos",
+      "tier": 6,
+      "column": 4,
+      "label": "chief-of-staff.md",
+      "publicLabel": "Chief of Staff",
+      "status": "live",
+      "visibility": "both",
+      "description": "THE Day-1 agent. Plays all roles directly until directors spin up.",
+      "publicDescription": "The Day-1 agent. Plays every director role directly until real pain triggers a spin-up."
+    },
+    {
+      "id": "n-cfo",
+      "tier": 6,
+      "column": 4,
+      "label": "CFO / Finance Director",
+      "publicLabel": "Finance Director",
+      "status": "deferred",
+      "visibility": "both",
+      "description": "Trigger: 3+ financial questions/week + CoS overloaded.",
+      "publicDescription": "Spins up when finance questions exceed what the Chief of Staff can carry."
+    },
+    {
+      "id": "n-cmo",
+      "tier": 6,
+      "column": 4,
+      "label": "CMO / Content Director",
+      "publicLabel": "Content Director",
+      "status": "deferred",
+      "visibility": "both",
+      "description": "Trigger: real pain — first time JJ catches CoS producing flat content 3+ times.",
+      "publicDescription": "Spins up the first time the Chief of Staff produces flat content three times in a row."
+    },
+    {
+      "id": "n-research",
+      "tier": 6,
+      "column": 4,
+      "label": "Research Director",
+      "publicLabel": "Research Director",
+      "status": "deferred",
+      "visibility": "both",
+      "description": "Trigger: research >30 min through CoS.",
+      "publicDescription": "Spins up when research routinely exceeds 30 minutes through the Chief of Staff."
+    },
+    {
+      "id": "n-re-dir",
+      "tier": 6,
+      "column": 4,
+      "label": "Real Estate Director",
+      "publicLabel": "Real Estate Director",
+      "status": "deferred",
+      "visibility": "both",
+      "description": "Trigger: refi/transaction active OR 2+ tenant issues/month.",
+      "publicDescription": "Spins up during an active transaction or when tenant issues stack up."
+    },
+    {
+      "id": "n-other-dir",
+      "tier": 6,
+      "column": 4,
+      "label": "Events / Ops / BD Directors",
+      "publicLabel": "Events / Ops / BD Directors",
+      "status": "deferred",
+      "visibility": "both",
+      "description": "Trigger: real pain per agent-roster.md.",
+      "publicDescription": "Spin up on real pain — per the agent roster."
+    },
+    {
+      "id": "n-hook",
+      "tier": 7,
+      "column": 4,
+      "label": "hooks/session-start.sh",
+      "publicLabel": "Session-start hook",
+      "status": "live",
+      "visibility": "both",
+      "description": "Fires on startup, resume, clear, compact. Re-injects key state.",
+      "publicDescription": "Fires on startup, resume, clear, and compact. Re-injects key state so context never silently drops."
+    },
+    {
+      "id": "n-style-exec",
+      "tier": 7,
+      "column": 4,
+      "label": "output-styles/executive-brief.md",
+      "publicLabel": "Executive brief style",
+      "status": "live",
+      "visibility": "both",
+      "description": "Default response style. Short, headlines first, plain English.",
+      "publicDescription": "Default response style. Short. Headlines first. Plain English."
+    },
+    {
+      "id": "n-style-research",
+      "tier": 7,
+      "column": 4,
+      "label": "output-styles/research-deep.md",
+      "publicLabel": "Research style",
+      "status": "live",
+      "visibility": "both",
+      "description": "Research output. Lead with answer. Cite or flag.",
+      "publicDescription": "Research output style. Lead with the answer. Cite or flag the gap."
+    },
+    {
+      "id": "n-skills",
+      "tier": 7,
+      "column": 4,
+      "label": "~/.claude/skills/ (78 installed)",
+      "publicLabel": "Skills library",
+      "status": "live",
+      "visibility": "both",
+      "description": "78 installed. morning-briefing, eod-sync, decision-filter, outreach-prep, etc.",
+      "publicDescription": "Installed skills library — the agent's tool palette for routine work."
+    },
+    {
+      "id": "n-nb-brain",
+      "tier": 8,
+      "column": 5,
+      "label": "NotebookLM · AI Brain (679d879e-...)",
+      "publicLabel": "Context brain",
+      "status": "live",
+      "visibility": "both",
+      "description": "JJ's complete context · 679d879e-…",
+      "publicDescription": "External long-term context store. Full operator context."
+    },
+    {
+      "id": "n-nb-tools",
+      "tier": 8,
+      "column": 5,
+      "label": "NotebookLM · Tool Stack (8c4117b8-...)",
+      "publicLabel": "Tool stack",
+      "status": "live",
+      "visibility": "both",
+      "description": "System map · 8c4117b8-…",
+      "publicDescription": "External notebook for the tool stack and system map."
+    },
+    {
+      "id": "n-nb-mac",
+      "tier": 8,
+      "column": 5,
+      "label": "NotebookLM · Mac Guide (5ec3d5dc-...)",
+      "publicLabel": "System guide",
+      "status": "live",
+      "visibility": "both",
+      "description": "System architecture · 5ec3d5dc-…",
+      "publicDescription": "External notebook covering the system architecture reference."
+    },
+    {
+      "id": "n-nb-more",
+      "tier": 8,
+      "column": 5,
+      "label": "NotebookLM · 4 more notebooks",
+      "publicLabel": "Domain notebooks",
+      "status": "live",
+      "visibility": "both",
+      "description": "Full 7-notebook list in complete-system-map.md.",
+      "publicDescription": "Additional domain-specific notebooks in the external memory layer."
+    },
+    {
+      "id": "n-pinecone",
+      "tier": 8,
+      "column": 5,
+      "label": "Pinecone · vector retrieval",
+      "publicLabel": "Vector retrieval",
+      "status": "deferred",
+      "visibility": "both",
+      "description": "Phase 11. Replaces hand-rolled index.md as primary retrieval.",
+      "publicDescription": "Vector retrieval. Replaces the hand-rolled topic index as primary retrieval."
+    }
+  ],
+  "loadingArrows": [
+    { "from": "n-global", "to": "n-current", "type": "auto" },
+    { "from": "n-global", "to": "n-profile", "type": "auto" },
+    { "from": "n-global", "to": "n-roster", "type": "auto" },
+    { "from": "n-global", "to": "n-lessons", "type": "auto" },
+    { "from": "n-global", "to": "n-dataflow", "type": "auto" },
+    { "from": "n-global", "to": "n-arch", "type": "auto" },
+    { "from": "n-global", "to": "n-index", "type": "auto" },
+    { "from": "n-hook", "to": "n-mem-lessons", "type": "auto" },
+    { "from": "n-hook", "to": "n-current", "type": "auto" },
+    { "from": "n-cos", "to": "n-people", "type": "trigger" },
+    { "from": "n-cos", "to": "n-debug", "type": "trigger" },
+    { "from": "n-cos", "to": "n-frameworks", "type": "trigger" },
+    { "from": "n-cos", "to": "n-content", "type": "trigger" }
+  ],
+  "rules": {
+    "autoLoad": [
+      { "html": "<code>~/.claude/CLAUDE.md</code> @file imports load <code>current</code>, <code>jj-profile</code>, <code>agent-roster</code>, <code>lessons</code>, <code>data-flow</code>, <code>system-architecture-references</code>, <code>index</code>", "publicHtml": "The global rules file pulls in priority cache, profile, agent roster, lessons, data-flow, architecture refs, and the topic index on every session start." },
+      { "html": "<code>SessionStart</code> hook (matchers: startup, resume, clear, compact) re-injects <code>memory/lessons.md</code> top rules + <code>current.md</code> P0/P1 stack", "publicHtml": "The session-start hook (startup, resume, clear, compact) re-injects the top lessons plus the live priority cache." },
+      { "html": "Folder-level <code>CLAUDE.md</code> loads when JJ enters that folder (Finances, JFly.Ai, Collective360, etc.)", "publicHtml": "Folder-level context files load automatically when work moves into that folder." },
+      { "html": "<code>memory/MEMORY.md</code> auto-loaded by Claude Code memory system", "publicHtml": "The memory index auto-loads via the runtime memory system." }
+    ],
+    "onTrigger": [
+      { "html": "<code>people.md</code> — when a request involves a named person (collision rules, firewall flags)", "publicHtml": "Relationship map — read when a request involves a named person." },
+      { "html": "<code>debug-playbook.md</code> — when JJ says \"something's broken\" or a known failure mode appears", "publicHtml": "Debug playbook — read when something is broken or a known failure mode appears." },
+      { "html": "<code>frameworks.md</code> — when a known framework applies to the current decision", "publicHtml": "Frameworks — read when a known mental model applies to the current decision." },
+      { "html": "<code>data-flow.md</code> — re-read before any external service call (Gmail, NotebookLM, public post, lender email)", "publicHtml": "Data-flow rules — re-read before any external service call." },
+      { "html": "<code>content-voice.md</code> — before drafting any external-facing content", "publicHtml": "Voice scaffolding — read before drafting any external-facing content." },
+      { "html": "<code>JFly.Ai/Branding/CLAUDE.md</code> — before any public-facing JFly.Ai copy or visual change", "publicHtml": "Brand master — read before any public-facing copy or visual change." }
+    ]
+  }
+}
