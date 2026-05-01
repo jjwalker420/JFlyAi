@@ -54,10 +54,12 @@ function xPositions(count: number, width = VB_W, margin = 70): number[] {
 }
 
 // Card width adapts to label length but caps tighter when many siblings.
+// At VB_W=1100, margin=70, the per-step spacing is ~87px when siblings=12,
+// so cards must stay below that width to avoid overlap.
 function cardWidth(label: string, siblings: number): number {
-  const max = siblings >= 10 ? 92 : siblings >= 6 ? 130 : 170;
-  const min = siblings >= 10 ? 60 : 70;
-  return Math.min(max, Math.max(min, Math.round(label.length * 6.4)));
+  const max = siblings >= 10 ? 78 : siblings >= 6 ? 130 : 170;
+  const min = siblings >= 10 ? 56 : 70;
+  return Math.min(max, Math.max(min, Math.round(label.length * 6.2)));
 }
 
 export function TierCanvas({

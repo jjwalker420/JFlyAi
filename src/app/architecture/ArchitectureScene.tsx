@@ -143,17 +143,17 @@ export function ArchitectureScene({ arch }: Props) {
       aria-label="Eight-tier AiOS reference architecture"
       className="relative"
     >
-      {/* H1 block — large display anchor above the scene.
+      {/* H1 block — display anchor above the scene.
           The "REFERENCE ARCHITECTURE · 8 TIERS · LIVE" caption lives inside the
           SVG canvas, not here, so it travels with the schematic. */}
-      <div className="px-6 pt-28 pb-10 md:pt-36 md:pb-14">
+      <div className="px-6 pt-24 pb-8 md:pt-32 md:pb-10">
         <div className="mx-auto max-w-[1200px] text-center">
           <h1 className="mx-auto font-display text-[clamp(2.5rem,6vw,4.5rem)] font-medium leading-[1.05] tracking-tight text-bone">
             An AiOS has 8 layers.
           </h1>
-          <p className="mx-auto mt-5 max-w-[640px] font-body text-[1.0625rem] leading-[1.55] text-bone/65">
-            Scroll the schematic. Each layer inks in as the narration moves
-            through it — eight tiers of operator infrastructure, end to end.
+          <p className="mx-auto mt-4 max-w-[600px] font-body text-[1rem] leading-[1.55] text-bone/65">
+            Scroll the schematic. Each tier inks in as the narration moves
+            through it — eight layers of operator infrastructure, end to end.
           </p>
         </div>
       </div>
@@ -168,10 +168,10 @@ export function ArchitectureScene({ arch }: Props) {
         style={{ height: "calc(9 * 75vh)" }}
       >
         <div className="sticky top-0 flex h-screen items-stretch">
-          <div className="grid h-full w-full grid-cols-12 gap-10 px-8 xl:px-16">
-            {/* Canvas */}
-            <div className="col-span-7 flex h-full items-center">
-              <div className="h-[92%] w-full">
+          <div className="grid h-full w-full grid-cols-12 gap-10 px-8 py-10 xl:px-16 xl:py-14">
+            {/* Canvas — vertically filled, schematic auto-sizes to fit */}
+            <div className="col-span-7 flex h-full items-stretch">
+              <div className="h-full w-full">
                 <TierCanvas
                   activeTier={cappedTier}
                   nodesByTier={nodesByTier}
@@ -181,7 +181,7 @@ export function ArchitectureScene({ arch }: Props) {
               </div>
             </div>
 
-            {/* Narration */}
+            {/* Narration — vertically centered */}
             <div className="col-span-5 flex h-full items-center">
               <div className="w-full">
                 <NarrationPanel
@@ -196,12 +196,13 @@ export function ArchitectureScene({ arch }: Props) {
 
       {/* MOBILE: vertical chapter journey with progress rail */}
       <div className="relative lg:hidden">
-        {/* Mini schematic — sticky-top, reflects the active tier as the user
-            scrolls through the chapters below. Reduced-motion users see it
-            fully assembled and static. */}
-        <div className="sticky top-16 z-10 mx-auto -mt-2 mb-6 max-w-[460px] px-6">
+        {/* Mobile schematic — rendered once at the top as a fixed-aspect
+            "system map" the user can refer back to. Not sticky (stickying a
+            tall schematic on mobile eats the screen). It reflects the highest
+            tier the user has reached, so as they scroll, more inks in. */}
+        <div className="px-6 pb-8">
           <div
-            className="rounded-md border border-bone/10 bg-ink-black/85 p-3 backdrop-blur-md"
+            className="mx-auto max-w-[440px] rounded-md border border-bone/10 bg-ink-black/60 p-3"
             aria-hidden="true"
           >
             <div className="aspect-[4/5] w-full">
