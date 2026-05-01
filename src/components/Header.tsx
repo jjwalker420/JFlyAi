@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DenverClock } from "./DenverClock";
 
 const NAV: Array<{ href: string; label: string }> = [
   { href: "/#about", label: "About" },
   { href: "/#services", label: "Services" },
+  { href: "/architecture", label: "Architecture" },
   { href: "/#setup", label: "What's included" },
   { href: "#cta", label: "Book a call" },
 ];
@@ -49,9 +49,6 @@ export function Header() {
                 </a>
               </li>
             ))}
-            <li aria-hidden="true">
-              <DenverClock />
-            </li>
             <li>
               <a
                 href="https://cal.com/jjwalker"

@@ -1,4 +1,5 @@
 import { BodyCopy, Caption, TextLink } from "./primitives";
+import { DenverClock } from "./DenverClock";
 
 /**
  * Footer — COPY-VOICE.md §10 ("Requirements / Travel / brand attribution")
@@ -101,10 +102,13 @@ export function Footer() {
             <TextLink href="/privacy" tone="muted">Privacy</TextLink>
           </div>
 
-          {/* Line 3: Copyright */}
-          <p className="font-body text-[0.75rem] text-bone/50">
-            © 2026 JFly.ai&nbsp;&nbsp;·&nbsp;&nbsp;Apple Silicon Mac M1–M4 only&nbsp;&nbsp;·&nbsp;&nbsp;Travel fee outside Denver metro
-          </p>
+          {/* Line 3: Copyright + DenverClock (bottom-right) */}
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <p className="font-body text-[0.75rem] text-bone/50">
+              © 2026 JFly.ai&nbsp;&nbsp;·&nbsp;&nbsp;Apple Silicon Mac M1–M4 only&nbsp;&nbsp;·&nbsp;&nbsp;Travel fee outside Denver metro
+            </p>
+            <DenverClock />
+          </div>
         </div>
       </div>
     </footer>
