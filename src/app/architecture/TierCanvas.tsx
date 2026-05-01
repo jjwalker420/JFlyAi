@@ -29,19 +29,21 @@ type Props = {
  * lives in the closing band, not in this component.
  */
 
-const VB_W = 1100;
-const VB_H = 1180;
+const VB_W = 1400;
+const VB_H = 1220;
 
 // Tier band Y centers (top→bottom: T1 at top of canvas, T8 at bottom).
+// T1 is pushed down to leave breathing room between the top eyebrow caption
+// and the T1 row label.
 const TIER_Y: Record<number, number> = {
-  1: 80,
-  2: 200,
-  3: 320,
-  4: 460,
-  5: 640,
-  6: 780,
-  7: 920,
-  8: 1080,
+  1: 120,
+  2: 240,
+  3: 360,
+  4: 500,
+  5: 680,
+  6: 820,
+  7: 960,
+  8: 1120,
 };
 
 // Adaptive horizontal spread.
@@ -54,12 +56,12 @@ function xPositions(count: number, width = VB_W, margin = 70): number[] {
 }
 
 // Card width adapts to label length but caps tighter when many siblings.
-// At VB_W=1100, margin=70, the per-step spacing is ~87px when siblings=12,
-// so cards must stay below that width to avoid overlap.
+// At VB_W=1400, margin=70, the per-step spacing is ~114px when siblings=12,
+// so cards stay below that width to avoid overlap.
 function cardWidth(label: string, siblings: number): number {
-  const max = siblings >= 10 ? 78 : siblings >= 6 ? 130 : 170;
-  const min = siblings >= 10 ? 56 : 70;
-  return Math.min(max, Math.max(min, Math.round(label.length * 6.2)));
+  const max = siblings >= 10 ? 108 : siblings >= 6 ? 160 : 200;
+  const min = siblings >= 10 ? 80 : 90;
+  return Math.min(max, Math.max(min, Math.round(label.length * 6.6)));
 }
 
 export function TierCanvas({
@@ -93,10 +95,10 @@ export function TierCanvas({
         <g aria-hidden="true">
           <text
             x={30}
-            y={32}
-            fill="rgb(217 147 58 / 0.85)"
+            y={28}
+            fill="rgb(255 255 255)"
             style={{
-              font: "500 12px var(--font-mono), ui-monospace, monospace",
+              font: "700 12px var(--font-mono), ui-monospace, monospace",
               letterSpacing: "0.18em",
               textTransform: "uppercase",
             }}
@@ -106,8 +108,8 @@ export function TierCanvas({
           <line
             x1={30}
             x2={VB_W - 30}
-            y1={46}
-            y2={46}
+            y1={42}
+            y2={42}
             stroke="rgb(242 235 221 / 0.10)"
             strokeWidth={1}
           />
@@ -170,15 +172,9 @@ export function TierCanvas({
               <text
                 x={30}
                 y={y - 38}
-                fill={
-                  state === "planned"
-                    ? "rgb(217 147 58 / 0.7)"
-                    : state === "current"
-                      ? "rgb(216 232 236 / 0.95)"
-                      : "rgb(242 235 221 / 0.6)"
-                }
+                fill="rgb(255 255 255)"
                 style={{
-                  font: "500 12px var(--font-mono), ui-monospace, monospace",
+                  font: "700 12px var(--font-mono), ui-monospace, monospace",
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
                 }}
@@ -281,7 +277,7 @@ function NodeCard({
   deferred: boolean;
   isPulse: boolean;
 }) {
-  const h = 28;
+  const h = 34;
   const fillSettled = "rgb(20 52 82 / 0.4)";
   const fillCurrent = "rgb(46 111 164 / 0.55)";
   const fillPlanned = "rgb(217 147 58 / 0.08)";
@@ -305,7 +301,7 @@ function NodeCard({
         : "0";
 
   // Adaptive font for narrow cards in dense tiers.
-  const fontSize = w < 90 ? 9.5 : w < 120 ? 10.5 : 11;
+  const fontSize = w < 100 ? 10.5 : w < 140 ? 11.5 : 12;
 
   return (
     <g
@@ -341,7 +337,7 @@ function NodeCard({
           font: `500 ${fontSize}px var(--font-mono), ui-monospace, monospace`,
         }}
       >
-        {truncate(label, w < 90 ? 14 : w < 120 ? 18 : 24)}
+        {truncate(label, w < 100 ? 18 : w < 140 ? 24 : 32)}
       </text>
     </g>
   );
