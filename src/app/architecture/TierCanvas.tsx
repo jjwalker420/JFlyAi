@@ -16,9 +16,10 @@ type Props = {
  * nodes inside a band space horizontally according to their public-node count
  * (1, 2, 1, 12, 5, 6, 4, 5).
  *
- * Reveal model: tiers ≤ activeTier render full opacity + solid trust-blue
- * trace. Tiers > activeTier render at low opacity in dashed lamp-amber
- * (planned). The just-revealed tier (= activeTier) gets the pulse class.
+ * Reveal model:
+ *   - state "settled":  tier ≤ activeTier-1   solid trust-blue trace, full opacity
+ *   - state "current":  tier === activeTier   pulses once, brighter trace
+ *   - state "planned":  tier > activeTier     dashed lamp-amber, low opacity
  *
  * Reduced motion: the schematic renders fully assembled (every tier active),
  * no pulse, no draw animation.
@@ -28,8 +29,8 @@ type Props = {
  * lives in the closing band, not in this component.
  */
 
-const VB_W = 880;
-const VB_H = 1100;
+const VB_W = 1100;
+const VB_H = 1180;
 
 // Tier band Y centers (top→bottom: T1 at top of canvas, T8 at bottom).
 const TIER_Y: Record<number, number> = {
@@ -37,19 +38,26 @@ const TIER_Y: Record<number, number> = {
   2: 200,
   3: 320,
   4: 460,
-  5: 620,
-  6: 760,
-  7: 900,
-  8: 1030,
+  5: 640,
+  6: 780,
+  7: 920,
+  8: 1080,
 };
 
-// Horizontal layout helpers.
-function xPositions(count: number, width = VB_W, margin = 60): number[] {
+// Adaptive horizontal spread.
+function xPositions(count: number, width = VB_W, margin = 70): number[] {
   if (count <= 0) return [];
   if (count === 1) return [width / 2];
   const usable = width - margin * 2;
   const step = usable / (count - 1);
   return Array.from({ length: count }, (_, i) => margin + step * i);
+}
+
+// Card width adapts to label length but caps tighter when many siblings.
+function cardWidth(label: string, siblings: number): number {
+  const max = siblings >= 10 ? 92 : siblings >= 6 ? 130 : 170;
+  const min = siblings >= 10 ? 60 : 70;
+  return Math.min(max, Math.max(min, Math.round(label.length * 6.4)));
 }
 
 export function TierCanvas({
@@ -70,26 +78,54 @@ export function TierCanvas({
         preserveAspectRatio="xMidYMid meet"
         className="h-full w-full"
       >
-        {/* Inter-tier traces — drawn first so cards sit on top */}
+        {/* Top-of-canvas caption — sits inside the schematic frame */}
+        <g aria-hidden="true">
+          <text
+            x={30}
+            y={32}
+            fill="rgb(217 147 58 / 0.85)"
+            style={{
+              font: "500 12px var(--font-mono), ui-monospace, monospace",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+            }}
+          >
+            Reference architecture · 8 tiers · Live
+          </text>
+          <line
+            x1={30}
+            x2={VB_W - 30}
+            y1={46}
+            y2={46}
+            stroke="rgb(242 235 221 / 0.10)"
+            strokeWidth={1}
+          />
+        </g>
+
+        {/* Inter-tier center spine — drawn first so cards sit on top */}
         <g aria-hidden="true">
           {[1, 2, 3, 4, 5, 6, 7].map((t) => {
-            const fromY = TIER_Y[t] + 30;
-            const toY = TIER_Y[t + 1] - 30;
+            const fromY = TIER_Y[t] + 32;
+            const toY = TIER_Y[t + 1] - 32;
             const traceActive = effectiveActive >= t + 1;
             return (
               <line
-                key={`trace-${t}`}
+                key={`spine-${t}`}
                 x1={VB_W / 2}
                 x2={VB_W / 2}
                 y1={fromY}
                 y2={toY}
-                stroke={traceActive ? "rgb(46 111 164 / 0.7)" : "rgb(217 147 58 / 0.35)"}
+                stroke={
+                  traceActive
+                    ? "rgb(46 111 164 / 0.7)"
+                    : "rgb(217 147 58 / 0.32)"
+                }
                 strokeWidth={1}
                 strokeDasharray={traceActive ? "0" : "4 6"}
                 style={{
                   transition: reducedMotion
                     ? "none"
-                    : "stroke 700ms var(--ease-deliberate), stroke-dasharray 700ms var(--ease-deliberate)",
+                    : "stroke 700ms var(--ease-deliberate)",
                 }}
               />
             );
@@ -122,14 +158,16 @@ export function TierCanvas({
               {/* Tier label */}
               <text
                 x={30}
-                y={y - 36}
+                y={y - 38}
                 fill={
                   state === "planned"
                     ? "rgb(217 147 58 / 0.7)"
-                    : "rgb(242 235 221 / 0.55)"
+                    : state === "current"
+                      ? "rgb(216 232 236 / 0.95)"
+                      : "rgb(242 235 221 / 0.6)"
                 }
                 style={{
-                  font: "500 11px var(--font-mono), ui-monospace, monospace",
+                  font: "500 12px var(--font-mono), ui-monospace, monospace",
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
                 }}
@@ -151,19 +189,41 @@ export function TierCanvas({
                 strokeWidth={1}
               />
 
+              {/* Hairline fan-out traces from tier-center spine to each node */}
+              {state !== "planned" &&
+                nodes.length > 1 &&
+                nodes.map((n, i) => (
+                  <line
+                    key={`fan-${n.id}`}
+                    x1={VB_W / 2}
+                    y1={y - 24}
+                    x2={xs[i]}
+                    y2={y - 14}
+                    stroke="rgb(46 111 164 / 0.45)"
+                    strokeWidth={1}
+                    style={{
+                      transition: reducedMotion
+                        ? "none"
+                        : "stroke 600ms var(--ease-deliberate)",
+                    }}
+                  />
+                ))}
+
               {/* Sunset stripe earns its place under Tier 7 (behavior layer) */}
               {t === 7 && state !== "planned" && (
-                <SunsetStripe y={y + 60} cx={VB_W / 2} width={220} />
+                <SunsetStripe y={y + 60} cx={VB_W / 2} width={260} />
               )}
 
               {/* Node cards */}
               {nodes.map((n, i) => {
                 const x = xs[i];
+                const w = cardWidth(n.label, nodes.length);
                 return (
                   <NodeCard
                     key={n.id}
                     x={x}
                     y={y}
+                    w={w}
                     label={n.label}
                     state={state}
                     deferred={n.status === "deferred"}
@@ -178,10 +238,8 @@ export function TierCanvas({
 
       {/* Pulse keyframes — local stylesheet, scoped to this component's class. */}
       <style
-        // Keyframes here keep globals.css untouched while letting the SVG
-        // pulse just-revealed tiers.
         dangerouslySetInnerHTML={{
-          __html: `@keyframes tier-pulse { 0% { opacity: 0.55; } 50% { opacity: 1; } 100% { opacity: 0.9; } }`,
+          __html: `@keyframes tier-pulse { 0% { opacity: 0.55; } 50% { opacity: 1; } 100% { opacity: 0.92; } }`,
         }}
       />
     </div>
@@ -191,6 +249,7 @@ export function TierCanvas({
 function NodeCard({
   x,
   y,
+  w,
   label,
   state,
   deferred,
@@ -198,17 +257,16 @@ function NodeCard({
 }: {
   x: number;
   y: number;
+  w: number;
   label: string;
   state: "settled" | "current" | "planned";
   deferred: boolean;
   isPulse: boolean;
 }) {
-  // Adaptive width — short labels narrower, long labels wider.
-  const w = Math.min(180, Math.max(72, label.length * 6.6));
   const h = 28;
-  const fillSettled = "rgb(20 52 82 / 0.42)";
+  const fillSettled = "rgb(20 52 82 / 0.4)";
   const fillCurrent = "rgb(46 111 164 / 0.55)";
-  const fillPlanned = "rgb(217 147 58 / 0.10)";
+  const fillPlanned = "rgb(217 147 58 / 0.08)";
   const strokeSettled = "rgb(46 111 164 / 0.7)";
   const strokeCurrent = "rgb(216 232 236 / 0.85)";
   const strokePlanned = "rgb(217 147 58 / 0.55)";
@@ -221,13 +279,23 @@ function NodeCard({
       : state === "current"
         ? strokeCurrent
         : strokePlanned;
-  const strokeDash = deferred && state !== "planned" ? "3 4" : state === "planned" ? "4 6" : "0";
+  const strokeDash =
+    deferred && state !== "planned"
+      ? "3 4"
+      : state === "planned"
+        ? "4 6"
+        : "0";
+
+  // Adaptive font for narrow cards in dense tiers.
+  const fontSize = w < 90 ? 9.5 : w < 120 ? 10.5 : 11;
 
   return (
     <g
       transform={`translate(${x - w / 2} ${y - h / 2})`}
       style={{
-        animation: isPulse ? "tier-pulse 900ms var(--ease-deliberate) 1" : undefined,
+        animation: isPulse
+          ? "tier-pulse 900ms var(--ease-deliberate) 1"
+          : undefined,
       }}
     >
       <rect
@@ -246,12 +314,16 @@ function NodeCard({
         x={w / 2}
         y={h / 2 + 4}
         textAnchor="middle"
-        fill={state === "planned" ? "rgb(217 147 58 / 0.75)" : "rgb(242 235 221 / 0.95)"}
+        fill={
+          state === "planned"
+            ? "rgb(217 147 58 / 0.75)"
+            : "rgb(242 235 221 / 0.95)"
+        }
         style={{
-          font: "500 11px var(--font-mono), ui-monospace, monospace",
+          font: `500 ${fontSize}px var(--font-mono), ui-monospace, monospace`,
         }}
       >
-        {truncate(label, 22)}
+        {truncate(label, w < 90 ? 14 : w < 120 ? 18 : 24)}
       </text>
     </g>
   );

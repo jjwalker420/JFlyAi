@@ -134,31 +134,35 @@ export function ArchitectureScene({ arch }: Props) {
       aria-label="Eight-tier AiOS reference architecture"
       className="relative"
     >
-      {/* H1 + caption block — full-bleed centered above the scene */}
+      {/* H1 block — large display anchor above the scene.
+          The "REFERENCE ARCHITECTURE · 8 TIERS · LIVE" caption lives inside the
+          SVG canvas, not here, so it travels with the schematic. */}
       <div className="px-6 pt-28 pb-10 md:pt-36 md:pb-14">
         <div className="mx-auto max-w-[1200px] text-center">
-          <p className="font-mono text-[0.75rem] uppercase tracking-[0.18em] text-lamp-amber/85">
-            Reference architecture · 8 tiers · Live
-          </p>
-          <h1 className="mx-auto mt-5 font-display text-[clamp(2.5rem,6vw,4.5rem)] font-medium leading-[1.05] tracking-tight text-bone">
+          <h1 className="mx-auto font-display text-[clamp(2.5rem,6vw,4.5rem)] font-medium leading-[1.05] tracking-tight text-bone">
             An AiOS has 8 layers.
           </h1>
+          <p className="mx-auto mt-5 max-w-[640px] font-body text-[1.0625rem] leading-[1.55] text-bone/65">
+            Scroll the schematic. Each layer inks in as the narration moves
+            through it — eight tiers of operator infrastructure, end to end.
+          </p>
         </div>
       </div>
 
       {/* DESKTOP: pinned split-screen scene
-          We use a tall outer scrollable region; inside, a sticky inner row
-          holds the canvas (left) and the narration panel (right). */}
+          Outer container is tall — its scroll progress drives activeTier.
+          Inner sticky row holds the canvas (left) + narration panel (right).
+          Height: 9 chapters × ~75vh each, leaving the closing band to follow. */}
       <div
         ref={sceneRef}
         className="relative hidden lg:block"
-        style={{ height: "calc((9 * 80vh) + 80vh)" }}
+        style={{ height: "calc(9 * 75vh)" }}
       >
         <div className="sticky top-0 flex h-screen items-stretch">
-          <div className="grid h-full w-full grid-cols-12 gap-8 px-8 xl:px-16">
+          <div className="grid h-full w-full grid-cols-12 gap-10 px-8 xl:px-16">
             {/* Canvas */}
             <div className="col-span-7 flex h-full items-center">
-              <div className="aspect-[4/5] h-[88%] w-full">
+              <div className="h-[92%] w-full">
                 <TierCanvas
                   activeTier={cappedTier}
                   nodesByTier={nodesByTier}
