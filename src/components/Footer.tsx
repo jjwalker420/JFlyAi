@@ -96,6 +96,8 @@ export function Footer() {
               jj@jfly.ai
             </a>
             <span aria-hidden="true" className="text-bone/30"> · </span>
+            <TextLink href="/architecture" tone="muted">Architecture</TextLink>
+            <span aria-hidden="true" className="text-bone/30"> · </span>
             <TextLink href="/privacy" tone="muted">Privacy</TextLink>
           </div>
 
