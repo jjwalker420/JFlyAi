@@ -69,6 +69,10 @@ export function TierCanvas({
   // With reduced motion, render fully assembled.
   const effectiveActive = reducedMotion ? 8 : activeTier;
 
+  // Canvas-complete pulse fires once when the schematic finishes (activeTier
+  // reaches the CTA state, i.e. > 8). Reduced motion: no pulse.
+  const isComplete = !reducedMotion && activeTier >= 9;
+
   return (
     <div className="relative h-full w-full">
       <svg
@@ -77,6 +81,11 @@ export function TierCanvas({
         viewBox={`0 0 ${VB_W} ${VB_H}`}
         preserveAspectRatio="xMidYMid meet"
         className="h-full w-full"
+        style={{
+          animation: isComplete
+            ? "canvas-complete-pulse 1100ms var(--ease-deliberate) 1"
+            : undefined,
+        }}
       >
         {/* Top-of-canvas caption — sits inside the schematic frame */}
         <g aria-hidden="true">
@@ -239,7 +248,14 @@ export function TierCanvas({
       {/* Pulse keyframes — local stylesheet, scoped to this component's class. */}
       <style
         dangerouslySetInnerHTML={{
-          __html: `@keyframes tier-pulse { 0% { opacity: 0.55; } 50% { opacity: 1; } 100% { opacity: 0.92; } }`,
+          __html: `
+            @keyframes tier-pulse { 0% { opacity: 0.55; } 50% { opacity: 1; } 100% { opacity: 0.92; } }
+            @keyframes canvas-complete-pulse {
+              0%   { filter: brightness(1) drop-shadow(0 0 0 rgba(46,111,164,0)); }
+              50%  { filter: brightness(1.18) drop-shadow(0 0 18px rgba(46,111,164,0.45)); }
+              100% { filter: brightness(1) drop-shadow(0 0 0 rgba(46,111,164,0)); }
+            }
+          `,
         }}
       />
     </div>

@@ -187,15 +187,22 @@ export function ArchitectureScene({ arch }: Props) {
 
       {/* MOBILE: vertical chapter journey with progress rail */}
       <div className="relative lg:hidden">
-        {/* Static schematic preview at the top (assembled view) */}
-        <div className="px-6 pb-8">
-          <div className="mx-auto aspect-[4/5] max-w-[440px]">
-            <TierCanvas
-              activeTier={8}
-              nodesByTier={nodesByTier}
-              tierNames={arch.tiers}
-              reducedMotion={true}
-            />
+        {/* Mini schematic — sticky-top, reflects the active tier as the user
+            scrolls through the chapters below. Reduced-motion users see it
+            fully assembled and static. */}
+        <div className="sticky top-16 z-10 mx-auto -mt-2 mb-6 max-w-[460px] px-6">
+          <div
+            className="rounded-md border border-bone/10 bg-ink-black/85 p-3 backdrop-blur-md"
+            aria-hidden="true"
+          >
+            <div className="aspect-[4/5] w-full">
+              <TierCanvas
+                activeTier={cappedTier}
+                nodesByTier={nodesByTier}
+                tierNames={arch.tiers}
+                reducedMotion={reducedMotion}
+              />
+            </div>
           </div>
         </div>
 

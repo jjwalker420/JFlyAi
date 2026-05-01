@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { PublicNode } from "@/data/architecture";
 import { TIER_NARRATION } from "./narration";
 
@@ -17,20 +18,35 @@ type Props = {
  * narration sentence + caption + the public node list for that tier.
  *
  * Tier 9 is a synthetic "schematic complete" state that swaps in the CTA copy.
+ *
+ * Transition between tiers is a short fade + 8px slide; reduced-motion users
+ * see an instant swap.
  */
 export function NarrationPanel({ activeTier, nodesByTier }: Props) {
+  const reduced = useReducedMotion() ?? false;
   const showCTA = activeTier >= 9;
   const tierIndex = Math.min(Math.max(activeTier, 1), 8);
   const narration = TIER_NARRATION[tierIndex - 1];
   const nodes = nodesByTier[tierIndex] ?? [];
+  const key = showCTA ? "cta" : `tier-${tierIndex}`;
 
   return (
     <div className="relative mx-auto flex w-full max-w-[520px] flex-col gap-6 lg:gap-8">
-      {showCTA ? (
-        <CTABody />
-      ) : (
-        <TierBody narration={narration} nodes={nodes} />
-      )}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={key}
+          initial={reduced ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduced ? { opacity: 1 } : { opacity: 0, y: -6 }}
+          transition={{ duration: reduced ? 0 : 0.32, ease: [0.32, 0.72, 0, 1] }}
+        >
+          {showCTA ? (
+            <CTABody />
+          ) : (
+            <TierBody narration={narration} nodes={nodes} />
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
