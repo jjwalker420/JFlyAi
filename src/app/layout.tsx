@@ -29,9 +29,9 @@ const vt323 = VT323({
 
 const SITE_URL = "https://www.jfly.ai";
 const SITE_NAME = "JFly.ai";
-const SITE_TITLE = "JFly.ai — Let's Build Your AiOS";
+const SITE_TITLE = "Let's Build Your AiOS — In-Person Setup in Denver, CO";
 const SITE_DESCRIPTION =
-  "Let's Build Your AiOS — 1-on-1 setup of Claude Desktop and the tools that will change your life. Installed in person in Denver, CO.";
+  "In-person AiOS setup at your desk in Denver. 1-on-1 Claude Desktop install for non-technical founders and small business owners. By JJ Walker.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -99,7 +99,7 @@ const personSchema = {
     addressCountry: "US",
   },
   description:
-    "JJ Walker is a non-technical founder with 25 years of operating experience. He installs personalized AiOS setups (Claude, ChatGPT, AntiGravity, and supporting tools) at clients' desks in person in Denver.",
+    "JJ Walker is a non-technical founder with 25 years of operating experience. He provides 1-on-1 AiOS setup at your desk in Denver — Claude Desktop, ChatGPT Desktop, MCP servers, and the supporting infrastructure of a personal AI operating system.",
   sameAs: ["https://www.linkedin.com/in/jjwalkerdenver/"],
 };
 
@@ -108,7 +108,7 @@ const localBusinessSchema = {
   "@type": "LocalBusiness",
   name: SITE_NAME,
   description:
-    "Personalized AiOS setup and AI consulting for non-technical operators. In-person in Denver, Colorado.",
+    "Personalized AiOS setup and 1-on-1 Claude Desktop installation for non-technical founders and small business owners. In-person AI consulting in Denver, Colorado.",
   url: SITE_URL,
   image: `${SITE_URL}/opengraph-image`,
   priceRange: "$599-$1,299",
@@ -130,7 +130,7 @@ const localBusinessSchema = {
 const serviceSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
-  serviceType: "AiOS installation and consulting",
+  serviceType: "1-on-1 AiOS setup and Claude Desktop installation consulting",
   provider: {
     "@type": "Person",
     name: "JJ Walker",
