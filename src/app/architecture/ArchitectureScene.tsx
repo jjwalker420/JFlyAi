@@ -182,7 +182,7 @@ export function ArchitectureScene({ arch }: Props) {
             </div>
 
             {/* Narration — top-anchored to match Tier 4's natural position */}
-            <div className="col-span-5 flex h-full items-center lg:items-start lg:pt-10">
+            <div className="col-span-5 flex h-full items-center lg:items-start lg:pt-4">
               <div className="w-full">
                 <NarrationPanel
                   activeTier={activeTier}
