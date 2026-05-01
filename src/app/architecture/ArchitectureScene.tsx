@@ -33,7 +33,9 @@ type Props = {
  * via simple intersection (no canvas draw or pulse animations).
  */
 export function ArchitectureScene({ arch }: Props) {
-  const [activeTier, setActiveTier] = useState<number>(1);
+  // Tier 0 = unified opening frame (all 8 tiers visible-but-planned).
+  // Scrolling into the pinned scene inks in tier 1, then 2 … 8, then 9 = CTA.
+  const [activeTier, setActiveTier] = useState<number>(0);
   const [reducedMotion, setReducedMotion] = useState<boolean>(false);
   const sceneRef = useRef<HTMLDivElement | null>(null);
 
@@ -78,12 +80,18 @@ export function ArchitectureScene({ arch }: Props) {
         const vh = window.innerHeight || 1;
         const total = rect.height - vh;
         if (total <= 0) {
-          setActiveTier(1);
+          setActiveTier(0);
           return;
         }
         // Progress = how far into the pinned region we've scrolled. 0..1.
-        const progress = Math.min(1, Math.max(0, -rect.top / total));
-        // Map progress → 1..9 (tier 9 = CTA state).
+        const raw = Math.min(1, Math.max(0, -rect.top / total));
+        // Reserve the first 6% of progress for the "unified opening frame"
+        // state (tier 0). After that, ramp through 1..9.
+        if (raw < 0.06) {
+          setActiveTier(0);
+          return;
+        }
+        const progress = (raw - 0.06) / 0.94;
         const idx = Math.min(TICKS, Math.max(1, Math.floor(progress * TICKS) + 1));
         setActiveTier(idx);
       });
@@ -126,7 +134,8 @@ export function ArchitectureScene({ arch }: Props) {
     return () => obs.disconnect();
   }, []);
 
-  const cappedTier = Math.min(8, activeTier);
+  // Canvas accepts 0..8; treat anything ≥9 as 8 (schematic stays complete).
+  const cappedTier = Math.min(8, Math.max(0, activeTier));
 
   return (
     <section
@@ -221,10 +230,12 @@ export function ArchitectureScene({ arch }: Props) {
           <ol className="space-y-14 px-6 pl-10 pb-8">
             {TIER_NARRATION.map((tn) => {
               const nodes = nodesByTier[tn.tier] ?? [];
+              const isActive = activeTier === tn.tier;
               return (
                 <li
                   key={tn.tier}
                   data-arch-chapter={tn.tier}
+                  aria-current={isActive ? "step" : undefined}
                   className="scroll-mt-32"
                 >
                   <p className="font-mono text-[0.75rem] uppercase tracking-[0.16em] text-lamp-amber/85">
@@ -264,7 +275,11 @@ export function ArchitectureScene({ arch }: Props) {
             })}
 
             {/* Mobile CTA — ends the journey */}
-            <li data-arch-chapter={9} className="scroll-mt-32">
+            <li
+              data-arch-chapter={9}
+              aria-current={activeTier >= 9 ? "step" : undefined}
+              className="scroll-mt-32"
+            >
               <p className="font-mono text-[0.75rem] uppercase tracking-[0.16em] text-lamp-amber/85">
                 Schematic complete
               </p>

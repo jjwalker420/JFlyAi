@@ -24,14 +24,35 @@ type Props = {
  */
 export function NarrationPanel({ activeTier, nodesByTier }: Props) {
   const reduced = useReducedMotion() ?? false;
+  const showIntro = activeTier <= 0;
   const showCTA = activeTier >= 9;
   const tierIndex = Math.min(Math.max(activeTier, 1), 8);
   const narration = TIER_NARRATION[tierIndex - 1];
   const nodes = nodesByTier[tierIndex] ?? [];
-  const key = showCTA ? "cta" : `tier-${tierIndex}`;
+  const key = showIntro ? "intro" : showCTA ? "cta" : `tier-${tierIndex}`;
+
+  // SR-only line that announces the current tier; stable element so aria-live
+  // actually fires on update.
+  const announcement = showIntro
+    ? "Architecture overview. Begin scrolling to ink in each tier."
+    : showCTA
+      ? "Schematic complete. Call-to-action."
+      : `Tier ${narration.tier}, ${narration.publicName}.`;
 
   return (
-    <div className="relative mx-auto flex w-full max-w-[520px] flex-col gap-6 lg:gap-8">
+    <div
+      className="relative mx-auto flex w-full max-w-[520px] flex-col gap-6 lg:gap-8"
+      aria-labelledby="arch-scene-step"
+    >
+      <span
+        id="arch-scene-step"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {announcement}
+      </span>
+
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={key}
@@ -40,7 +61,9 @@ export function NarrationPanel({ activeTier, nodesByTier }: Props) {
           exit={reduced ? { opacity: 1 } : { opacity: 0, y: -6 }}
           transition={{ duration: reduced ? 0 : 0.32, ease: [0.32, 0.72, 0, 1] }}
         >
-          {showCTA ? (
+          {showIntro ? (
+            <IntroBody />
+          ) : showCTA ? (
             <CTABody />
           ) : (
             <TierBody narration={narration} nodes={nodes} />
@@ -48,6 +71,26 @@ export function NarrationPanel({ activeTier, nodesByTier }: Props) {
         </motion.div>
       </AnimatePresence>
     </div>
+  );
+}
+
+function IntroBody() {
+  return (
+    <article>
+      <p className="font-mono text-[0.75rem] uppercase tracking-[0.16em] text-lamp-amber/85">
+        Reference architecture · 8 tiers · Live
+      </p>
+      <p className="mt-4 font-display text-[clamp(1.5rem,2.6vw,2rem)] font-medium leading-[1.2] text-bone">
+        The whole system, before we walk through it.
+      </p>
+      <p className="mt-3 font-body text-[1rem] leading-[1.55] text-bone/70">
+        Eight tiers, every one of them already running on a single MacBook.
+        Keep scrolling — each tier inks in as the narration moves through it.
+      </p>
+      <p className="mt-6 font-mono text-[0.75rem] leading-[1.5] text-bone/45">
+        ↓ Scroll to begin
+      </p>
+    </article>
   );
 }
 
@@ -59,7 +102,7 @@ function TierBody({
   nodes: PublicNode[];
 }) {
   return (
-    <article aria-live="polite" aria-atomic="true">
+    <article>
       <p className="font-mono text-[0.75rem] uppercase tracking-[0.16em] text-lamp-amber/85">
         Tier {narration.tier} — {narration.publicName}
       </p>
@@ -100,7 +143,7 @@ function TierBody({
 
 function CTABody() {
   return (
-    <article aria-live="polite" aria-atomic="true">
+    <article>
       <p className="font-mono text-[0.75rem] uppercase tracking-[0.16em] text-lamp-amber/85">
         Schematic complete
       </p>
