@@ -35,11 +35,14 @@ const VB_H = 1220;
 // Tier band Y centers (top→bottom: T1 at top of canvas, T8 at bottom).
 // T1 is pushed down to leave breathing room between the top eyebrow caption
 // and the T1 row label.
+// T4 wraps to two sub-rows (count=12). Its Y is set so row A (anchored at
+// TIER_Y[4]) clears the label/underline like a single-row tier, and row B
+// (TIER_Y[4] + 52) sits comfortably above T5's label band.
 const TIER_Y: Record<number, number> = {
   1: 120,
   2: 240,
   3: 360,
-  4: 500,
+  4: 474,
   5: 680,
   6: 820,
   7: 960,
@@ -79,7 +82,12 @@ function naturalWidth(label: string, fontSize: number): number {
 // Lay out one tier row. Returns per-node {x, y, w, fontSize}. If the natural
 // width sum exceeds the canvas, splits into two visual rows (alternating
 // indices) so labels never have to be truncated.
+//
+// Edge-safety: the effective margin grows so the outer card's edge sits at
+// least EDGE_PAD inside the viewBox — prevents the leftmost/rightmost card
+// from clipping past x=0 or x=VB_W when auto-fit makes them wide.
 type Slot = { x: number; y: number; w: number; fontSize: number };
+const EDGE_PAD = 8;
 function layoutTier(
   count: number,
   labels: string[],
@@ -90,8 +98,14 @@ function layoutTier(
   const fs = fontSizeFor(count);
   const widths = labels.map((l) => naturalWidth(l, fs));
 
+  // Inset margin so outer card edges sit inside the viewBox by EDGE_PAD.
+  // For two-row layouts the outer cards live in row A and row B independently,
+  // so we use the max half-width across all cards (safe upper bound).
+  const maxHalfW = Math.max(...widths) / 2;
+  const safeMargin = Math.max(margin, Math.ceil(maxHalfW + EDGE_PAD));
+
   // Test fit on a single row at the natural step spacing.
-  const usable = VB_W - margin * 2;
+  const usable = VB_W - safeMargin * 2;
   const step = count > 1 ? usable / (count - 1) : usable;
   const fitsSingleRow =
     count === 1 ||
@@ -102,7 +116,7 @@ function layoutTier(
     });
 
   if (fitsSingleRow) {
-    const xs = xPositions(count, VB_W, margin);
+    const xs = xPositions(count, VB_W, safeMargin);
     return widths.map((w, i) => ({
       x: xs[i],
       y: yCenter,
@@ -112,12 +126,15 @@ function layoutTier(
   }
 
   // Two-row wrap: alternate indices into row A (even) / row B (odd).
+  // Anchor row A AT yCenter (keeps label/underline geometry working like a
+  // single-row tier) and stack row B below. The tier's nominal Y is set
+  // accordingly in TIER_Y so the row pair clears the next tier band.
   const rowAIdx = labels.map((_, i) => i).filter((i) => i % 2 === 0);
   const rowBIdx = labels.map((_, i) => i).filter((i) => i % 2 === 1);
-  const xsA = xPositions(rowAIdx.length, VB_W, margin);
-  const xsB = xPositions(rowBIdx.length, VB_W, margin);
-  const yA = yCenter - 26;
-  const yB = yCenter + 26;
+  const xsA = xPositions(rowAIdx.length, VB_W, safeMargin);
+  const xsB = xPositions(rowBIdx.length, VB_W, safeMargin);
+  const yA = yCenter;
+  const yB = yCenter + 52;
   const slots: Slot[] = new Array(count);
   rowAIdx.forEach((idx, k) => {
     slots[idx] = { x: xsA[k], y: yA, w: widths[idx], fontSize: fs };
