@@ -55,13 +55,77 @@ function xPositions(count: number, width = VB_W, margin = 70): number[] {
   return Array.from({ length: count }, (_, i) => margin + step * i);
 }
 
-// Card width adapts to label length but caps tighter when many siblings.
-// At VB_W=1400, margin=70, the per-step spacing is ~114px when siblings=12,
-// so cards stay below that width to avoid overlap.
-function cardWidth(label: string, siblings: number): number {
-  const max = siblings >= 10 ? 108 : siblings >= 6 ? 160 : 200;
-  const min = siblings >= 10 ? 80 : 90;
-  return Math.min(max, Math.max(min, Math.round(label.length * 6.6)));
+// --- Auto-fit card sizing -------------------------------------------------
+// Cards now grow to fit their label rather than slotting into fixed tiers.
+// The mono font lets us estimate text width without DOM measurement:
+//   charWidth ≈ fontSize * MONO_CHAR_RATIO
+//   cardWidth = max(MIN_W, ceil(label.length * charWidth) + H_PAD)
+// Font size is still tied to row density so dense tiers stay readable, but
+// labels never render outside their card.
+const MONO_CHAR_RATIO = 0.6;   // monospace heuristic
+const H_PAD = 18;              // 9px each side
+const MIN_W = 80;
+const ROW_GAP_MIN = 14;        // min visual gap between cards in same row
+
+function fontSizeFor(siblings: number): number {
+  return siblings >= 10 ? 10.5 : siblings >= 6 ? 11.5 : 12;
+}
+
+function naturalWidth(label: string, fontSize: number): number {
+  const w = Math.ceil(label.length * fontSize * MONO_CHAR_RATIO) + H_PAD;
+  return Math.max(MIN_W, w);
+}
+
+// Lay out one tier row. Returns per-node {x, y, w, fontSize}. If the natural
+// width sum exceeds the canvas, splits into two visual rows (alternating
+// indices) so labels never have to be truncated.
+type Slot = { x: number; y: number; w: number; fontSize: number };
+function layoutTier(
+  count: number,
+  labels: string[],
+  yCenter: number,
+  margin = 70,
+): Slot[] {
+  if (count === 0) return [];
+  const fs = fontSizeFor(count);
+  const widths = labels.map((l) => naturalWidth(l, fs));
+
+  // Test fit on a single row at the natural step spacing.
+  const usable = VB_W - margin * 2;
+  const step = count > 1 ? usable / (count - 1) : usable;
+  const fitsSingleRow =
+    count === 1 ||
+    widths.every((w, i) => {
+      const next = widths[i + 1];
+      if (next === undefined) return true;
+      return (w + next) / 2 + ROW_GAP_MIN <= step;
+    });
+
+  if (fitsSingleRow) {
+    const xs = xPositions(count, VB_W, margin);
+    return widths.map((w, i) => ({
+      x: xs[i],
+      y: yCenter,
+      w,
+      fontSize: fs,
+    }));
+  }
+
+  // Two-row wrap: alternate indices into row A (even) / row B (odd).
+  const rowAIdx = labels.map((_, i) => i).filter((i) => i % 2 === 0);
+  const rowBIdx = labels.map((_, i) => i).filter((i) => i % 2 === 1);
+  const xsA = xPositions(rowAIdx.length, VB_W, margin);
+  const xsB = xPositions(rowBIdx.length, VB_W, margin);
+  const yA = yCenter - 26;
+  const yB = yCenter + 26;
+  const slots: Slot[] = new Array(count);
+  rowAIdx.forEach((idx, k) => {
+    slots[idx] = { x: xsA[k], y: yA, w: widths[idx], fontSize: fs };
+  });
+  rowBIdx.forEach((idx, k) => {
+    slots[idx] = { x: xsB[k], y: yB, w: widths[idx], fontSize: fs };
+  });
+  return slots;
 }
 
 export function TierCanvas({
@@ -148,9 +212,13 @@ export function TierCanvas({
         {/* Tier bands */}
         {[1, 2, 3, 4, 5, 6, 7, 8].map((t) => {
           const nodes = nodesByTier[t] ?? [];
-          const xs = xPositions(nodes.length);
           const tierName = tierNames.find((tn) => tn.n === t)?.name ?? "";
           const y = TIER_Y[t];
+          const slots = layoutTier(
+            nodes.length,
+            nodes.map((n) => n.label),
+            y,
+          );
           const state =
             effectiveActive > t
               ? "settled"
@@ -204,8 +272,8 @@ export function TierCanvas({
                     key={`fan-${n.id}`}
                     x1={VB_W / 2}
                     y1={y - 24}
-                    x2={xs[i]}
-                    y2={y - 14}
+                    x2={slots[i].x}
+                    y2={slots[i].y - 14}
                     stroke="rgb(46 111 164 / 0.45)"
                     strokeWidth={1}
                     style={{
@@ -223,14 +291,14 @@ export function TierCanvas({
 
               {/* Node cards */}
               {nodes.map((n, i) => {
-                const x = xs[i];
-                const w = cardWidth(n.label, nodes.length);
+                const slot = slots[i];
                 return (
                   <NodeCard
                     key={n.id}
-                    x={x}
-                    y={y}
-                    w={w}
+                    x={slot.x}
+                    y={slot.y}
+                    w={slot.w}
+                    fontSize={slot.fontSize}
                     label={n.label}
                     state={state}
                     deferred={n.status === "deferred"}
@@ -264,6 +332,7 @@ function NodeCard({
   x,
   y,
   w,
+  fontSize,
   label,
   state,
   deferred,
@@ -272,6 +341,7 @@ function NodeCard({
   x: number;
   y: number;
   w: number;
+  fontSize: number;
   label: string;
   state: "settled" | "current" | "planned";
   deferred: boolean;
@@ -300,8 +370,9 @@ function NodeCard({
         ? "4 6"
         : "0";
 
-  // Adaptive font for narrow cards in dense tiers.
-  const fontSize = w < 100 ? 10.5 : w < 140 ? 11.5 : 12;
+  // Hard ceiling safety net only — auto-fit width should already contain the
+  // label. Triggers only for absurdly long strings.
+  const safeMax = 64;
 
   return (
     <g
@@ -337,7 +408,7 @@ function NodeCard({
           font: `500 ${fontSize}px var(--font-mono), ui-monospace, monospace`,
         }}
       >
-        {truncate(label, w < 100 ? 18 : w < 140 ? 24 : 32)}
+        {truncate(label, safeMax)}
       </text>
     </g>
   );
