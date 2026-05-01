@@ -34,7 +34,9 @@ export function TierNavigator({ tiers }: { tiers: Tier[] }) {
         }
       },
       {
-        rootMargin: "-20% 0px -60% 0px",
+        // Top margin pushed down to account for sticky header bar — a tier
+        // is "active" once it's clear of the frozen column titles.
+        rootMargin: "-140px 0px -60% 0px",
         threshold: 0,
       }
     );
@@ -47,7 +49,8 @@ export function TierNavigator({ tiers }: { tiers: Tier[] }) {
     e.preventDefault();
     const el = document.getElementById(`tier-${n}`);
     if (!el) return;
-    const top = el.getBoundingClientRect().top + window.scrollY - 80;
+    // Offset accounts for sticky column header bar (~112px) + breathing room.
+    const top = el.getBoundingClientRect().top + window.scrollY - 132;
     window.scrollTo({ top, behavior: "smooth" });
   };
 

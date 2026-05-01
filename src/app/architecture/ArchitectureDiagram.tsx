@@ -1,19 +1,25 @@
 /**
  * ArchitectureDiagram — sanitized tier diagram for the public page.
  *
- * Server-rendered. Reads from getPublicArchitecture(). Tightenings (pass 2):
- *  - Tier-major layout: each tier is a row with id="tier-N" anchor (for
- *    TierNavigator scroll targets). Column headers stay sticky-ish at top.
- *  - 220px min card width; grid wraps to 2-col / 1-col when squeezed.
- *  - word-break:normal + hyphens:auto + overflow-wrap:break-word on titles
- *    (kills "Consultin g practice" mid-word break).
- *  - Stronger header hierarchy: column labels 18px / 700 / trust-blue-tint
- *    with sunset-stripe accent under each. Tier sub-labels 13px / 600 / bone.
- *    Card titles 15px / 600 (cards already loud — supporting role now).
- *  - Equal-height cards within a tier row via `align-items:stretch` +
- *    `grid-auto-rows:1fr` on the row's grid.
- *  - "deferred" status renders as PLANNED (public copy). Internal HTML keeps
- *    DEFERRED. Same dashed-amber treatment.
+ * Server-rendered. Reads from getPublicArchitecture(). v4 layout:
+ *  - STICKY column header bar at top of diagram. Pins the 5 column titles
+ *    (USER CONFIG, HOME CONTEXT, PROJECT LAYER, BEHAVIOR LAYER, EXTERNAL
+ *    MEMORY) as the user scrolls — like freezing row 1 in Excel. Backdrop
+ *    blur + semi-opaque ink-black so cards don't bleed through.
+ *  - Tier BANDS: each tier is a horizontal section spanning all 5 columns,
+ *    with the tier label as a left-aligned chapter heading. Inside each
+ *    band, cards lay out column-by-column on a 5-track grid. Empty cells
+ *    collapse (NodeBlock not rendered) so band height = max card height
+ *    in that tier. Sparse tiers stay short, dense tiers grow taller.
+ *  - "Push up" effect: cards in shorter columns sit directly under the
+ *    next tier band — no empty whitespace under columns that don't span
+ *    every tier.
+ *  - Tier band gets id="tier-N" anchor for TierNavigator scroll targets.
+ *    scroll-margin-top accounts for sticky header bar height.
+ *
+ * Preserved from v3: card visual styling (LIVE solid trust-blue / PLANNED
+ * dashed lamp-amber), sunset-stripe accents, word-break fixes, equal card
+ * heights within a tier band, PLANNED rename, status/badge tokens.
  *
  * AiOS spelling: lowercase i (CLAUDE.md hard rule #1) — preserved via JSON.
  */
@@ -29,8 +35,9 @@ const COLOR_TRUST_DEEP = "var(--color-trust-blue-deep)";
 // Public renderer treats "deferred" status as PLANNED; same amber visual.
 const COLOR_PLANNED = "var(--color-lamp-amber)";
 
-// Status → public-facing badge text. Public uses PLANNED; internal HTML
-// (Artifacts/claude-md-structure.html) is unchanged and still says DEFERRED.
+// Sticky header bar height — used for scroll-margin offset on tier anchors.
+const STICKY_OFFSET_PX = 112;
+
 const STATUS_LABEL: Record<"live" | "deferred", string> = {
   live: "Live",
   deferred: "Planned",
@@ -63,7 +70,7 @@ function NodeBlock({
         borderColor: isPlanned ? COLOR_PLANNED : COLOR_TRUST,
         borderStyle: isPlanned ? "dashed" : "solid",
         background: isPlanned ? "transparent" : "rgba(29,77,122,0.06)",
-        minWidth: 0, // allow grid track to shrink without overflow
+        minWidth: 0,
       }}
     >
       <div
@@ -130,11 +137,11 @@ function NodeBlock({
 
 function ColumnHeader({ label }: { label: string }) {
   return (
-    <div className="mb-1">
+    <div className="flex flex-col">
       <div
         className="font-mono uppercase"
         style={{
-          fontSize: "16px",
+          fontSize: "14px",
           fontWeight: 700,
           letterSpacing: "0.12em",
           color: COLOR_TRUST_TINT,
@@ -159,11 +166,17 @@ export function ArchitectureDiagram({ arch }: { arch: Arch }) {
   const tierName = (n: number) =>
     arch.tiers.find((t) => t.n === n)?.name ?? `Tier ${n}`;
 
-  // Distinct tiers present (ascending) and columns 1..5
   const allTiers = Array.from(new Set(arch.nodes.map((n) => n.tier))).sort(
     (a, b) => a - b
   );
   const columns = [1, 2, 3, 4, 5];
+
+  // Shared grid template: 5 equal tracks on >=lg, collapses to 2/1 below.
+  const gridStyle: React.CSSProperties = {
+    display: "grid",
+    gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+    gap: "20px",
+  };
 
   return (
     <section
@@ -177,7 +190,7 @@ export function ArchitectureDiagram({ arch }: { arch: Arch }) {
 
       <div className="mx-auto max-w-[1280px]">
         {/* Legend */}
-        <div className="mb-8 flex flex-wrap gap-7 border-b border-bone/10 pb-4 font-mono text-[11px] text-bone/70">
+        <div className="mb-6 flex flex-wrap gap-7 border-b border-bone/10 pb-4 font-mono text-[11px] text-bone/70">
           <div className="flex items-center gap-2">
             <span
               className="block h-3 w-5 rounded-[3px] border-2"
@@ -197,70 +210,116 @@ export function ArchitectureDiagram({ arch }: { arch: Arch }) {
           </div>
         </div>
 
-        {/* Column headers row — stays at top of the grid as a horizontal banner */}
+        {/* STICKY column header bar — pins to top of viewport on scroll.
+            z-30 clears PCBTexture (z-1) and content (z-2). Backdrop blur
+            + semi-opaque ink-black keeps cards readable underneath. */}
         <div
-          className="grid gap-5"
+          className="sticky top-0 z-30 -mx-2 hidden md:block"
           style={{
-            gridTemplateColumns:
-              "repeat(auto-fit, minmax(220px, 1fr))",
+            backgroundColor: "rgba(14, 12, 10, 0.88)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            borderBottom: "1px solid rgba(46,111,164,0.35)",
+            paddingTop: "12px",
+            paddingBottom: "12px",
+            paddingLeft: "8px",
+            paddingRight: "8px",
           }}
         >
-          {columns.map((c) => {
-            const colLabel =
-              arch.columns.find((x) => x.n === c)?.label ?? "";
-            return (
-              <div key={`hdr-${c}`}>
-                <ColumnHeader label={colLabel} />
-              </div>
-            );
-          })}
+          <div style={gridStyle}>
+            {columns.map((c) => {
+              const colLabel =
+                arch.columns.find((x) => x.n === c)?.label ?? "";
+              return (
+                <div key={`hdr-${c}`} style={{ minWidth: 0 }}>
+                  <ColumnHeader label={colLabel} />
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Tier rows — each row gets id="tier-N" anchor for TierNavigator */}
-        <div className="mt-6 flex flex-col gap-12">
+        {/* Mobile-only column legend (sticky bar hidden <md). Reminds the
+            reader what the 5 columns are when they stack vertically. */}
+        <div className="mb-6 mt-2 block md:hidden">
+          <div className="font-mono text-[11px] uppercase tracking-wider text-bone/60">
+            5 columns: User Config · Home Context · Project Layer · Behavior
+            Layer · External Memory
+          </div>
+        </div>
+
+        {/* Tier bands — column-major flow inside each band. Empty cells
+            collapse (NodeBlock not rendered) so band height = max card
+            height in that tier. */}
+        <div className="mt-6 flex flex-col gap-10">
           {allTiers.map((tn) => {
             const tierNodes = arch.nodes.filter((n) => n.tier === tn);
             return (
               <div
                 key={tn}
                 id={`tier-${tn}`}
-                className="scroll-mt-24"
-                style={{ scrollMarginTop: "96px" }}
+                style={{ scrollMarginTop: `${STICKY_OFFSET_PX + 16}px` }}
               >
-                <div
-                  className="mb-4 font-mono uppercase"
-                  style={{
-                    fontSize: "13px",
-                    fontWeight: 600,
-                    letterSpacing: "0.08em",
-                    color: "var(--color-bone)",
-                  }}
-                >
-                  Tier {tn} · {tierName(tn)}
+                {/* Tier band header — left-aligned chapter divider */}
+                <div className="mb-3 flex items-baseline gap-3">
+                  <div
+                    className="font-mono uppercase"
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      letterSpacing: "0.18em",
+                      color: COLOR_TRUST_TINT,
+                    }}
+                  >
+                    Tier {tn}
+                  </div>
+                  <div
+                    className="font-mono uppercase"
+                    style={{
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      letterSpacing: "0.08em",
+                      color: "var(--color-bone)",
+                    }}
+                  >
+                    {tierName(tn)}
+                  </div>
+                  <div
+                    aria-hidden="true"
+                    className="h-px flex-1"
+                    style={{ background: "rgba(46,111,164,0.22)" }}
+                  />
                 </div>
 
+                {/* Cards: 5-track grid on md+, stacks on mobile */}
                 <div
-                  className="grid gap-5"
+                  className="grid gap-5 md:gap-5"
                   style={{
-                    gridTemplateColumns:
-                      "repeat(auto-fit, minmax(220px, 1fr))",
-                    gridAutoRows: "1fr",
-                    alignItems: "stretch",
+                    gridTemplateColumns: "1fr",
                   }}
                 >
-                  {columns.map((c) => {
-                    const cellNodes = tierNodes.filter((n) => n.column === c);
-                    return (
-                      <div
-                        key={`${tn}-${c}`}
-                        className="flex flex-col gap-2"
-                        style={{ minWidth: 0 }}
-                      >
-                        {cellNodes.length === 0 ? (
-                          // empty cell — keeps the column rhythm
-                          <div aria-hidden="true" className="h-full" />
-                        ) : (
-                          cellNodes.map((n) => (
+                  <div
+                    className="hidden md:grid"
+                    style={{
+                      ...gridStyle,
+                      gridAutoRows: "1fr",
+                      alignItems: "stretch",
+                    }}
+                  >
+                    {columns.map((c) => {
+                      const cellNodes = tierNodes.filter((n) => n.column === c);
+                      if (cellNodes.length === 0) {
+                        // Empty cell renders nothing — collapses height
+                        // contribution but preserves grid track alignment.
+                        return <div key={`${tn}-${c}`} aria-hidden="true" />;
+                      }
+                      return (
+                        <div
+                          key={`${tn}-${c}`}
+                          className="flex flex-col gap-2"
+                          style={{ minWidth: 0 }}
+                        >
+                          {cellNodes.map((n) => (
                             <NodeBlock
                               key={n.id}
                               label={n.label}
@@ -277,11 +336,33 @@ export function ArchitectureDiagram({ arch }: { arch: Arch }) {
                                 />
                               ))}
                             </NodeBlock>
-                          ))
-                        )}
-                      </div>
-                    );
-                  })}
+                          ))}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Mobile: single column, all tier cards stacked */}
+                  <div className="flex flex-col gap-3 md:hidden">
+                    {tierNodes.map((n) => (
+                      <NodeBlock
+                        key={n.id}
+                        label={n.label}
+                        description={n.description}
+                        status={n.status}
+                        badges={n.badges}
+                      >
+                        {n.children?.map((child) => (
+                          <NodeBlock
+                            key={child.id}
+                            label={child.label}
+                            description={child.description}
+                            status={child.status}
+                          />
+                        ))}
+                      </NodeBlock>
+                    ))}
+                  </div>
                 </div>
               </div>
             );
