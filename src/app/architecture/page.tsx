@@ -6,7 +6,9 @@ import { PCBTexture } from "@/components/PCBTexture";
 import { SectionDivider } from "@/components/SectionDivider";
 import { getPublicArchitecture } from "@/data/architecture";
 import { ArchitectureHero } from "./ArchitectureHero";
+import { ArchitectureLeadIn } from "./ArchitectureLeadIn";
 import { ArchitectureDiagram } from "./ArchitectureDiagram";
+import { TierNavigator } from "./TierNavigator";
 
 export const metadata: Metadata = {
   title: "AiOS Architecture | JFly.ai",
@@ -44,6 +46,8 @@ export default function ArchitecturePage() {
           phasesPending={arch.phasesPending}
         />
         <SectionDivider />
+        <ArchitectureLeadIn />
+        <TierNavigator tiers={arch.tiers} />
         <ArchitectureDiagram arch={arch} />
         <SectionDivider />
         <section
