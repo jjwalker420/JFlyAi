@@ -1,0 +1,2865 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>DiningOut × JFly.Ai · Program Proposal · Executive Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&amp;family=Manrope:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0908;
+    --ink-soft: #14110F;
+    --ink-card: rgba(242, 235, 221, 0.025);
+    --bone: #F2EBDD;
+    --bone-dim: rgba(242, 235, 221, 0.62);
+    --bone-fainter: rgba(242, 235, 221, 0.38);
+    --bone-faint: rgba(242, 235, 221, 0.08);
+    --bone-hairline: rgba(242, 235, 221, 0.12);
+    --mid: #A8A09A;
+    --aero: #1D4D7A;
+    --aero-deep: #143452;
+    --aero-glow: #2E6FA4;
+    --aero-bright: #4A8FC4;
+    --aero-tint: rgba(29, 77, 122, 0.18);
+    --aero-faint: rgba(29, 77, 122, 0.06);
+    --sun-red: #C5443B;
+    --sun-orange: #E07B3F;
+    --sun-yellow: #E6B547;
+    --sun-gold: #C9893E;
+    --lamp-amber: #D9933A;
+    --phosphor: #8DD93B;
+    --monitor: #D8E8EC;
+    --navy: #0F1F33;
+
+    --type-display: 60px;
+    --type-h1: 44px;
+    --type-h2: 28px;
+    --type-h3: 20px;
+    --type-body: 17px;
+    --type-caption: 14px;
+    --type-micro: 12px;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 32px;
+    --space-6: 48px;
+    --space-7: 64px;
+    --space-8: 96px;
+
+    --rail-w: 64px;
+    --content-max: 760px;
+    --prose-max: 880px;
+    --chart-max: 1080px;
+    --tab-container-max: 1120px;
+    --section-pad: clamp(5rem, 12vh, 9rem);
+  }
+
+  .tab-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 9, 8, 0.85);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-bottom: 1px solid var(--bone-hairline);
+  }
+  .tab-bar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .tab-bar-inner::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: 1;
+    min-width: max-content;
+    padding: 1rem 1.25rem;
+    background: none;
+    border: none;
+    color: var(--bone);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    transition: color 200ms cubic-bezier(0.32, 0.72, 0, 1);
+    text-align: center;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    opacity: 0.55;
+  }
+  .tab .tab-num {
+    display: block;
+    font-size: var(--type-micro);
+    color: var(--bone);
+    margin-bottom: 0.25rem;
+    opacity: 0.7;
+  }
+  .tab:hover { opacity: 1; }
+  .tab.active { color: var(--lamp-amber); border-bottom: 2px solid var(--lamp-amber); opacity: 1; }
+  .tab.active .tab-num { color: var(--lamp-amber); opacity: 1; }
+  .tab:focus-visible { outline: 2px solid var(--lamp-amber); outline-offset: 4px; opacity: 1; }
+  .tab.active::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(217, 147, 58, 0.08), transparent);
+    pointer-events: none;
+  }
+  .progress-row {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0 0.6rem;
+  }
+  .progress-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--bone-faint);
+    transition: all 200ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .progress-dot.active { background: var(--lamp-amber); width: 24px; border-radius: 4px; }
+  .progress-dot.completed { background: rgba(217, 147, 58, 0.5); }
+
+  .tab-container {
+    max-width: var(--tab-container-max);
+    margin: 0 auto;
+    padding: 0 var(--space-6) var(--space-8);
+    position: relative;
+    z-index: 1;
+  }
+  .panel { display: none; animation: fadeUp 400ms cubic-bezier(0.32, 0.72, 0, 1); padding-top: 40px; padding-bottom: var(--space-7); }
+  .panel.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--bone-faint);
+    gap: 1rem;
+  }
+  .panel-nav-btn {
+    padding: 0.85rem 1.5rem;
+    background: var(--aero-faint);
+    border: 1px solid rgba(46, 111, 164, 0.3);
+    border-radius: 6px;
+    color: var(--bone);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: var(--type-body);
+    transition: all 200ms cubic-bezier(0.32, 0.72, 0, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .panel-nav-btn:hover { background: var(--aero-tint); transform: translateX(2px); }
+  .panel-nav-btn.prev:hover { transform: translateX(-2px); }
+  .panel-nav-btn:focus-visible { outline: 2px solid var(--lamp-amber); outline-offset: 4px; }
+  .panel-nav-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bone);
+    opacity: 0.6;
+  }
+  .keyboard-hint {
+    text-align: center;
+    margin-top: var(--space-6);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    color: var(--bone);
+    opacity: 0.5;
+    letter-spacing: 0.12em;
+  }
+  .keyboard-hint kbd {
+    display: inline-block;
+    padding: 0.15em 0.5em;
+    background: var(--bone-faint);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    color: var(--bone);
+    margin: 0 0.2em;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Manrope', system-ui, sans-serif;
+    font-size: var(--type-body);
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('textures/pcb-trace-bg.svg');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('textures/pcb-spark-overlay.svg');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    mix-blend-mode: screen;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+    animation: pcb-spark-pulse 7s ease-in-out infinite alternate;
+  }
+  @keyframes pcb-spark-pulse {
+    0%   { opacity: 0.02; }
+    50%  { opacity: 0.06; }
+    100% { opacity: 0.03; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body::after { animation: none; opacity: 0.03; }
+  }
+
+  body { position: relative; }
+  main, .tab-container, footer { position: relative; z-index: 2; }
+  .tab-bar, header { position: sticky; z-index: 50; }
+  header { position: relative; z-index: 5; }
+
+  .glass-mission {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+  }
+
+  .mark {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.75rem;
+    z-index: 40;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--bone);
+    opacity: 0;
+    transition: opacity 600ms ease;
+    text-decoration: none;
+  }
+  .mark.visible { opacity: 0.85; }
+
+  .rail {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--rail-w);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+    pointer-events: none;
+  }
+  .rail-mobile {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--bone-faint);
+    z-index: 30;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    padding-left: var(--rail-w);
+    padding-right: 2rem;
+  }
+
+  section {
+    max-width: var(--chart-max);
+    margin: 0 auto;
+    padding: var(--section-pad) clamp(1rem, 4vw, 3rem);
+    position: relative;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: var(--space-4);
+  }
+  .eyebrow .fig {
+    color: var(--lamp-amber);
+    font-weight: 500;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--lamp-amber);
+  }
+
+  /* === V10 NEW PRIMITIVE: .headline-tile === */
+  /* One-word H2 + amber accent rule + subline. Big, breathy, opens every tab. */
+  .headline-tile {
+    margin: 0 0 var(--space-6);
+    max-width: var(--prose-max);
+  }
+  .headline-tile::before {
+    content: '';
+    display: block;
+    width: 56px;
+    height: 3px;
+    background: var(--lamp-amber);
+    border-radius: 2px;
+    margin-bottom: var(--space-4);
+  }
+  .headline-tile h1,
+  .headline-tile h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 72px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    color: var(--bone);
+    margin: 0;
+    font-variation-settings: 'opsz' 144, 'SOFT' 50, 'WONK' 0;
+  }
+  .headline-tile .subline {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(20px, 2.2vw, 22px);
+    line-height: 1.45;
+    color: var(--bone-dim);
+    margin-top: var(--space-3);
+    max-width: 720px;
+    letter-spacing: -0.01em;
+  }
+
+  /* === V10 NEW PRIMITIVE: .proof-strip === */
+  /* 3-tile horizontal row. Big amber number + sub. */
+  .proof-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin: var(--space-6) 0 0;
+    max-width: var(--chart-max);
+  }
+  .proof-tile {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.12), rgba(14, 12, 10, 0.35));
+    border: 1px solid rgba(242, 235, 221, 0.12);
+    border-radius: 8px;
+    padding: var(--space-4) var(--space-4);
+    position: relative;
+  }
+  .proof-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 2px;
+    background: var(--lamp-amber);
+    border-top-left-radius: 8px;
+  }
+  .proof-num {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--lamp-amber);
+  }
+  .proof-num .unit {
+    font-size: 0.5em;
+    color: var(--bone-dim);
+    margin-left: 0.2em;
+    letter-spacing: 0;
+  }
+  .proof-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--bone-dim);
+    margin-top: var(--space-2);
+    letter-spacing: 0.06em;
+  }
+
+  /* === V10 NEW PRIMITIVE: .contract-card === */
+  /* Compact 3-row JSON contract preview. */
+  .contract-card {
+    background: var(--navy);
+    border: 1px solid rgba(46, 111, 164, 0.35);
+    border-radius: 8px;
+    padding: var(--space-4) var(--space-5);
+    margin: var(--space-5) 0 var(--space-3);
+    max-width: var(--prose-max);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(217, 147, 58, 0.06) inset;
+  }
+  .contract-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(141, 217, 59, 0.02) 2px, rgba(141, 217, 59, 0.02) 3px);
+    pointer-events: none;
+  }
+  .contract-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: var(--space-3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .contract-card-label .stamp {
+    color: var(--phosphor);
+    border: 1px solid rgba(141, 217, 59, 0.5);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    font-size: var(--type-micro);
+  }
+  .contract-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1rem;
+    padding: 0.65rem 0;
+    border-top: 1px solid rgba(141, 217, 59, 0.12);
+    align-items: baseline;
+  }
+  .contract-row:first-of-type { border-top: 0; padding-top: 0.2rem; }
+  .contract-field {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    color: var(--monitor);
+    letter-spacing: 0.04em;
+  }
+  .contract-desc {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-caption);
+    color: var(--bone-dim);
+    line-height: 1.5;
+  }
+  .contract-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    color: var(--bone-fainter);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-5);
+  }
+
+  /* === V10 NEW PRIMITIVE: .gantt-compact === */
+  /* 60px rows, phase title + bar + one-line sign-off label. */
+  .gantt-compact {
+    margin: var(--space-5) 0 var(--space-5);
+    padding: var(--space-4) var(--space-5);
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.14), rgba(14, 12, 10, 0.45));
+    border: 1px solid rgba(242, 235, 221, 0.14);
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px rgba(217, 147, 58, 0.08) inset;
+  }
+  .gantt-compact-axis {
+    display: grid;
+    grid-template-columns: 140px repeat(24, 1fr) 220px;
+    gap: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    letter-spacing: 0.12em;
+    color: var(--bone-fainter);
+    margin-bottom: 0.4rem;
+    align-items: end;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--bone-faint);
+  }
+  .gantt-compact-axis .ax-week { text-align: center; grid-column-end: span 4; }
+  .gantt-compact-row {
+    display: grid;
+    grid-template-columns: 140px repeat(24, 1fr) 220px;
+    gap: 0;
+    height: 60px;
+    align-items: center;
+    border-bottom: 1px solid var(--bone-faint);
+  }
+  .gantt-compact-row:last-child { border-bottom: 0; }
+  .gantt-compact-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.1em;
+    color: var(--bone);
+    padding-right: 1rem;
+  }
+  .gantt-compact-label .sub {
+    display: block;
+    font-size: var(--type-micro);
+    color: var(--bone-dim);
+    letter-spacing: 0.14em;
+    margin-top: 0.15rem;
+    text-transform: uppercase;
+  }
+  .gantt-compact-bar {
+    height: 22px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    padding: 0 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bone);
+    white-space: nowrap;
+    overflow: visible;
+    min-width: 0;
+  }
+  .gantt-compact-bar.p0 { background: var(--aero-tint); border: 1px solid var(--aero-glow); }
+  .gantt-compact-bar.p1 { background: rgba(29, 77, 122, 0.5); }
+  .gantt-compact-bar.p2 { background: rgba(29, 77, 122, 0.7); }
+  .gantt-compact-bar.p3 { background: rgba(29, 77, 122, 0.9); }
+  .gantt-compact-signoff {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-caption);
+    color: var(--bone-dim);
+    line-height: 1.4;
+    padding-left: 1rem;
+    border-left: 1px solid var(--bone-faint);
+  }
+  .gantt-compact-signoff strong {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--lamp-amber);
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+
+  /* === V10 NEW PRIMITIVE: .phase-card grid === */
+  /* 4-up grid below gantt. */
+  .phase-card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    margin: var(--space-4) 0 var(--space-5);
+  }
+  .phase-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.14), rgba(14, 12, 10, 0.45));
+    border: 1px solid rgba(242, 235, 221, 0.14);
+    border-radius: 8px;
+    padding: var(--space-3) var(--space-4);
+    position: relative;
+  }
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--aero) 0%, var(--aero-bright) 100%);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  .phase-card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--lamp-amber);
+    margin-bottom: var(--space-2);
+  }
+  .phase-card-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-weight: 500;
+    color: var(--bone);
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-2);
+  }
+  .phase-card-line {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-caption);
+    color: var(--bone-dim);
+    line-height: 1.5;
+    padding: 0.35rem 0;
+    border-top: 1px solid var(--bone-faint);
+  }
+  .phase-card-line:first-of-type { border-top: 0; padding-top: 0.5rem; }
+  .phase-card-line .lbl {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone);
+    opacity: 0.65;
+    margin-bottom: 0.15rem;
+  }
+
+  /* === V10 NEW PRIMITIVE: .risk-pill-trio === */
+  /* 3 horizontal pills, each with Risk / Mitigation / Owner stacked vertically. */
+  .risk-pill-trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin: var(--space-5) 0;
+    max-width: var(--chart-max);
+  }
+  .risk-pill {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.14), rgba(14, 12, 10, 0.45));
+    border: 1px solid rgba(242, 235, 221, 0.14);
+    border-radius: 10px;
+    padding: var(--space-4) var(--space-4);
+    position: relative;
+  }
+  .risk-pill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--aero-glow);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .risk-pill.high::before { background: var(--lamp-amber); }
+  .risk-pill-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lamp-amber);
+    margin-bottom: var(--space-2);
+  }
+  .risk-pill-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    color: var(--bone);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-3);
+  }
+  .risk-pill-mit {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-caption);
+    color: var(--bone-dim);
+    line-height: 1.55;
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--bone-faint);
+  }
+  .risk-pill-mit .lbl,
+  .risk-pill-owner .lbl {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone);
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+  }
+  .risk-pill-owner {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-caption);
+    color: var(--bone);
+    line-height: 1.4;
+  }
+
+  /* Typography */
+  h1, h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--bone);
+    font-variation-settings: 'opsz' 144, 'SOFT' 50, 'WONK' 0;
+  }
+  h1 { font-size: var(--type-h1); }
+  h2 { font-size: var(--type-h2); }
+  h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-weight: 500;
+    color: var(--bone);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+  }
+  .prose {
+    max-width: var(--prose-max);
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    line-height: 1.7;
+  }
+  .prose p + p { margin-top: 1.1rem; }
+  .prose strong { color: var(--bone); font-weight: 500; }
+  em { font-style: italic; color: var(--bone-dim); }
+
+  /* Hero quote (Tab 1 lock) */
+  .hero-quote {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(36px, 4.5vw, 48px);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    color: var(--bone);
+    max-width: 920px;
+    margin: var(--space-5) 0 var(--space-3);
+  }
+  .hero-quote-mark {
+    color: var(--lamp-amber);
+    font-size: 1.4em;
+    line-height: 0;
+    vertical-align: -0.15em;
+    margin-right: 0.1em;
+    font-style: normal;
+    opacity: 0.7;
+  }
+  .hero-cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    opacity: 0.7;
+    margin-bottom: 0;
+  }
+  .hero-cite-name { color: var(--bone); opacity: 1; }
+
+  /* Diptych (Tab 3 + Tab 7) */
+  .diptych {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin: var(--space-5) 0 var(--space-4);
+    max-width: var(--chart-max);
+  }
+  .person {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    padding: var(--space-5) var(--space-5);
+  }
+  .person-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+  .person-name {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h2);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--bone);
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+    display: inline-block;
+  }
+  .person.lead .person-name {
+    position: relative;
+    padding-bottom: 0.6rem;
+  }
+  .person.lead .person-name::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sun-red) 0%, var(--sun-orange) 33%, var(--sun-yellow) 66%, var(--sun-gold) 100%);
+    border-radius: 999px;
+  }
+  .person.partner .person-name {
+    position: relative;
+    padding-bottom: 0.6rem;
+  }
+  .person.partner .person-name::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--aero-deep) 0%, var(--aero) 33%, var(--aero-glow) 66%, var(--aero-bright) 100%);
+    border-radius: 999px;
+  }
+  .person-role {
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    margin-bottom: 1.5rem;
+    line-height: 1.55;
+  }
+  .person-delivers {
+    list-style: none;
+    padding: 0;
+  }
+  .person-delivers li {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-body);
+    letter-spacing: 0;
+    color: var(--bone-dim);
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--bone-faint);
+    display: flex;
+    gap: 0.75rem;
+    line-height: 1.55;
+  }
+  .person-delivers li::before {
+    content: '+';
+    color: var(--lamp-amber);
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+  .person-delivers li:last-child {
+    border-bottom: 1px solid var(--bone-faint);
+  }
+  .pairing-line {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: var(--type-h3);
+    color: var(--bone);
+    margin-top: var(--space-5);
+    max-width: var(--prose-max);
+    line-height: 1.5;
+  }
+  .pairing-line strong { font-style: normal; color: var(--aero-bright); font-weight: 500; }
+
+  /* H2 card (Tab 5 lock) */
+  .h2-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: var(--space-4) 0;
+  }
+  .h2-card-caption {
+    padding: var(--space-3) var(--space-4) 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    color: var(--bone);
+    opacity: 0.7;
+    letter-spacing: 0.08em;
+  }
+  .h2-card-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--bone-hairline);
+    background: rgba(29, 77, 122, 0.05);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+  }
+  .h2-card-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--bone-faint);
+    font-size: var(--type-body);
+    align-items: baseline;
+  }
+  .h2-card-row:first-of-type { border-top: 0; }
+  .h2-chef {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.12em;
+    color: var(--bone);
+    text-transform: uppercase;
+  }
+  .h2-original {
+    color: var(--bone-dim);
+    text-decoration: line-through;
+    text-decoration-color: rgba(168, 160, 154, 0.5);
+    font-size: var(--type-body);
+  }
+  .h2-engine {
+    color: var(--bone);
+    font-weight: 500;
+    font-size: var(--type-body);
+  }
+  .h2-engine-marker {
+    color: var(--aero-bright);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75em;
+    margin-right: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+  .h2-card-footer {
+    padding: 0.85rem 1.25rem;
+    border-top: 1px solid var(--bone-hairline);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.12em;
+    color: var(--bone);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .h2-card-footer .pass { color: var(--phosphor); }
+
+  /* Forensics */
+  .forensics {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    border-left: 3px solid var(--lamp-amber);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    padding: var(--space-4) var(--space-5);
+    margin: var(--space-4) 0;
+  }
+  .forensics-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 0.6rem;
+  }
+  .forensics-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-weight: 500;
+    color: var(--bone);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .forensics-body {
+    color: var(--bone-dim);
+    font-size: var(--type-body);
+    line-height: 1.65;
+    margin-bottom: 0.85rem;
+  }
+  .forensics-foot {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--bone-faint);
+    line-height: 1.55;
+  }
+  .forensics-foot strong { color: var(--bone); font-weight: 500; }
+
+  /* CRT card (Tab 5 JSON lock) */
+  .crt-card {
+    background: var(--navy);
+    border: 1px solid rgba(46, 111, 164, 0.35);
+    border-radius: 6px;
+    padding: 1.5rem 1.75rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+    max-width: var(--content-max);
+    box-shadow: 0 0 0 1px rgba(217, 147, 58, 0.06) inset;
+  }
+  .crt-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(141, 217, 59, 0.02) 2px, rgba(141, 217, 59, 0.02) 3px);
+    pointer-events: none;
+  }
+  .crt-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .crt-stamp {
+    color: var(--phosphor);
+    border: 1px solid rgba(141, 217, 59, 0.5);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    font-size: var(--type-micro);
+    letter-spacing: 0.18em;
+  }
+  .crt-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    line-height: 1.65;
+    color: var(--phosphor);
+    white-space: pre;
+    overflow-x: auto;
+    text-shadow: 0 0 8px rgba(141, 217, 59, 0.15);
+  }
+  .crt-code .key { color: var(--monitor); }
+  .crt-code .val { color: #B8E68A; }
+
+  /* Link bar */
+  .link-bar {
+    margin: var(--space-5) 0 0;
+    max-width: var(--prose-max);
+  }
+  .link-bar-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 0.6rem;
+  }
+  .link-bar-score {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h2);
+    color: var(--aero-bright);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .link-bar-track {
+    height: 4px;
+    background: var(--bone-faint);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .link-bar-fill {
+    height: 100%;
+    width: 87%;
+    background: linear-gradient(90deg, var(--sun-red) 0%, var(--sun-orange) 33%, var(--sun-yellow) 66%, var(--sun-gold) 100%);
+    border-radius: 2px;
+  }
+
+  /* Layer strip */
+  .layer-strip {
+    margin: var(--space-5) 0 var(--space-5);
+    max-width: var(--prose-max);
+    list-style: none;
+    padding: 0;
+  }
+  .layer-strip .layer {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 1.25rem;
+    padding: 0.85rem 0;
+    border-top: 1px dashed var(--bone-faint);
+    align-items: baseline;
+  }
+  .layer-strip .layer:last-child { border-bottom: 1px dashed var(--bone-faint); }
+  .layer-strip .layer-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--lamp-amber);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 32px;
+    text-align: center;
+  }
+  .layer-strip .layer-title {
+    color: var(--bone);
+    font-size: var(--type-body);
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    letter-spacing: -0.005em;
+  }
+  .layer-strip .layer-body {
+    color: var(--bone-dim);
+    font-size: var(--type-body);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Pull line */
+  .pull-line {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-style: italic;
+    color: var(--bone);
+    margin: var(--space-5) 0 0;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--lamp-amber);
+    max-width: var(--prose-max);
+    line-height: 1.5;
+  }
+
+  /* Pricing aside */
+  .pricing-aside {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    max-width: var(--prose-max);
+    line-height: 1.65;
+    margin: var(--space-4) 0 var(--space-5);
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--lamp-amber);
+  }
+
+  /* Diff-list-card (Tab 2 zones) */
+  .diff-list-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    padding: var(--space-4) var(--space-5);
+    max-width: var(--prose-max);
+  }
+  .diff-list-card-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-weight: 500;
+    color: var(--bone);
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--lamp-amber);
+    display: inline-block;
+    padding-right: var(--space-5);
+  }
+  .diff-list {
+    list-style: none;
+    padding: 0;
+  }
+  .diff-list li {
+    position: relative;
+    padding: 0.6rem 0 0.6rem 32px;
+    border-bottom: 1px solid var(--bone-faint);
+    color: var(--bone);
+    font-size: var(--type-body);
+    line-height: 1.5;
+  }
+  .diff-list li:last-child { border-bottom: 0; }
+  .diff-list li::before {
+    content: '+';
+    position: absolute;
+    left: 0;
+    top: 0.6rem;
+    width: 20px;
+    color: var(--lamp-amber);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+  }
+  .diff-list li code {
+    display: inline;
+    white-space: normal;
+    word-break: normal;
+  }
+  .terms-zones {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin: var(--space-4) 0 0;
+  }
+
+  /* Accordion stack */
+  .accordion-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: var(--prose-max);
+  }
+  .accordion-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .accordion-card summary {
+    list-style: none;
+    cursor: pointer;
+    padding: var(--space-3) var(--space-5);
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-body);
+    color: var(--bone);
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    transition: background 200ms ease;
+    background: rgba(217, 147, 58, 0.05);
+    border-left: 3px solid var(--lamp-amber);
+  }
+  .accordion-card summary::-webkit-details-marker { display: none; }
+  .accordion-card summary:hover { background: rgba(217, 147, 58, 0.12); }
+  .accordion-card summary::after {
+    content: 'TAP TO EXPAND  ▾';
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--lamp-amber);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: transform 200ms ease;
+    flex-shrink: 0;
+  }
+  .accordion-card[open] summary::after { content: 'TAP TO COLLAPSE  ▴'; }
+  .accordion-card[open] summary { border-bottom: 1px solid var(--bone-faint); background: rgba(217, 147, 58, 0.08); }
+  .accordion-body {
+    padding: var(--space-3) var(--space-5) var(--space-4);
+    color: var(--bone-dim);
+    font-size: var(--type-body);
+    line-height: 1.65;
+    max-width: var(--prose-max);
+  }
+  .accordion-body strong { color: var(--bone); font-weight: 500; }
+  .accordion-card summary:focus-visible { outline: 2px solid var(--lamp-amber); outline-offset: -2px; }
+
+  /* Close action card */
+  .close-action-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-5) 0 var(--space-4);
+    max-width: var(--prose-max);
+    position: relative;
+    overflow: hidden;
+  }
+  .close-action-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #C5443B 0%, #E07B3F 33%, #E6B547 66%, #C9893E 100%);
+    border-radius: 999px;
+  }
+  .close-action-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: var(--space-3);
+  }
+  .close-action-body {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(28px, 3.4vw, 36px);
+    color: var(--bone);
+    line-height: 1.15;
+    margin-bottom: var(--space-3);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .close-action-sub {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    max-width: 620px;
+    line-height: 1.55;
+    margin-bottom: var(--space-3);
+    font-style: italic;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.95rem 1.75rem;
+    background: transparent;
+    color: var(--bone);
+    border: 1px solid var(--lamp-amber);
+    border-radius: 4px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: var(--type-body);
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: all 250ms cubic-bezier(0.32, 0.72, 0, 1);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: var(--space-3);
+  }
+  .cta:focus-visible { outline: 2px solid var(--lamp-amber); outline-offset: 4px; }
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--lamp-amber) 0%, #B17828 100%);
+    transform: translateY(101%);
+    transition: transform 350ms cubic-bezier(0.32, 0.72, 0, 1);
+    z-index: -1;
+    opacity: 0.9;
+  }
+  .cta:hover { border-color: var(--lamp-amber); transform: translateY(-1px); color: var(--ink); }
+  .cta:hover::before { transform: translateY(0); }
+  .cta .arrow { transition: transform 250ms ease; }
+  .cta:hover .arrow { transform: translateX(4px); }
+  .signoff {
+    margin-top: var(--space-5);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--bone-faint);
+    max-width: var(--prose-max);
+  }
+  .signoff-name {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    color: var(--bone);
+    letter-spacing: -0.01em;
+  }
+  .signoff-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    opacity: 0.7;
+    margin-top: 0.3rem;
+  }
+
+  /* Footer */
+  footer {
+    margin-left: var(--rail-w);
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    border-top: 1px solid var(--bone-faint);
+    position: relative;
+  }
+  .footer-stripe {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sun-red) 0%, var(--sun-orange) 33%, var(--sun-yellow) 66%, var(--sun-gold) 100%);
+    border-radius: 999px;
+    margin: 0 auto 1.5rem;
+  }
+  .footer-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    opacity: 0.6;
+  }
+
+  /* Focus */
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--lamp-amber);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  /* Header */
+  header {
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--bone-faint);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  .brand { font-family: 'Fraunces', Georgia, serif; font-size: var(--type-h3); color: var(--bone); font-weight: 500; letter-spacing: -0.01em; }
+  .brand-sub { font-family: 'JetBrains Mono', monospace; font-size: var(--type-caption); letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone); margin-left: 0.5rem; opacity: 0.7; }
+  .meta { font-family: 'JetBrains Mono', monospace; font-size: var(--type-caption); letter-spacing: 0.12em; color: var(--bone); opacity: 0.65; text-align: right; }
+  .meta strong { color: var(--bone); opacity: 1; font-weight: 500; }
+
+  /* Bridge pull-line for Tab 4 → 5 */
+  .bridge-line {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: var(--type-h3);
+    color: var(--bone);
+    margin: var(--space-5) 0 0;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--lamp-amber);
+    max-width: var(--prose-max);
+    line-height: 1.5;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    :root {
+      --type-display: 48px;
+      --type-h1: 34px;
+      --type-h2: 24px;
+      --type-h3: 18px;
+    }
+    .rail { display: none; }
+    .rail-mobile { display: block; }
+    .mark { display: none; }
+    header { padding: 1rem 1.25rem; }
+    .brand-sub, .meta { display: none; }
+    main { padding-left: 0; padding-right: 0; }
+    section { padding: var(--section-pad) 1.25rem; }
+    .tab-bar-inner { overflow-x: auto; scrollbar-width: none; }
+    .tab { padding: 0.85rem 0.85rem; font-size: 0.7rem; flex: 0 0 auto; }
+    .tab-container { padding: 0 var(--space-3) var(--space-7); }
+    .panel-nav { flex-direction: column; gap: 0.75rem; }
+    .panel-nav-btn { width: 100%; justify-content: center; }
+    .diptych { grid-template-columns: 1fr; gap: 1.5rem; }
+    .h2-card-header, .h2-card-row { grid-template-columns: 1fr; gap: 0.4rem; }
+    .h2-card-row { padding: 1rem; }
+    .h2-original::before { content: 'Original — '; font-family: 'JetBrains Mono', monospace; font-size: var(--type-micro); letter-spacing: 0.15em; color: var(--bone); opacity: 0.7; text-decoration: none; display: block; margin-bottom: 0.15rem; }
+    .h2-engine::before { content: 'Engine — '; font-family: 'JetBrains Mono', monospace; font-size: var(--type-micro); letter-spacing: 0.15em; color: var(--bone); display: block; margin-bottom: 0.15rem; }
+
+    /* Proof strip stacks */
+    .proof-strip { grid-template-columns: 1fr; }
+
+    /* Contract card single column */
+    .contract-row { grid-template-columns: 1fr; gap: 0.25rem; }
+
+    /* Gantt compact mobile: stack label above bar above signoff */
+    .gantt-compact-axis { display: none; }
+    .gantt-compact-row {
+      grid-template-columns: 1fr;
+      height: auto;
+      padding: 0.75rem 0;
+      gap: 0.4rem;
+    }
+    .gantt-compact-bar {
+      grid-column: 1 / -1 !important;
+    }
+    .gantt-compact-signoff {
+      border-left: 0;
+      padding-left: 0;
+      padding-top: 0.4rem;
+      border-top: 1px solid var(--bone-faint);
+    }
+
+    /* Phase card grid stacks */
+    .phase-card-grid { grid-template-columns: 1fr 1fr; }
+
+    /* Risk pill trio stacks */
+    .risk-pill-trio { grid-template-columns: 1fr; }
+
+    /* Headline tile shrinks */
+    .headline-tile h1, .headline-tile h2 { font-size: clamp(40px, 9vw, 56px); }
+
+    footer { margin-left: 0; }
+  }
+
+  @media (max-width: 480px) {
+    .phase-card-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; color: #0A0908; font-size: 10pt; }
+    body::before { display: none; }
+    .rail, .rail-mobile, .tab-bar, .panel-nav, .keyboard-hint, .mark { display: none !important; }
+    .panel { display: block !important; page-break-after: always; }
+    main { padding-left: 0; }
+    section { padding: 2rem 0; page-break-inside: avoid; }
+    h1, h2, .hero-quote, .person-name { color: #0A0908; }
+    .prose, .person-role { color: #333; }
+    .eyebrow, .hero-cite, .person-tag { color: #1D4D7A; }
+    .crt-card, .contract-card { background: #fafafa; border: 1px solid #ccc; }
+    .crt-card::before, .contract-card::before { display: none; }
+    .crt-code { color: #1A1817; text-shadow: none; }
+    .gantt-compact-bar.p0, .gantt-compact-bar.p1, .gantt-compact-bar.p2, .gantt-compact-bar.p3 { background: #1D4D7A !important; }
+    .h2-card { border-color: #ccc; background: #fafafa; }
+    footer { margin-left: 0; }
+  }
+
+  /* ====== EDIT MODE TOOLBAR (v10 self-edit) ====== */
+  #edit-toolbar {
+    position: fixed; top: 14px; right: 14px; z-index: 2147483647;
+    background: rgba(20, 17, 15, 0.92); backdrop-filter: blur(8px);
+    border: 1px solid rgba(242, 235, 221, 0.18); border-radius: 8px;
+    padding: 8px; display: flex; flex-wrap: wrap; gap: 6px;
+    max-width: calc(100vw - 28px);
+    font: 11px/1 "Manrope", -apple-system, sans-serif;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    pointer-events: auto;
+  }
+  #edit-toolbar button { pointer-events: auto; }
+  #edit-toolbar button {
+    background: transparent; color: var(--bone-dim);
+    border: 1px solid rgba(242, 235, 221, 0.18); border-radius: 4px;
+    padding: 7px 10px; cursor: pointer; font: inherit;
+    transition: all 0.15s ease;
+  }
+  #edit-toolbar button:hover { background: rgba(242, 235, 221, 0.08); color: var(--bone); border-color: rgba(242, 235, 221, 0.32); }
+  #edit-toolbar button.active { background: var(--sun-orange); color: var(--ink); border-color: var(--sun-orange); }
+  #edit-toolbar button.danger { color: var(--sun-red); border-color: rgba(197, 68, 59, 0.32); }
+  #edit-toolbar button.save { color: var(--sun-yellow); border-color: rgba(230, 181, 71, 0.32); }
+  #edit-toolbar .divider { width: 1px; background: rgba(242, 235, 221, 0.12); margin: 2px 4px; }
+  #edit-toolbar .label { color: var(--bone-fainter); padding: 7px 4px 7px 8px; align-self: center; }
+
+  body.edit-mode [data-editable] { outline: 1px dashed rgba(230, 181, 71, 0.45); outline-offset: 4px; cursor: text; }
+  body.edit-mode [data-editable]:hover { outline-color: var(--sun-orange); background: rgba(230, 181, 71, 0.04); }
+  body.edit-mode [data-locked]::before {
+    content: "🔒"; font-size: 11px; opacity: 0.55;
+    position: absolute; left: -22px; top: 0;
+  }
+  body.edit-mode [data-locked] { position: relative; outline: 1px dotted rgba(197, 68, 59, 0.35); outline-offset: 4px; }
+
+  body.blocks-mode [data-block] { position: relative; outline: 1px solid rgba(46, 111, 164, 0.35); outline-offset: 8px; }
+  body.blocks-mode [data-block][data-hidden] { opacity: 0.35; outline-color: rgba(197, 68, 59, 0.45); }
+  body.blocks-mode [data-block][data-hidden]::before {
+    content: "HIDDEN — won't ship";
+    position: absolute; top: 4px; left: 4px;
+    background: var(--sun-red); color: var(--bone);
+    padding: 2px 6px; border-radius: 3px;
+    font: 9px/1 "Manrope", sans-serif;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    z-index: 10;
+  }
+  body:not(.blocks-mode) [data-hidden] { display: none !important; }
+
+  /* Every [data-block] becomes its own positioning context so the absolute chips anchor
+     to the block, not the page. Without this they get pulled into grid/flex cells and
+     blow up into huge white boxes inside the layout. */
+  body.blocks-mode [data-block] { position: relative; }
+  .spacing-chips {
+    position: absolute; top: -14px; right: 0; z-index: 50;
+    display: none; gap: 3px; width: auto; height: auto;
+    font: 11px/1 "Manrope", sans-serif;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    /* These two prevent the chips from being treated as a grid/flex CHILD by the block. */
+    grid-column: auto; grid-row: auto;
+  }
+  body.blocks-mode [data-block] > .spacing-chips { display: inline-flex; }
+  .spacing-chips .chip {
+    background: var(--aero); color: var(--bone);
+    padding: 4px 8px; border-radius: 3px;
+    cursor: pointer; user-select: none;
+    border: none; font: inherit;
+    min-width: 26px; text-align: center;
+  }
+  .spacing-chips .chip.minus { background: var(--sun-red); }
+  .spacing-chips .chip.plus { background: var(--aero); }
+  .spacing-chips .chip.font-minus { background: rgba(197, 68, 59, 0.7); }
+  .spacing-chips .chip.font-plus { background: rgba(29, 77, 122, 0.7); }
+  .spacing-chips .chip.move-up, .spacing-chips .chip.move-down { background: var(--ink-soft); border: 1px solid rgba(242, 235, 221, 0.32); }
+  .spacing-chips .chip.toggle-hide { background: var(--sun-orange); color: var(--ink); }
+  .spacing-chips .chip:hover { filter: brightness(1.2); }
+  .spacing-chips .chip-label {
+    color: var(--bone-fainter); padding: 4px 4px;
+    font-size: 9px; align-self: center;
+  }
+  .spacing-chips .chip-divider {
+    width: 1px; background: rgba(242, 235, 221, 0.25); margin: 2px 2px;
+  }
+
+  /* Floating format bar for bold/italic on selection */
+  #format-bar {
+    position: fixed; z-index: 10000;
+    background: var(--ink); border: 1px solid rgba(242, 235, 221, 0.32);
+    border-radius: 6px; padding: 4px;
+    display: none; gap: 2px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  }
+  #format-bar.visible { display: flex; }
+  #format-bar button {
+    background: transparent; color: var(--bone);
+    border: none; cursor: pointer;
+    padding: 6px 9px; border-radius: 3px;
+    font: 12px/1 "Manrope", sans-serif;
+    min-width: 28px;
+  }
+  #format-bar button:hover { background: rgba(242, 235, 221, 0.12); }
+  #format-bar button.bold { font-weight: 700; }
+  #format-bar button.italic { font-style: italic; }
+  #format-bar button.strike { text-decoration: line-through; }
+
+  #edit-help {
+    position: fixed; bottom: 14px; right: 14px; z-index: 9999;
+    background: rgba(20, 17, 15, 0.92); backdrop-filter: blur(8px);
+    border: 1px solid rgba(242, 235, 221, 0.18); border-radius: 8px;
+    padding: 12px 16px; max-width: 320px;
+    font: 12px/1.5 "Manrope", -apple-system, sans-serif;
+    color: var(--bone-dim);
+    display: none;
+  }
+  body.edit-mode #edit-help { display: block; }
+  #edit-help strong { color: var(--bone); }
+  #edit-help .key { background: rgba(242, 235, 221, 0.1); padding: 1px 5px; border-radius: 3px; font-family: "JetBrains Mono", monospace; font-size: 11px; }
+
+  @media print { #edit-toolbar, #edit-help { display: none !important; } }
+</style>
+<style>.gantt-compact-bar { white-space: nowrap; overflow: visible; min-width: 0; font-size: 10px !important; letter-spacing: 0.08em; height: 28px; }</style><style>.panel[data-panel="4"] .h2-card + .crt-card, .panel[data-panel="4"] .crt-card + .forensics, .panel[data-panel="4"] .forensics + .link-bar { margin-top: var(--space-6) !important; }</style></head>
+<body class="edit-mode blocks-mode">
+
+
+
+
+
+
+
+<header>
+  <div>
+    <span class="brand">JFly.Ai</span>
+    <span class="brand-sub">Program Proposal · Executive</span>
+  </div>
+  <div class="meta">
+    Prepared for <strong>Jeff Suskin · DiningOut</strong> · May 2026
+  </div>
+</header>
+
+<nav class="tab-bar" aria-label="Proposal sections">
+  <div class="tab-bar-inner" role="tablist">
+    <button class="tab" data-tab="0" role="tab" aria-selected="false"><span class="tab-num">01</span>Vision</button>
+    <button class="tab" data-tab="1" role="tab" aria-selected="false"><span class="tab-num">02</span>Process</button>
+    <button class="tab active" data-tab="2" role="tab" aria-selected="true"><span class="tab-num">03</span>Build</button><button class="tab" data-tab="3" role="tab" aria-selected="false"><span class="tab-num">04</span>Phases</button>
+    <button class="tab" data-tab="4" role="tab" aria-selected="false"><span class="tab-num">05</span>Proof</button>
+    <button class="tab" data-tab="5" role="tab" aria-selected="false"><span class="tab-num">06</span>Roadmap</button>
+    <button class="tab" data-tab="6" role="tab" aria-selected="false"><span class="tab-num">07</span>Next Steps</button>
+  </div>
+  <div class="progress-row">
+    <span class="progress-dot completed"></span>
+    <span class="progress-dot completed"></span>
+    <span class="progress-dot active"></span>
+    <span class="progress-dot"></span>
+    <span class="progress-dot"></span>
+    <span class="progress-dot"></span>
+    <span class="progress-dot"></span>
+  </div>
+</nav>
+
+<div class="tab-container">
+
+  <!-- =========== 01 VISION =========== -->
+  <section class="panel" data-panel="0">
+    <div class="eyebrow">
+      <span class="fig">FIG.01</span>
+      Vision
+    </div>
+
+    <div class="headline-tile">
+      <h1>Vision.</h1>
+      <p class="subline">DiningOut becomes the source the engines cite.</p>
+    </div><p class="hero-quote" style="padding-top: 0px; padding-bottom: 0px;">
+      The article is the asset. SEO and AEO engines get the map. Writers never touch the schema. Readers find you wherever they search.</p>
+
+    
+    <p class="hero-cite">
+      <span class="hero-cite-name">Jeff Suskin</span> &nbsp;·&nbsp; DiningOut · Project brief
+    </p>
+
+    <div class="proof-strip">
+      <div class="proof-tile">
+        <div class="proof-num">8.7<span class="unit">/10</span></div>
+        <div class="proof-sub">Linkability score on the live sample.</div>
+      </div>
+      <div class="proof-tile">
+        <div class="proof-num">&lt;1<span class="unit">%</span></div>
+        <div class="proof-sub">Non-grounded errors across the eval set.</div>
+      </div>
+      <div class="proof-tile">
+        <div class="proof-num">3</div>
+        <div class="proof-sub">Article types in scope. Listicle. Single. Event roundup. News roundup.</div>
+      </div>
+    </div>
+
+    <div class="panel-nav">
+      <span class="panel-nav-label">Process →</span>
+      <button class="panel-nav-btn" data-goto="1">Untouched →</button>
+    </div>
+  </section>
+
+  <!-- =========== 02 UNTOUCHED =========== -->
+  <section class="panel" data-panel="1">
+    <div class="eyebrow">
+      <span class="fig">FIG.02</span>
+      Untouched
+    </div>
+
+    <div class="headline-tile">
+      <h2>Untouched.</h2>
+      <p class="subline">Writers don't lift a finger. Editors get 20 minutes back per article.</p>
+    </div>
+
+    <p class="pull-line">30 minutes per article. Back in your team's hands. For backlinks and brand deals.</p>
+
+    <div class="terms-zones" style="margin-top: 2.5rem;">
+      <div class="diff-list-card">
+        <div class="diff-list-card-title">Writers own these.</div>
+        <ul class="diff-list">
+          <li>Every narrative paragraph.</li>
+          <li>Voice, tone, opinions, recommendations.</li>
+          <li>The order of restaurants. The writer's editorial picks.</li>
+          <li>Photo selections and captions.</li>
+          <li>The intro and any storytelling.</li>
+        </ul>
+      </div>
+
+      <div class="diff-list-card">
+        <div class="diff-list-card-title">Writers never see these.</div>
+        <ul class="diff-list">
+          <li>JSON-LD schema in the page <code style="padding: 0.05em 0.35em; border-radius: 4px;">&lt;head&gt;</code>. Invisible to readers.</li>
+          <li>A quick-facts block under each restaurant H2. Address. Hours. Price. Signature dish. Best for.</li>
+          <li>Table of contents at the top.</li>
+          <li>Short TL;DR paragraph. Answers the question for AI engines.</li>
+          <li>FAQ section at the bottom.</li>
+          <li>Better image alt text. Invisible to readers, critical for AI and accessibility.</li>
+        </ul>
+      </div>
+
+      <div class="diff-list-card">
+        <div class="diff-list-card-title">Writers sign off on these.</div>
+        <ul class="diff-list">
+          <li>H2 headlines only. <code style="padding: 0.05em 0.35em; border-radius: 4px;">"Safta's Israeli Brunch Buffet" → "Safta — Israeli Brunch Buffet in RiNo (Denver)"</code>. The writer's hook stays. Adds searchable keywords. The only writer-facing change. The only thing an editor approves.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="diff-list-card" style="margin-top: 2.5rem;">
+      <div class="diff-list-card-title">Monday morning, after Phase 2 ships.</div>
+      <ul class="diff-list">
+        <li>Writer hits publish in WordPress. Just like today.</li>
+        <li>Optimizer runs in the background. Extracts all 9 ranking signals in one pass.</li>
+        <li>Editor opens one screen with H2 rewrites side-by-side with originals.</li>
+        <li>Editor approves or edits each H2. About 90 seconds total.</li>
+        <li>Everything else auto-applies. The article never goes back to editorial.</li>
+      </ul>
+      <p style="margin-top: var(--space-4);">Nine signals added. Zero words rewritten.</p>
+    </div>
+
+    <div class="panel-nav">
+      <button class="panel-nav-btn prev" data-goto="0">← Vision</button>
+      <button class="panel-nav-btn" data-goto="2">Build →</button>
+    </div>
+  </section>
+
+  <!-- =========== 03 BUILD =========== -->
+  <section class="panel active" data-panel="2">
+    <div class="eyebrow">
+      <span class="fig">FIG.03</span>
+      Build
+    </div>
+
+    <div class="headline-tile">
+      <h2>Let's Build.</h2>
+      <p class="subline">One JSON contract between them.</p>
+    </div>
+
+    <div class="diptych">
+      <div class="person lead">
+        <span class="person-tag">AI Engine + Orchestration</span>
+        <div class="person-name">JJ Walker</div>
+        <p class="person-role">JFly.Ai. Builds AI operating systems for media businesses. Owns the Phase 1 extraction engine. Runs the relationship across all four phases.</p>
+        <ul class="person-delivers">
+          <li>Python service on Vercel. Takes a URL or markdown. Runs it through Claude. Returns the locked JSON.</li>
+          <li>Prompt-tuning rounds with your editorial team.</li>
+          <li>The JSON contract itself. Every field. Every validation rule. Every source-quote audit trail.</li>
+          <li>The strategy doc. The roadmap from Phase 1 through V3.</li>
+        </ul>
+      </div>
+      <div class="person partner">
+        <span class="person-tag">WordPress Integration + Plugin</span>
+        <div class="person-name">Chris Kuhn</div>
+        <p class="person-role">Blend (100% owner). Twenty years shipping WordPress and Elementor for agencies. Owns the Phase 2 plugin and every WordPress architecture decision.</p>
+        <ul class="person-delivers">
+          <li>The WordPress plugin. Triggers on ready-to-optimize. Reads the JSON. Renders the blocks.</li>
+          <li>The editor review UI. One screen. H2 approvals and linkability scores.</li>
+          <li>Schema injection. Fast-facts widget. TOC and FAQ.</li>
+          <li>Plugin updates and rollback mechanics.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="pairing-line">The handoff isn't a risk. The JSON contract makes it a fact.</p>
+
+    <div class="contract-card">
+      <div class="contract-card-label">
+        the contract · top 3 fields
+        <span class="stamp">VALID</span>
+      </div>
+      <div class="contract-row">
+        <span class="contract-field">restaurant_name</span>
+        <span class="contract-desc">The canonical name. Stable across the engine, schema, and rendered page.</span>
+      </div>
+      <div class="contract-row">
+        <span class="contract-field">source_quote</span>
+        <span class="contract-desc">The writer's own sentence behind every extracted fact. Audit trail to prose.</span>
+      </div>
+      <div class="contract-row">
+        <span class="contract-field">confidence</span>
+        <span class="contract-desc">High / medium / low per fact. Drives the editor review queue.</span>
+      </div>
+    </div>
+    <div class="contract-caption">3 of 14 fields shown. The other 11 are in the dropdown.</div>
+
+    <div class="accordion-stack" style="margin-top: var(--space-4);">
+      <details class="accordion-card">
+        <summary>All 14 JSON contract fields</summary>
+        <div class="accordion-body">
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>article_id</code> · string. WordPress post ID.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>article_type</code> · enum. Listicle. Single. Event roundup. News roundup.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>tl_dr</code> · 50 to 100 words. Extraction.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>h1_rewrite</code> · single string. Extraction plus editorial approval.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>h2_rewrites[]</code> · array of strings. The only writer-facing change.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>fast_facts[]</code> · array. Each fact carries <code>source_quote</code> plus <code>confidence</code>.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>faq_qas[]</code> · array. Grounded in source prose.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>schema_jsonld</code> · object. ItemList. Restaurant. FAQPage. Event. NewsArticle.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>linkability_score</code> · int 0 to 100. Documented axes.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>internal_link_opportunities[]</code> · array. Phase 1 contract field.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>toc_structure</code> · object. Phase 1 contract field.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>model_version</code> · string. Pinned through Phase 1.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><code>prompt_version</code> · string. Versioned each tuning round.</li>
+            <li style="padding: 0.4rem 0;"><code>aioseo_filter_target</code> · string. Locked in Phase 0 by reading the installed source.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+
+    <div class="panel-nav">
+      <button class="panel-nav-btn prev" data-goto="1">← Untouched</button>
+      <button class="panel-nav-btn" data-goto="3">Phases →</button>
+    </div>
+  </section>
+
+  <!-- =========== 04 PHASES =========== -->
+  <section class="panel" data-panel="3">
+    <div class="eyebrow">
+      <span class="fig">FIG.04</span>
+      Phases
+    </div>
+
+    <div class="headline-tile">
+      <h2>In Phases.</h2>
+      <p class="subline">Four phases. One accountability line.</p>
+    </div>
+
+    <div class="gantt-compact">
+      <div class="gantt-compact-axis">
+        
+        <span class="ax-week" style="grid-column: 2/6;"><b>W04</b></span>
+        <span class="ax-week" style="grid-column: 6/10;"><b>W08</b></span>
+        <span class="ax-week" style="grid-column: 10/14;"><b>W12</b></span>
+        <span class="ax-week" style="grid-column: 14/18;"><b>W16</b></span>
+        <span class="ax-week" style="grid-column: 18/22;"><b>W20</b></span>
+        <span class="ax-week" style="grid-column: 22/26;"><b>W24</b></span>
+        
+      </div>
+      <div class="gantt-compact-row">
+        <div class="gantt-compact-label">Phase 0<span class="sub">~2 wks · JJ + Chris</span></div>
+        <div class="gantt-compact-bar p0" style="grid-column: 2/4;">P0</div>
+        <div class="gantt-compact-signoff" style="grid-column: 26/27;"><strong>Sign-off</strong>JSON contract locked.</div>
+      </div>
+      <div class="gantt-compact-row">
+        <div class="gantt-compact-label">Phase 1<span class="sub">6 to 8 wks · JJ solo</span></div>
+        <div class="gantt-compact-bar p1" style="grid-column: 4/10;">P1 · AI Engine</div>
+        <div class="gantt-compact-signoff" style="grid-column: 26/27;"><strong>Sign-off</strong>Eval-set rubric passes.</div>
+      </div>
+      <div class="gantt-compact-row">
+        <div class="gantt-compact-label">Phase 2<span class="sub">8 to 10 wks · Chris / Blend</span></div>
+        <div class="gantt-compact-bar p2" style="grid-column: 10/18;">P2 · WP Plugin MVP</div>
+        <div class="gantt-compact-signoff" style="grid-column: 26/27;"><strong>Sign-off</strong>First live article published.</div>
+      </div>
+      <div class="gantt-compact-row">
+        <div class="gantt-compact-label">Phase 3<span class="sub">Ongoing ·&nbsp; retainer</span></div>
+        <div class="gantt-compact-bar p3" style="grid-column: 18/26;">P3 · Hardening</div>
+        <div class="gantt-compact-signoff" style="grid-column: 26/27;"><strong>Sign-off</strong>100 articles processed clean.</div>
+      </div>
+    </div>
+
+    <div class="phase-card-grid">
+      <div class="phase-card">
+        <div class="phase-card-tag">Phase 0</div>
+        <div class="phase-card-title">Build Plan</div>
+        <div class="phase-card-line"><span class="lbl">Scope</span>Lock the JSON contract. Pick hosting. Spec the plugin.</div>
+        <div class="phase-card-line"><span class="lbl">Artifact</span>Signed contract. Hosting decision on paper.</div>
+        <div class="phase-card-line"><span class="lbl">Accepts on</span>V.1 Paid Audit, Scoped, RFP or final terms finalized.</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-card-tag">Phase 1</div>
+        <div class="phase-card-title">AI Engine</div>
+        <div class="phase-card-line"><span class="lbl">Scope</span>Vercel endpoint. 10 to 15 article eval. Three tuning rounds.</div>
+        <div class="phase-card-line"><span class="lbl">Artifact</span>Eval pack. JSON plus HTML for each article.</div>
+        <div class="phase-card-line"><span class="lbl">Accepts on</span>Rubric passes. Schema validates. H2 patterns match.</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-card-tag">Phase 2</div>
+        <div class="phase-card-title">WP Integration</div>
+        <div class="phase-card-line"><span class="lbl">Scope</span>Plugin builds against the locked contract. Editor review UI.</div>
+        <div class="phase-card-line"><span class="lbl">Artifact</span>First live optimized article publishes.</div>
+        <div class="phase-card-line"><span class="lbl">Accepts on</span>Renders clean across breakpoints. Schema test passes.</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-card-tag">Phase 3</div>
+        <div class="phase-card-title">Hardening</div>
+        <div class="phase-card-line"><span class="lbl">Scope</span>Batch processor. Monitoring. 17-market scale.</div>
+        <div class="phase-card-line"><span class="lbl">Artifact</span>Full archive processed. Re-run and rollback work.</div>
+        <div class="phase-card-line"><span class="lbl">Accepts on</span>Backfill clean. Monitoring live. V.2 Scoped&nbsp;</div>
+      </div>
+    </div>
+
+    <p class="pricing-aside">Phase 1 will includes 2 Options,&nbsp;Phases 2 and 3 fall in a defined band we walk through together.</p>
+
+    <div class="accordion-stack" style="margin-top: var(--space-4);">
+      <details class="accordion-card" open="">
+        <summary>Phase 1 sign-off: 6 criteria</summary>
+        <div class="accordion-body">
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><strong>(a)</strong> Every <code>fast_facts</code> entry has <code>source_quote</code> plus <code>confidence</code> flag.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><strong>(b)</strong> Schema validates clean. Schema.org Validator strict plus Google Rich Results Test.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><strong>(c)</strong> H2 pattern compliance. Location plus cuisine plus city qualifier.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><strong>(d)</strong> FAQ Q&amp;As grounded in source prose, not generic.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><strong>(e)</strong> Linkability score returns 0 to 100 with documented axis breakdown.</li>
+            <li style="padding: 0.4rem 0;"><strong>(f)</strong> &lt;1% non-grounded fact rate across the eval set.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="accordion-card" open="">
+        <summary>Bug ownership by layer</summary>
+        <div class="accordion-body">
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><strong>Engine bug.</strong> Extraction quality. JSON validity. JJ owns. Retainer hours cover.</li>
+            <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><strong>Plugin bug.</strong> WordPress render. Elementor compatibility. Schema injection. Blennd own.</li>
+            <li style="padding: 0.4rem 0;"><strong>Hosting bug.</strong> Cloudflare. WAF. REST API. Hosting provider plus JJ &amp; Blennd,</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+
+    
+
+    <div class="panel-nav">
+      <button class="panel-nav-btn prev" data-goto="2">← Build</button>
+      <button class="panel-nav-btn" data-goto="4">Proof →</button>
+    </div>
+  </section>
+
+  <!-- =========== 05 PROOF =========== -->
+  <section class="panel" data-panel="4">
+    <div class="eyebrow">
+      <span class="fig">FIG.05</span>
+      Proof
+    </div>
+
+    <div class="headline-tile">
+      <h2>Proof Test.</h2>
+      <p class="subline">Diningout article. Every field. Same Content.</p>
+    </div>
+
+    <p style="max-width: var(--prose-max); margin-top: var(--space-3); margin-bottom: var(--space-3);">Linnea Covington's December 2025 chefs list. We ran it through the engine last week.</p>
+
+    <div class="h2-card">
+      <div class="h2-card-caption">engine_run · article: chefs-best-2025 · 4 of 10 shown</div>
+      <div class="h2-card-header">
+        Chef
+        Original
+        Engine suggested
+      </div>
+      <div class="h2-card-row">
+        <span class="h2-chef">Oscar Padilla</span>
+        <span class="h2-original">Oscar Padilla</span>
+        <span class="h2-engine"><span class="h2-engine-marker">+</span>Oscar Padilla (Gaucho Parrilla, Arvada). His Favorite Argentinian-and-American Picks</span>
+      </div>
+      <div class="h2-card-row">
+        <span class="h2-chef">Caroline Glover</span>
+        <span class="h2-original">Caroline Glover</span>
+        <span class="h2-engine"><span class="h2-engine-marker">+</span>Caroline Glover (Annette, Aurora). Her Favorite Southern Sleeper Hit</span>
+      </div>
+      <div class="h2-card-row">
+        <span class="h2-chef">Kenneth Wan</span>
+        <span class="h2-original">Kenneth Wan</span>
+        <span class="h2-engine"><span class="h2-engine-marker">+</span>Kenneth Wan (MAKfam, South Broadway). His Top Sushi Counter in 2025</span>
+      </div>
+      <div class="h2-card-row">
+        <span class="h2-chef">Theo Adley</span>
+        <span class="h2-original">Theo Adley</span>
+        <span class="h2-engine"><span class="h2-engine-marker">+</span>Theo Adley (Marigold, Lyons). His Best Pizza, Mezcal and Vietnamese Picks</span>
+      </div>
+      <div class="h2-card-footer">
+        Writer prose unchanged. Only the H2 line is restructured.
+        <span class="pass">✓ Google Rich Results Test validated</span>
+      </div>
+    </div>
+
+    <div class="crt-card">
+      <div class="crt-label">
+        fast_facts[] · Article 1 · source: DiningOut · Dec 2025
+        <span class="crt-stamp">VALID</span>
+      </div>
+<pre class="crt-code">{
+  <span class="key">"restaurant_name"</span>: <span class="val">"Gaucho Parrilla"</span>,
+  <span class="key">"cuisine"</span>: <span class="val">"Argentinian (wood-fired)"</span>,
+  <span class="key">"neighborhood"</span>: <span class="val">"Arvada (Freedom Street Social food hall)"</span>,
+  <span class="key">"source_quote"</span>: <span class="val">"wood-fired Argentine meats; chef is a Chopped 2023 winner"</span>,
+  <span class="key">"confidence"</span>: <span class="val">"high"</span>
+},
+{
+  <span class="key">"restaurant_name"</span>: <span class="val">"Rougarou"</span>,
+  <span class="key">"cuisine"</span>: <span class="val">"Southern"</span>,
+  <span class="key">"neighborhood"</span>: <span class="val">"Five Points, Denver"</span>,
+  <span class="key">"source_quote"</span>: <span class="val">"incredible vibes and the best Southern food in town"</span>,
+  <span class="key">"confidence"</span>: <span class="val">"high"</span>
+},
+{
+  <span class="key">"restaurant_name"</span>: <span class="val">"Tamaki Den"</span>,
+  <span class="key">"cuisine"</span>: <span class="val">"Japanese (sushi, hand rolls)"</span>,
+  <span class="key">"neighborhood"</span>: <span class="val">"Denver"</span>,
+  <span class="key">"source_quote"</span>: <span class="val">"service is always on point, and the fish is consistently fresh and high quality"</span>,
+  <span class="key">"confidence"</span>: <span class="val">"high"</span>
+}</pre>
+    </div>
+
+    <div class="forensics">
+      <div class="forensics-label">Engine flagged an editorial gap editorial Missed</div>
+      <div class="forensics-title">One restaurant in Article 3 shows up two ways in the same piece.</div>
+      <p class="forensics-body">Once as Coulter. Once as Colter. The engine surfaced both spellings and asked which one is canonical.The system catches the error. Editor picks the right one. Schema follows.</p>
+      <p class="forensics-foot"><strong>The engine supports editorial.</strong> It doesn't replace it.</p>
+    </div>
+
+    <div class="link-bar" id="link-bar-el" style="margin-top: var(--space-5);">
+      <div class="link-bar-label">
+        Linkability score · Article 1 (Chefs' Best 2025)
+        <span class="link-bar-score">8.7 / 10</span>
+      </div>
+      <div class="link-bar-track">
+        <div class="link-bar-fill"></div>
+      </div>
+      <div style="margin-top: var(--space-3);">
+        <div style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><strong>Newsworthy angles · 8/10</strong> · 10 chef quotes other outlets can pull.</div>
+        <div style="padding: 0.4rem 0; border-bottom: 1px solid var(--bone-faint);"><strong>Data hooks · 7/10</strong> · Restaurant counts plus neighborhoods, ready for charts.</div>
+        <div style="padding: 0.4rem 0;"><strong>Outreach-ready angles · 8/10</strong> · 3 chef-network pitches surface from the piece.</div>
+      </div>
+    </div>
+
+    <div class="panel-nav">
+      <button class="panel-nav-btn prev" data-goto="3">← Phases</button>
+      <button class="panel-nav-btn" data-goto="5">Roadmap →</button>
+    </div>
+  </section>
+
+  <!-- =========== 06 FUTURE =========== -->
+  <section class="panel" data-panel="5">
+    <div class="eyebrow">
+      <span class="fig">FIG.06</span>
+      Roadmap
+    </div>
+
+    <div class="headline-tile">
+      <h2>Roadmap.</h2>
+      <p class="subline">After Phase 1 ships, here's where this goes. Five layers from ranking to citation to reservation.</p>
+    </div>
+
+    <ol class="layer-strip">
+      <li class="layer">
+        <div class="layer-num">1</div>
+        <div>
+          <div class="layer-title">SEO</div>
+          <p class="layer-body">Google indexes you. Classic ranking. The floor.</p>
+        </div>
+      </li>
+      <li class="layer">
+        <div class="layer-num">2</div>
+        <div>
+          <div class="layer-title">AEO (Answer Engine Optimization)</div>
+          <p class="layer-body">Google AI Overviews, ChatGPT, and Perplexity quote you in their answers. Structure, schema, and FAQ make that possible.</p>
+        </div>
+      </li>
+      <li class="layer">
+        <div class="layer-num">3</div>
+        <div>
+          <div class="layer-title">AI Citation</div>
+          <p class="layer-body">Models cite you by name. Entity-stable references hold across sessions. The <code style="padding: 0.05em 0.35em; border-radius: 4px;">source_quote</code> field you saw in Proof is the mechanism.</p>
+        </div>
+      </li>
+      <li class="layer">
+        <div class="layer-num">4</div>
+        <div>
+          <div class="layer-title">Entity Grounding</div>
+          <p class="layer-body">Your restaurants become nodes the models know. Name, address, neighborhood, cuisine, signature dish. Stable across queries.</p>
+        </div>
+      </li>
+      <li class="layer">
+        <div class="layer-num">5</div>
+        <div>
+          <div class="layer-title">Reservation + affiliate surface</div>
+          <p class="layer-body">Mediavine display ads. Affiliate reservation links. Brand deals. All three already monetize your traffic. Layers 1 through 4 turn DiningOut into the source they pay for.</p>
+        </div>
+      </li>
+    </ol>
+
+    <p class="pull-line">Each layer unlocks the one above it. Layer 5 is the payoff.</p>
+
+    <div class="accordion-stack" style="margin-top: var(--space-5);">
+      <details class="accordion-card">
+        <summary>V2: editors own the in-place edits</summary>
+        <div class="accordion-body">
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="padding: 0.35rem 0; border-bottom: 1px solid var(--bone-faint);">Editors edit each field in WordPress. Fast-facts, FAQ, alt text, H2s. All in place.</li>
+            <li style="padding: 0.35rem 0; border-bottom: 1px solid var(--bone-faint);">Less back-and-forth on tuning rounds.</li>
+            <li style="padding: 0.35rem 0; border-bottom: 1px solid var(--bone-faint);">Builds on the Phase 2 plugin. No new architecture.</li>
+            <li style="padding: 0.35rem 0;">Timeline: Phase 2.5. Four to six weeks after Phase 2 ships.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="accordion-card">
+        <summary>V3: writers drop in, the draft comes back ready</summary>
+        <div class="accordion-body">
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="padding: 0.35rem 0; border-bottom: 1px solid var(--bone-faint);">Writers drop articles into a shared folder or Google Doc.</li>
+            <li style="padding: 0.35rem 0; border-bottom: 1px solid var(--bone-faint);">The system handles classification, extraction, optimization, image alt, and schema.</li>
+            <li style="padding: 0.35rem 0; border-bottom: 1px solid var(--bone-faint);">A Slack note lands. Your draft is ready in WordPress. Review or publish.</li>
+            <li style="padding: 0.35rem 0;">Timeline: post Phase 3. Needs Phase 2 stability and writer training.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+
+    <div class="prose" style="margin-top: var(--space-5);">
+      <p>A Monday in 2027. Linnea finishes a piece in Google Docs and drops it in the team folder. An hour later, a Slack note lands. Linnea's chefs piece is ready in WordPress. Review or publish. The editor opens the draft. Fast-facts in place. FAQ grounded. H2s ready for approval. Schema validates clean. Two minutes to read. Ninety seconds to approve. One click to publish. The 30 minutes per article you named on the call. Gone.</p>
+    </div>
+
+    <div class="panel-nav">
+      <button class="panel-nav-btn prev" data-goto="4">← Proof</button>
+      <button class="panel-nav-btn" data-goto="6">Next Steps →</button>
+    </div>
+  </section>
+
+  <!-- =========== 07 RISKS =========== -->
+  <section class="panel" data-panel="6">
+    <div class="eyebrow">
+      <span class="fig">FIG.07</span>
+      Next Steps
+    </div>
+
+    <div class="headline-tile">
+      <h2>Next Steps.</h2>
+      <p class="subline">Three places this could wobble. Three reasons it won't.</p>
+    </div><div class="risk-pill-trio">
+      <div class="risk-pill high">
+        <div class="risk-pill-id">Risk 01</div>
+        <div class="risk-pill-title">Editorial bandwidth during Phase 1 tuning.</div>
+        <div class="risk-pill-mit">
+          <span class="lbl">Mitigation</span>
+          Three 90-minute sessions pre-scheduled. Weeks 2, 5, and 7. Two cancels in a row trigger a check-in call.&nbsp; &nbsp;</div>
+        <div class="risk-pill-owner">
+          <span class="lbl">Owner</span>
+          Jeff names the editorial lead. JJ runs the sessions.
+        </div>
+      </div>
+      <div class="risk-pill">
+        <div class="risk-pill-id">Risk 02</div>
+        <div class="risk-pill-title">Anthropic model behavior shifts mid-build.</div>
+        <div class="risk-pill-mit">
+          <span class="lbl">Mitigation</span>
+          Every JSON output carries <code style="padding: 0.05em 0.35em; border-radius: 4px;">model_version</code> and <code style="padding: 0.05em 0.35em; border-radius: 4px;">prompt_version</code>. Model pinned through Phase 1.
+        </div>
+        <div class="risk-pill-owner">
+          <span class="lbl">Owner</span>
+          JJ owns the engine. Cost-ceiling auto-shutoff backs it up.
+        </div>
+      </div>
+      <div class="risk-pill">
+        <div class="risk-pill-id">Risk 03</div>
+        <div class="risk-pill-title">Bug routing at the engine-plugin seam.</div>
+        <div class="risk-pill-mit">
+          <span class="lbl">Mitigation</span>
+          The signed JSON contract is the line. Engine bug routes to JJ. Plugin bug routes to Chris.&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
+        <div class="risk-pill-owner">
+          <span class="lbl">Owner</span>
+          JJ and Chris jointly. The layer breakdown lives in Phases.
+        </div>
+      </div>
+    </div><p class="pairing-line">This project fits our skill sets perfectly.&nbsp;</p><div class="diptych">
+      <div class="person lead">
+        <span class="person-tag">Lead + Orchestration</span>
+        <div class="person-name">&nbsp;JJ Walker</div>
+        <p class="person-role">JFly.Ai (Denver). Two decades operator across events, content, and AI systems. Builds the technology. Runs the relationship.</p>
+        <ul class="person-delivers">
+          <li>Phase 1 engine ownership.</li>
+          <li>Editorial sessions.</li>
+          <li>JSON contract authority.</li>
+          <li>The relationship layer across all four phases.</li>
+        </ul>
+      </div>
+      <div class="person partner">
+        <span class="person-tag">WordPress + Plugin&nbsp;</span>
+        <div class="person-name">Chris Kuhn</div>
+        <p class="person-role">Blennd (Denver). Two decades shipping WordPress and Elementor at agency scale. That's why Phase 2 ships clean.</p>
+        <ul class="person-delivers">
+          <li>Phase 2 plugin.</li>
+          <li>WP REST API integration.</li>
+          <li>Editor review UI.</li>
+          <li>Hosting and REST API coordination.</li>
+        </ul>
+      </div>
+    </div><div class="forensics" style="margin-top: var(--space-5);">
+      <div class="forensics-label">First look · 24 months</div>
+      <div class="forensics-title">Across DiningOut Events and adjacent arms.</div>
+      <p class="forensics-body">You get the team that shipped the build. We get the first conversation on what's next. Events. Sponsorship. Any adjacent line. Non-exclusive both ways. 24 months.</p>
+      <p class="forensics-foot"><strong>Handshake, not a fence. Both sides can walk.</strong></p>
+    </div><div class="close-action-card">
+      <div class="close-action-tag">In person · This week</div>
+      <p class="close-action-body">Sus — see you Wednesday.</p>
+      <a class="cta" href="mailto:jj@jfly.ai?subject=DiningOut%20%E2%80%94%20Wednesday">
+        Email me with questions.
+        <span class="arrow">→</span>
+      </a>
+      <p class="close-action-sub">Let's Do This Thing!&nbsp;</p>
+    </div>
+
+    <!-- EMOTIONAL ANCHOR — close moves up here, above-fold per fold audit -->
+    
+
+    <!-- 3 risks as compact pills, tight footprint -->
+    
+
+    <!-- Diptych — relationship-led, evolved bios per v1.3 -->
+    
+
+    
+
+    
+
+    <div class="signoff">
+      <div class="signoff-name">JJ Walker</div>
+      <div class="signoff-title">Founder · JFly.Ai</div>
+      <div class="signoff-title">Denver · jj@jfly.ai · 970.690.9992</div>
+    </div>
+
+    <div class="panel-nav">
+      <button class="panel-nav-btn prev" data-goto="5">← Roadmap</button>
+      <span class="panel-nav-label">End of proposal</span>
+    </div>
+
+    <div class="keyboard-hint">
+      Use <kbd>←</kbd> <kbd>→</kbd> arrow keys to navigate tabs
+    </div>
+  </section>
+
+</div><!-- .tab-container -->
+
+<footer>
+  <div class="footer-stripe"></div>
+  <div class="footer-text">JFly.Ai · Let's Build Your AiOS · May 2026 · Confidential to DiningOut</div>
+</footer>
+
+<script>
+  // Re-query on every call — body.innerHTML wipes (autosave restore, undo/redo) destroy
+  // direct DOM references, so we look up live each time.
+  let currentTab = 0;
+
+  function goToTab(index) {
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.panel');
+    const dots = document.querySelectorAll('.progress-dot');
+    if (index < 0 || index >= tabs.length) return;
+    currentTab = index;
+    tabs.forEach((tab, i) => {
+      tab.classList.toggle('active', i === index);
+      tab.setAttribute('aria-selected', i === index);
+    });
+    panels.forEach((panel, i) => panel.classList.toggle('active', i === index));
+    dots.forEach((dot, i) => {
+      dot.classList.remove('active', 'completed');
+      if (i === index) dot.classList.add('active');
+      else if (i < index) dot.classList.add('completed');
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    const tabSlugs = ['vision', 'untouched', 'build', 'phases', 'proof', 'future', 'risks'];
+    history.replaceState(null, '', '#' + tabSlugs[index]);
+  }
+
+  // Delegated click on document — survives any body.innerHTML wipe (autosave / undo / redo).
+  document.addEventListener('click', (e) => {
+    const tabBtn = e.target.closest && e.target.closest('.tab[data-tab]');
+    if (tabBtn) {
+      const i = parseInt(tabBtn.dataset.tab);
+      if (!isNaN(i)) goToTab(i);
+      return;
+    }
+    const gotoBtn = e.target.closest && e.target.closest('[data-goto]');
+    if (gotoBtn) {
+      const i = parseInt(gotoBtn.dataset.goto);
+      if (!isNaN(i)) goToTab(i);
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.target.isContentEditable) return; // arrow keys belong to the editor when typing
+    const tabsLen = document.querySelectorAll('.tab').length;
+    if (e.key === 'ArrowRight') { e.preventDefault(); goToTab(Math.min(currentTab + 1, tabsLen - 1)); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); goToTab(Math.max(currentTab - 1, 0)); }
+  });
+
+  const tabSlugs = ['vision', 'untouched', 'build', 'phases', 'proof', 'future', 'risks'];
+  const initHash = window.location.hash.replace('#', '');
+  const initIdx = tabSlugs.indexOf(initHash);
+  if (initIdx > 0) { goToTab(initIdx); }
+</script>
+
+<!-- ====== EDIT MODE TOOLBAR + LOGIC (v10 self-edit) ====== -->
+
+
+
+
+
+
+<script>
+(function () {
+  const STORAGE_KEY = 'v10-edit-autosave';
+  const PRISTINE_KEY = 'v10-edit-pristine';
+
+  const LOCKED_SELECTORS = [
+    '.hero-quote blockquote',
+    '.crt-card', '.crt-code', 'pre',
+    '.forensics-foot',
+    '.close-action-card h2',
+    '.close-action-card .cta',
+    '.close-action-card .cta-sub',
+    '.risk-label',
+    '.eyebrow',
+    'code',
+    '.tab-nav', 'header .brand', 'header .brand-sub', 'header .meta',
+    'footer'
+  ];
+  const EDITABLE_TAGS = ['h1','h2','h3','h4','h5','p','li','span','strong','em','blockquote','div'];
+  const BLOCK_SELECTORS = ['.headline-tile', '.hero-quote', '.proof-strip', '.section-intro',
+                            '.diff-list-card', '.terms-zones', '.diptych', '.contract-card',
+                            '.gantt-compact', '.phase-card', '.accordion-stack', '.h2-card',
+                            '.forensics', '.link-bar', '.layer-strip', '.pull-line',
+                            '.pairing-line', '.pricing-aside', '.risk-pill-trio',
+                            '.close-action-card'];
+
+  // ===== PRISTINE SNAPSHOT (for RESET) — stored in localStorage so survives reload
+  function snapshotPristineIfNeeded() {
+    if (!localStorage.getItem(PRISTINE_KEY)) {
+      localStorage.setItem(PRISTINE_KEY, document.body.innerHTML);
+    }
+  }
+
+  // ===== AUTOSAVE — restores on reload
+  // Stash the original toolbar/help/format-bar HTML once at script start so we can
+  // re-inject them after any autosave restore (the autosave only stores CONTENT).
+  const TOOLBAR_REFS = ['edit-toolbar','format-bar','edit-help'];
+  let toolbarHTMLCache = '';
+  function captureToolbarHTML() {
+    toolbarHTMLCache = TOOLBAR_REFS
+      .map(id => {
+        const el = document.getElementById(id);
+        return el ? el.outerHTML : '';
+      })
+      .join('\n');
+  }
+  function reinjectToolbar() {
+    // Remove any stale toolbar pieces from restored content
+    TOOLBAR_REFS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+    // Re-inject the fresh toolbar HTML at the top of body
+    if (toolbarHTMLCache) {
+      document.body.insertAdjacentHTML('afterbegin', toolbarHTMLCache);
+    }
+  }
+  function stripToolbarFromString(html) {
+    let out = html;
+    TOOLBAR_REFS.forEach(id => {
+      out = out.replace(new RegExp('<[^>]*id="' + id + '"[^>]*>[\\s\\S]*?<\\/[a-z]+>', 'i'), '');
+    });
+    return out;
+  }
+  function loadAutosave() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved && saved.length > 100) {
+      // Strip chips containers (legacy <div> form was illegal inside <p> and corrupted parse)
+      let cleaned = saved.replace(/<(div|span)\s+class="spacing-chips"[^>]*>[\s\S]*?<\/\1>/g, '');
+      // Strip any old toolbar HTML embedded in the autosave so the FRESH toolbar from the source
+      // file isn't shadowed by a stale copy. reinjectToolbar() puts the current one back.
+      cleaned = stripToolbarFromString(cleaned);
+      document.body.innerHTML = cleaned;
+      reinjectToolbar();
+      return true;
+    }
+    return false;
+  }
+  function autosave() {
+    try {
+      // Save body WITHOUT the toolbar/help/format-bar — those are source-controlled, not user content.
+      const clone = document.body.cloneNode(true);
+      TOOLBAR_REFS.forEach(id => {
+        const el = clone.querySelector('#' + id);
+        if (el) el.remove();
+      });
+      localStorage.setItem(STORAGE_KEY, clone.innerHTML);
+    } catch (e) {}
+  }
+
+  // Structural layout blocks — get blocks-mode chips, but NEVER contentEditable themselves.
+  // Editing happens on the text leaves INSIDE them. Marking the container editable corrupts
+  // layout (e.g. .gantt-compact rows collide when contenteditable wraps the whole grid).
+  const STRUCTURAL_BLOCKS = ['.gantt-compact','.phase-card','.contract-card','.proof-strip',
+                              '.risk-pill-trio','.h2-card','.diptych','.terms-zones','.layer-strip'];
+
+  // ===== MARK EDITABLE / LOCKED / BLOCK
+  function markEditable() {
+    document.querySelectorAll(EDITABLE_TAGS.join(',')).forEach(el => {
+      if (el.closest(LOCKED_SELECTORS.join(','))) return;
+      if (el.matches(LOCKED_SELECTORS.join(','))) return;
+      if (el.matches(STRUCTURAL_BLOCKS.join(','))) return; // never editable on the layout shell
+      if (el.querySelector('h1,h2,h3,h4,h5,p,li')) return;
+      const text = (el.textContent || '').trim();
+      if (text.length === 0) return;
+      el.setAttribute('data-editable', '');
+    });
+    document.querySelectorAll(LOCKED_SELECTORS.join(',')).forEach(el => {
+      const text = (el.textContent || '').trim();
+      if (text.length > 0) el.setAttribute('data-locked', '');
+    });
+    document.querySelectorAll(BLOCK_SELECTORS.join(',')).forEach(el => {
+      el.setAttribute('data-block', '');
+      // Inject full block-tools chip strip if not present
+      if (!el.querySelector(':scope > .spacing-chips')) {
+        // Use <span> not <div> — block elements like <div> are illegal inside <p>,
+        // and the browser will yank them (and any sibling text) out on parse/restore.
+        const chips = document.createElement('span');
+        chips.className = 'spacing-chips';
+        chips.innerHTML =
+          '<button type="button" class="chip minus" data-block-action="space-minus" title="Tighten padding -8px">−</button>' +
+          '<button type="button" class="chip plus" data-block-action="space-plus" title="Loosen padding +8px">+</button>' +
+          '<span class="chip-divider"></span>' +
+          '<button type="button" class="chip font-minus" data-block-action="font-minus" title="Font size -2px">A−</button>' +
+          '<button type="button" class="chip font-plus" data-block-action="font-plus" title="Font size +2px">A+</button>' +
+          '<span class="chip-divider"></span>' +
+          '<button type="button" class="chip move-up" data-block-action="move-up" title="Move block up">↑</button>' +
+          '<button type="button" class="chip move-down" data-block-action="move-down" title="Move block down">↓</button>' +
+          '<span class="chip-divider"></span>' +
+          '<button type="button" class="chip toggle-hide" data-block-action="toggle-hide" title="Hide / show this block">✕</button>';
+        el.prepend(chips);
+      }
+    });
+  }
+
+  // ===== UNDO/REDO STACKS
+  const undoStack = [];
+  const redoStack = [];
+  const MAX_HISTORY = 50;
+  let lastSnapshot = null;
+
+  function snapshot() {
+    return document.body.innerHTML;
+  }
+  function pushUndo() {
+    if (lastSnapshot === null) return;
+    undoStack.push(lastSnapshot);
+    if (undoStack.length > MAX_HISTORY) undoStack.shift();
+    redoStack.length = 0; // clear redo on new action
+    updateUndoButtons();
+  }
+  function captureBaseline() {
+    lastSnapshot = snapshot();
+  }
+  function undo() {
+    if (undoStack.length === 0) return;
+    const current = snapshot();
+    redoStack.push(current);
+    const prev = undoStack.pop();
+    document.body.innerHTML = prev;
+    rebindAll();
+    lastSnapshot = prev;
+    autosave();
+    updateUndoButtons();
+  }
+  function redo() {
+    if (redoStack.length === 0) return;
+    const current = snapshot();
+    undoStack.push(current);
+    const next = redoStack.pop();
+    document.body.innerHTML = next;
+    rebindAll();
+    lastSnapshot = next;
+    autosave();
+    updateUndoButtons();
+  }
+  function updateUndoButtons() {
+    btnUndo.disabled = undoStack.length === 0;
+    btnRedo.disabled = redoStack.length === 0;
+    btnUndo.style.opacity = undoStack.length === 0 ? '0.4' : '1';
+    btnRedo.style.opacity = redoStack.length === 0 ? '0.4' : '1';
+  }
+
+  // ===== TOOLBAR REFS
+  const btnEdit = document.getElementById('btn-edit');
+  const btnBlocks = document.getElementById('btn-blocks');
+  const btnUndo = document.getElementById('btn-undo');
+  const btnRedo = document.getElementById('btn-redo');
+  const btnShowHidden = document.getElementById('btn-show-hidden');
+  const btnFixStyles = document.getElementById('btn-fix-styles');
+  const btnSave = document.getElementById('btn-save');
+  const btnReset = document.getElementById('btn-reset');
+  const formatBar = document.getElementById('format-bar');
+
+  let editOn = false;
+  let blocksOn = false;
+
+  function setEditMode(on) {
+    editOn = on;
+    document.body.classList.toggle('edit-mode', on);
+    btnEdit.classList.toggle('active', on);
+    btnEdit.textContent = on ? 'EDITING' : 'EDIT MODE';
+    document.querySelectorAll('[data-editable]').forEach(el => {
+      el.contentEditable = on ? 'true' : 'false';
+    });
+    if (on) captureBaseline();
+    if (!on) hideFormatBar();
+  }
+  function setBlocksMode(on) {
+    blocksOn = on;
+    document.body.classList.toggle('blocks-mode', on);
+    btnBlocks.classList.toggle('active', on);
+    btnBlocks.textContent = on ? 'BLOCKS ON' : 'BLOCKS';
+    if (on) captureBaseline();
+  }
+
+  // ===== BLOCK CHIP CLICKS (spacing / font / move / hide)
+  document.addEventListener('click', (e) => {
+    const action = e.target.getAttribute && e.target.getAttribute('data-block-action');
+    if (!action) return;
+    const block = e.target.closest('[data-block]');
+    if (!block) return;
+    pushUndo();
+
+    if (action === 'space-minus' || action === 'space-plus') {
+      const current = parseInt(window.getComputedStyle(block).paddingTop) || 0;
+      const delta = action === 'space-minus' ? -8 : 8;
+      const next = Math.max(0, current + delta);
+      block.style.paddingTop = next + 'px';
+      block.style.paddingBottom = next + 'px';
+    } else if (action === 'font-minus' || action === 'font-plus') {
+      const delta = action === 'font-minus' ? -2 : 2;
+      const textNodes = block.querySelectorAll('h1, h2, h3, h4, h5, p, li, span, blockquote');
+      textNodes.forEach(n => {
+        if (n.closest('.spacing-chips')) return;
+        const current = parseFloat(window.getComputedStyle(n).fontSize) || 16;
+        const next = Math.max(8, Math.min(80, current + delta));
+        n.style.fontSize = next + 'px';
+      });
+    } else if (action === 'move-up') {
+      const prev = block.previousElementSibling;
+      if (prev && prev.hasAttribute('data-block')) {
+        block.parentNode.insertBefore(block, prev);
+      }
+    } else if (action === 'move-down') {
+      const next = block.nextElementSibling;
+      if (next && next.hasAttribute('data-block')) {
+        block.parentNode.insertBefore(next, block);
+      }
+    } else if (action === 'toggle-hide') {
+      if (block.hasAttribute('data-hidden')) {
+        block.removeAttribute('data-hidden');
+      } else {
+        block.setAttribute('data-hidden', '');
+      }
+    }
+    captureBaseline();
+    autosave();
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  // ===== SHOW HIDDEN — un-hide all
+  function showAllHidden() {
+    pushUndo();
+    document.querySelectorAll('[data-hidden]').forEach(el => el.removeAttribute('data-hidden'));
+    captureBaseline();
+    autosave();
+  }
+
+  // ===== SELECTION FORMAT BAR
+  function showFormatBar() {
+    if (!editOn) return hideFormatBar();
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return hideFormatBar();
+    const range = sel.getRangeAt(0);
+    // Only show if selection is inside an editable element
+    const anchor = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentNode);
+    if (!anchor || !anchor.closest('[data-editable]')) return hideFormatBar();
+    const rect = range.getBoundingClientRect();
+    if (rect.width === 0 && rect.height === 0) return hideFormatBar();
+    formatBar.style.top = (window.scrollY + rect.top - 44) + 'px';
+    formatBar.style.left = (window.scrollX + rect.left + rect.width / 2 - 56) + 'px';
+    formatBar.classList.add('visible');
+  }
+  function hideFormatBar() {
+    formatBar.classList.remove('visible');
+  }
+  document.addEventListener('selectionchange', () => {
+    if (editOn) showFormatBar();
+  });
+  document.addEventListener('mousedown', (e) => {
+    if (!e.target.closest('#format-bar')) hideFormatBar();
+  });
+  formatBar.addEventListener('mousedown', (e) => {
+    const fmt = e.target.getAttribute && e.target.getAttribute('data-format');
+    if (!fmt) return;
+    pushUndo();
+    document.execCommand(fmt, false, null);
+    captureBaseline();
+    autosave();
+    e.preventDefault();
+  });
+
+  // ===== PASTE HANDLER — strip formatting so the parent element's CSS (font-size,
+  //                    family, weight) is preserved. Without this, browsers paste
+  //                    <span style="font-size:13px"> blobs that override .hero-quote etc.
+  document.addEventListener('paste', (e) => {
+    if (!editOn) return;
+    const target = e.target.closest && e.target.closest('[data-editable]');
+    if (!target) return;
+    e.preventDefault();
+    // Snapshot BEFORE paste so Cmd+Z restores cleanly
+    pushUndo();
+    const text = (e.clipboardData || window.clipboardData).getData('text/plain') || '';
+    // Insert as plain text — preserves the parent element's inherited styling
+    document.execCommand('insertText', false, text);
+    captureBaseline();
+    autosave();
+  });
+
+  // ===== STYLE-STRIP ON BLUR — kill any inline font-size/family/color that snuck
+  //                  into editable children. Keeps inheritance from the kit CSS clean.
+  function stripInlineStyles(root) {
+    if (!root) return;
+    // 1. Unwrap legacy <font> tags entirely — pure typography pollution from paste
+    root.querySelectorAll('font').forEach(f => {
+      const parent = f.parentNode;
+      while (f.firstChild) parent.insertBefore(f.firstChild, f);
+      parent.removeChild(f);
+    });
+    // 2. Unwrap pasted spans that carry only foreign styling
+    root.querySelectorAll('span').forEach(s => {
+      if (s.closest('.spacing-chips')) return;
+      const cls = (s.getAttribute('class') || '').trim();
+      const keep = cls && !/^(Apple-|ms-|MsoNormal|s\d+)$/i.test(cls) && !/Apple-style-span/i.test(cls);
+      if (keep) return;
+      const parent = s.parentNode;
+      while (s.firstChild) parent.insertBefore(s.firstChild, s);
+      parent.removeChild(s);
+    });
+    // 3. Strip typography inline styles from EVERYTHING — including data-block elements.
+    //    Block-level styles set by chips are padding only (preserved). Typography pollution
+    //    on a data-block (e.g. <p class="hero-quote" style="font-size:13px">) was the bug.
+    root.querySelectorAll('[style]').forEach(el => {
+      if (el.closest('.spacing-chips')) return;
+      ['font','font-size','font-family','font-weight','font-style','color','line-height','letter-spacing','text-transform','background','background-color','text-decoration']
+        .forEach(p => el.style.removeProperty(p));
+      if (!el.getAttribute('style')) el.removeAttribute('style');
+    });
+  }
+  document.addEventListener('focusout', (e) => {
+    if (!editOn) return;
+    const target = e.target.closest && e.target.closest('[data-editable]');
+    if (!target) return;
+    stripInlineStyles(target);
+    autosave();
+  }, true);
+
+  // ===== TEXT EDIT TRACKING — capture every text change for undo
+  let debounceTimer = null;
+  document.addEventListener('input', (e) => {
+    if (!editOn) return;
+    if (!e.target.closest('[data-editable]')) return;
+    // Debounce: push undo state after 600ms of inactivity
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      pushUndo();
+      captureBaseline();
+      autosave();
+    }, 600);
+  });
+
+  // ===== KEYBOARD SHORTCUTS
+  document.addEventListener('keydown', (e) => {
+    const meta = e.metaKey || e.ctrlKey;
+    if (meta && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+    else if (meta && e.key === 'z' && e.shiftKey) { e.preventDefault(); redo(); }
+    else if (meta && e.key === 'y') { e.preventDefault(); redo(); }
+    else if (meta && e.key === 's') { e.preventDefault(); saveEdits(); }
+  });
+
+  // ===== TOAST — small confirmation flash so JJ sees that an action fired
+  function toast(msg, color) {
+    let t = document.getElementById('edit-toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'edit-toast';
+      t.style.cssText = 'position:fixed;left:50%;top:80px;transform:translateX(-50%);z-index:2147483647;background:rgba(20,17,15,0.96);color:#F2EBDD;padding:12px 20px;border-radius:8px;border:1px solid rgba(242,235,221,0.32);font:13px/1.2 "Manrope",sans-serif;letter-spacing:0.04em;box-shadow:0 8px 32px rgba(0,0,0,0.5);opacity:0;transition:opacity 0.2s ease;pointer-events:none;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.borderColor = color || 'rgba(230,181,71,0.6)';
+    t.style.opacity = '1';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2200);
+  }
+
+  // ===== SAVE
+  function saveEdits() {
+    const editWas = editOn, blocksWas = blocksOn;
+    if (editOn) setEditMode(false);
+    if (blocksOn) setBlocksMode(false);
+    const clone = document.documentElement.cloneNode(true);
+    ['#edit-toolbar', '#edit-help', '#format-bar'].forEach(sel => {
+      const el = clone.querySelector(sel);
+      if (el) el.remove();
+    });
+    clone.querySelectorAll('.spacing-chips').forEach(el => el.remove());
+    clone.querySelectorAll('[data-hidden]').forEach(el => el.remove()); // hidden blocks are EXCLUDED from saved file
+    clone.querySelectorAll('[data-editable]').forEach(el => {
+      el.removeAttribute('data-editable');
+      el.removeAttribute('contenteditable');
+    });
+    clone.querySelectorAll('[data-locked]').forEach(el => el.removeAttribute('data-locked'));
+    clone.querySelectorAll('[data-block]').forEach(el => el.removeAttribute('data-block'));
+
+    const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `proposal-package-v10-executive.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (editWas) setEditMode(true);
+    if (blocksWas) setBlocksMode(true);
+    toast('✓ Saved to Downloads/proposal-package-v10-executive.html');
+  }
+
+  // ===== RESET — wipe autosave + restore pristine
+  function resetEdits() {
+    if (!confirm('Revert ALL edits and return to the original v10? This wipes auto-save.')) return;
+    // Nuke BOTH stores so a clean reload pulls 100% from disk source.
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(PRISTINE_KEY);
+    window.location.reload();
+  }
+
+  // ===== REBIND on innerHTML wipes
+  function rebindAll() {
+    markEditable();
+    // Toolbar + help are part of body innerHTML in stashes, so they come back. Re-grab refs.
+    // (No re-grab needed: same DOM IDs, querySelector still resolves.)
+    if (editOn) {
+      document.querySelectorAll('[data-editable]').forEach(el => el.contentEditable = 'true');
+    }
+  }
+
+  // ===== INIT
+  captureToolbarHTML(); // Stash fresh toolbar HTML BEFORE any autosave restore overwrites it
+  snapshotPristineIfNeeded();
+  const restored = loadAutosave();
+  // If autosave restored a state that has broken inline typography (from older paste edits
+  // before the paste handler existed), sweep it clean once at load.
+  if (restored) stripInlineStyles(document.body);
+  markEditable();
+  captureBaseline();
+  updateUndoButtons();
+  // Delegated toolbar handler — survives ANY body.innerHTML wipe (autosave restore, undo/redo,
+  // reinjectToolbar). The original const btn* references can become stale after a rebuild;
+  // delegation looks up live IDs on click.
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest && e.target.closest('#edit-toolbar button');
+    if (!btn) return;
+    const id = btn.id;
+    if (id === 'btn-edit') return setEditMode(!editOn);
+    if (id === 'btn-blocks') return setBlocksMode(!blocksOn);
+    if (id === 'btn-undo') return undo();
+    if (id === 'btn-redo') return redo();
+    if (id === 'btn-show-hidden') return showAllHidden();
+    if (id === 'btn-fix-styles') {
+      pushUndo();
+      stripInlineStyles(document.body);
+      captureBaseline();
+      autosave();
+      toast('✓ Styles cleaned');
+      return;
+    }
+    if (id === 'btn-save') return saveEdits();
+    if (id === 'btn-reset') return resetEdits();
+  });
+})();
+</script>
+
+
+
+</body></html>

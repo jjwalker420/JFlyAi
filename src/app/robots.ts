@@ -11,6 +11,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: "/proposals/",
     },
     sitemap: "https://www.jfly.ai/sitemap.xml",
     host: "https://www.jfly.ai",
