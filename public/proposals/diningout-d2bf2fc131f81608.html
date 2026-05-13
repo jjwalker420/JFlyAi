@@ -375,6 +375,76 @@
     letter-spacing: -0.01em;
   }
 
+  /* === V10 NEW PRIMITIVE: .audio-companion === */
+  /* Quiet companion strip — audio overview link, sits below hero quote. */
+  .audio-companion {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--space-5);
+    margin: var(--space-5) 0 0;
+    max-width: var(--chart-max);
+    padding: var(--space-3) var(--space-4);
+    background: rgba(217, 147, 58, 0.05);
+    border: 1px solid rgba(217, 147, 58, 0.18);
+    border-left: 3px solid var(--lamp-amber);
+    border-radius: 8px;
+  }
+  .audio-companion-meta { display: flex; flex-direction: column; gap: 0.2rem; }
+  .audio-companion-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--lamp-amber);
+    font-weight: 600;
+  }
+  .audio-companion-title { font-family: 'Fraunces', Georgia, serif; font-size: 1.05rem; color: var(--bone); line-height: 1.3; }
+  .audio-companion-sub { font-size: 13px; color: var(--bone-dim); line-height: 1.4; }
+  .audio-companion-player { width: 100%; max-width: 100%; }
+  @media (max-width: 768px) {
+    .audio-companion { grid-template-columns: 1fr; gap: var(--space-3); }
+  }
+
+  /* === V10 NEW PRIMITIVE: .deep-dive === */
+  /* Library callout — public NotebookLM artifacts. */
+  .deep-dive {
+    margin: var(--space-5) 0;
+    padding: var(--space-4) var(--space-5);
+    background: rgba(29, 77, 122, 0.10);
+    border: 1px solid rgba(29, 77, 122, 0.30);
+    border-left: 3px solid var(--aero);
+    border-radius: 8px;
+  }
+  .deep-dive-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--aero-bright);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .deep-dive-title { font-family: 'Fraunces', Georgia, serif; font-size: 1.25rem; color: var(--bone); margin-bottom: 0.3rem; line-height: 1.25; }
+  .deep-dive-body { font-size: 14px; color: var(--bone-dim); line-height: 1.55; margin-bottom: var(--space-3); }
+  .deep-dive-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.1rem;
+    background: var(--aero);
+    color: var(--bone);
+    text-decoration: none;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: background 200ms ease;
+  }
+  .deep-dive-cta:hover { background: var(--aero-bright); }
+
   /* === V10 NEW PRIMITIVE: .proof-strip === */
   /* 3-tile horizontal row. Big amber number + sub. */
   .proof-strip {
@@ -1716,6 +1786,17 @@
       <span class="hero-cite-name">Jeff Suskin</span> &nbsp;·&nbsp; DiningOut · Project brief
     </p>
 
+    <aside class="audio-companion" aria-label="Audio overview">
+      <div class="audio-companion-meta">
+        <span class="audio-companion-tag">Listen · 30 min</span>
+        <span class="audio-companion-title">Two-host walkthrough of this proposal</span>
+        <span class="audio-companion-sub">Same content, friend-to-friend conversation. Headphones recommended.</span>
+      </div>
+      <audio class="audio-companion-player" controls preload="metadata" src="diningout-d2bf2fc131f81608.mp3">
+        Your browser doesn't support audio playback. <a href="diningout-d2bf2fc131f81608.mp3">Download the audio overview</a>.
+      </audio>
+    </aside>
+
     <div class="proof-strip">
       <div class="proof-tile">
         <div class="proof-num">8.7<span class="unit">/10</span></div>
@@ -2265,7 +2346,19 @@
       <div class="forensics-title">Across DiningOut Events and adjacent arms.</div>
       <p class="forensics-body">You get the team that shipped the build. We get the first conversation on what's next. Events. Sponsorship. Any adjacent line. Non-exclusive both ways. 24 months.</p>
       <p class="forensics-foot"><strong>Handshake, not a fence. Both sides can walk.</strong></p>
-    </div><div class="close-action-card">
+    </div>
+
+    <aside class="deep-dive" aria-label="Deep-dive library">
+      <div class="deep-dive-tag">Deep-dive library</div>
+      <div class="deep-dive-title">Same proposal, more ways to absorb it.</div>
+      <p class="deep-dive-body">Mind map, executive briefing, slide deck, FAQ flashcards, and a self-check quiz. Same source, different views. Forward any of it to your partner or your editorial lead.</p>
+      <a class="deep-dive-cta" href="https://notebooklm.google.com/notebook/45e64869-6fd0-421a-81eb-68d6576d8d08" target="_blank" rel="noopener noreferrer">
+        Open the notebook
+        <span aria-hidden="true">→</span>
+      </a>
+    </aside>
+
+    <div class="close-action-card">
       <div class="close-action-tag">In person · This week</div>
       <p class="close-action-body">Sus — see you Wednesday.</p>
       <a class="cta" href="mailto:jj@jfly.ai?subject=DiningOut%20%E2%80%94%20Wednesday">
