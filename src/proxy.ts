@@ -65,7 +65,7 @@ export async function proxy(req: NextRequest) {
     const form = await req.formData();
     const submitted = String(form.get('password') || '');
     if (submitted === expected) {
-      const res = NextResponse.redirect(new URL(req.nextUrl.pathname, req.url));
+      const res = NextResponse.redirect(new URL(req.nextUrl.pathname, req.url), 303);
       res.cookies.set(COOKIE_NAME, expected, {
         httpOnly: true,
         secure: true,
