@@ -1,0 +1,101 @@
+{
+  "name": "LinkedIn Webhook Post",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "linkedin-post",
+        "options": {}
+      },
+      "id": "55b87711-7a79-4cd6-a72a-11daf5ce3d0c",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        304
+      ],
+      "webhookId": "9e4515ea-2e6b-4227-a34c-6a6af13f920e"
+    },
+    {
+      "parameters": {
+        "person": "={{ $('HTTP Request').item.json.sub }}",
+        "text": "={{ $('Webhook').item.json.body.post_content }}",
+        "additionalFields": {}
+      },
+      "id": "7b4fbc04-3add-486b-bca0-6e0fbbe0cec1",
+      "name": "Post to LinkedIn",
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        672,
+        304
+      ],
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "ETr9PpGMSLolKwGY",
+          "name": "LinkedIn OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.linkedin.com/v2/userinfo",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "linkedInOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        448,
+        304
+      ],
+      "id": "de507183-d5de-4b2d-ac7c-91af07fd1ac9",
+      "name": "HTTP Request",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "ETr9PpGMSLolKwGY",
+          "name": "LinkedIn OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Post to LinkedIn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d65350b7-a2d7-4849-8c83-272ac79ae87b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cd906ea96af56a1fea6c348278182ac9141738943d4ca81896a3be81ad6c8131"
+  },
+  "id": "8xdhL9FWkUYdvl5u",
+  "tags": []
+}
