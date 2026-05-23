@@ -1,0 +1,4554 @@
+<!DOCTYPE html>
+<!--
+================================================================================
+  JFly PROPOSAL TEMPLATE. Read this before you build.
+================================================================================
+
+  THIS TEMPLATE IS A FLEXIBLE SCAFFOLD, NOT A CONTRACT.
+
+  The body copy, headlines, block order, and primitive choices below are PLACEHOLDERS.
+  Every one is meant to be replaced, reordered, swapped, or deleted. The kit ·
+  primitives.html + PRIMITIVES-INDEX.md. Is a PICKING LIBRARY. If the content
+  calls for a shape the kit doesn't have, INVENT a new primitive inline (class +
+  small CSS rule + use it), then promote it to the kit after approval. Forcing
+  content into the wrong shape is the v8/v9 trap that v10 broke out of.
+
+  Quality bar for a first pass (full version in build-quality-playbook.md):
+    1. Persona-led from move 1. Name the audience BEFORE drafting.
+    2. Multi-lens review BEFORE render. Visual / story / voice / fold-density.
+    3. Pre-set read-time + above-fold quality bars per tab.
+    4. Invent primitives when the kit doesn't fit. Don't force-fit.
+    5. Save current as `-current.html`, build new as `-executive.html`,
+       side-by-side. Never overwrite.
+
+  Locked elements (never touched without explicit approval):
+    - Hero quote (60px, 1× per proposal)
+    - Risk → Mitigation → Owner triples (preserve shape; copy can sharpen)
+    - Pricing structure
+    - Brand locks (AiOS spelling, hero line, mechanism strip)
+
+  Built-in self-edit toolbar ships at the bottom of <body>. Storage keys
+  auto-namespace per filename so client proposals don't clobber each other.
+  Toolbar / help / format-bar are stripped from SAVE output so delivered HTML
+  is clean.
+
+  Cross-references:
+    - ~/Desktop/HOME/Claude_Home/build-quality-playbook.md
+    - ./PRIMITIVES-INDEX.md
+    - ./LAYOUT-RUBRIC.md
+    - ./ship-checklist-24hr.md
+    - ./tone-checklist.md
+================================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>DiningOut × JFly.Ai · Diagnosis + Path to 1M</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================ */
+  /* === DESIGN SYSTEM LOCKED. DO NOT EDIT BELOW.             === */
+  /* === Edit only HTML content between <!-- SWAP:... --> and  === */
+  /* === <!-- /SWAP:... --> tags in the body below.            === */
+  /* === If a design token must change, sync template.html AND === */
+  /* === primitives.html. Both :root blocks must be byte-     === */
+  /* === identical (see acceptance test #7).                   === */
+  /* ============================================================ */
+  :root {
+    /* === COLOR. FOUNDATION === */
+    --ink: #0A0908;
+    --ink-soft: #14110F;
+    --ink-card: rgba(242, 235, 221, 0.025);
+    --bone: #F2EBDD;
+    --bone-dim: rgba(242, 235, 221, 0.88);
+    --bone-fainter: rgba(242, 235, 221, 0.72);  /* chart axis ticks + small labels */
+    --bone-faint: rgba(242, 235, 221, 0.08);
+    --bone-hairline: rgba(242, 235, 221, 0.12);
+    --mid: #A8A09A;
+
+    /* === COLOR. TRUST ANCHOR === */
+    --aero: #1D4D7A;
+    --aero-deep: #143452;
+    --aero-glow: #2E6FA4;
+    --aero-bright: #4A8FC4;                     /* data accents only */
+    --aero-tint: rgba(29, 77, 122, 0.18);
+    --aero-faint: rgba(29, 77, 122, 0.06);
+
+    /* === COLOR. SIGNATURE (decorative stripes only) === */
+    --sun-red: #C5443B;
+    --sun-orange: #E07B3F;
+    --sun-yellow: #E6B547;
+    --sun-gold: #C9893E;
+
+    /* === COLOR. ACTION accents (sparingly) === */
+    --lamp-amber: #D9933A;                      /* active tab, milestone stars, CTAs, rule lines */
+    --phosphor: #8DD93B;                        /* JSON valid stamp only */
+    --monitor: #D8E8EC;
+    --navy: #0F1F33;
+
+    /* === TYPE SCALE (6 sizes locked) === */
+    --type-display: 60px;       /* hero quote. Dramatic, use 1× per proposal max */
+    --type-h1: 44px;            /* panel headlines */
+    --type-h2: 28px;            /* section subtitles, person names, milestone numbers */
+    --type-h3: 20px;            /* card titles, risk titles, forensics-title */
+    --type-body: 17px;          /* all panel prose, lists, tables, card content */
+    --type-caption: 14px;       /* uppercase labels */
+    --type-micro: 12px;         /* chart stamps, code */
+
+    /* === SPACING (8-step scale) === */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 32px;
+    --space-6: 48px;
+    --space-7: 64px;
+    --space-8: 96px;
+
+    /* === LAYOUT === */
+    --rail-w: 64px;
+    --content-max: 760px;
+    --prose-max: 880px;
+    --chart-max: 1080px;
+    --tab-container-max: 1120px;
+    --section-pad: clamp(5rem, 12vh, 9rem);
+  }
+
+  /* === Tab Bar === */
+  .tab-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 9, 8, 0.85);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-bottom: 1px solid var(--bone-hairline);
+  }
+  .tab-bar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .tab-bar-inner::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: 1;
+    min-width: max-content;
+    padding: 1rem 1.25rem;
+    background: none;
+    border: none;
+    color: var(--bone);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    transition: color 200ms cubic-bezier(0.32, 0.72, 0, 1);
+    text-align: center;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    opacity: 0.55;
+  }
+  .tab .tab-num {
+    display: block;
+    font-size: var(--type-micro);
+    color: var(--bone);
+    margin-bottom: 0.25rem;
+    opacity: 0.7;
+  }
+  .tab:hover { opacity: 1; }
+  .tab.active { color: var(--lamp-amber); border-bottom: 2px solid var(--lamp-amber); opacity: 1; }
+  .tab.active .tab-num { color: var(--lamp-amber); opacity: 1; }
+  .tab:focus-visible { outline: 2px solid var(--lamp-amber); outline-offset: 4px; opacity: 1; }
+  .tab.active::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(217, 147, 58, 0.08), transparent);
+    pointer-events: none;
+  }
+  /* Progress dots row */
+  .progress-row {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0 0.6rem;
+  }
+  .progress-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--bone-faint);
+    transition: all 200ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .progress-dot.active { background: var(--lamp-amber); width: 24px; border-radius: 4px; }
+  .progress-dot.completed { background: rgba(217, 147, 58, 0.5); }
+
+  /* === Panel container === */
+  .tab-container {
+    max-width: var(--tab-container-max);
+    margin: 0 auto;
+    padding: 0 var(--space-6) var(--space-8);
+    position: relative;
+    z-index: 1;
+  }
+  .panel { display: none; animation: fadeUp 400ms cubic-bezier(0.32, 0.72, 0, 1); padding-top: 40px; padding-bottom: var(--space-7); }
+  .panel.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === Panel prev/next nav === */
+  .panel-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--bone-faint);
+    gap: 1rem;
+  }
+  .panel-nav-btn {
+    padding: 0.85rem 1.5rem;
+    background: var(--aero-faint);
+    border: 1px solid rgba(46, 111, 164, 0.3);
+    border-radius: 6px;
+    color: var(--bone);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: var(--type-body);
+    transition: all 200ms cubic-bezier(0.32, 0.72, 0, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .panel-nav-btn:hover { background: var(--aero-tint); transform: translateX(2px); }
+  .panel-nav-btn.prev:hover { transform: translateX(-2px); }
+  .panel-nav-btn:focus-visible { outline: 2px solid var(--lamp-amber); outline-offset: 4px; }
+  .panel-nav-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bone);
+    opacity: 0.6;
+  }
+  /* === Keyboard hint === */
+  .keyboard-hint {
+    text-align: center;
+    margin-top: var(--space-6);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    color: var(--bone);
+    opacity: 0.5;
+    letter-spacing: 0.12em;
+  }
+  .keyboard-hint kbd {
+    display: inline-block;
+    padding: 0.15em 0.5em;
+    background: var(--bone-faint);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    color: var(--bone);
+    margin: 0 0.2em;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Manrope', system-ui, sans-serif;
+    font-size: var(--type-body);
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* === PCB circuit-board background (matches jfly.ai) === */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('textures/pcb-trace-bg.svg');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('textures/pcb-spark-overlay.svg');
+    background-repeat: repeat;
+    background-size: 512px 512px;
+    mix-blend-mode: screen;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+    animation: pcb-spark-pulse 7s ease-in-out infinite alternate;
+  }
+  @keyframes pcb-spark-pulse {
+    0%   { opacity: 0.02; }
+    50%  { opacity: 0.06; }
+    100% { opacity: 0.03; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body::after { animation: none; opacity: 0.03; }
+  }
+
+  /* === Warm-light radial wash (jfly.ai pole pairing) === */
+  body { position: relative; }
+  main, .tab-container, footer { position: relative; z-index: 2; }
+  .tab-bar, header { position: sticky; z-index: 50; }
+  header { position: relative; z-index: 5; }
+
+  /* === Glass-mission card surface (jfly.ai trust-blue glass) === */
+  .glass-mission {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+  }
+
+  /* === Brand mark · fixed top right === */
+  .mark {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.75rem;
+    z-index: 40;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--bone);
+    opacity: 0;
+    transition: opacity 600ms ease;
+    text-decoration: none;
+  }
+  .mark.visible { opacity: 0.85; }
+  .mark::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-left: 0.5rem;
+    background: var(--aero-glow);
+    border-radius: 50%;
+    vertical-align: middle;
+    transform: translateY(-1px);
+  }
+
+  /* === Sticky vertical rail. Position indicator only === */
+  .rail {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--rail-w);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+    pointer-events: none;
+  }
+  .rail-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    pointer-events: auto;
+  }
+  .rail-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--bone-faint);
+    transition: all 280ms cubic-bezier(0.32, 0.72, 0, 1);
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    position: relative;
+  }
+  .rail-dot:hover { background: var(--bone-fainter); }
+  .rail-dot.active {
+    background: var(--aero-bright);
+    height: 28px;
+    width: 4px;
+    border-radius: 2px;
+  }
+  .rail-dot.passed { background: var(--aero-tint); }
+  .rail-dot::after {
+    content: attr(data-label);
+    position: absolute;
+    left: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone-fainter);
+    opacity: 0;
+    transition: opacity 200ms;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .rail-dot:hover::after { opacity: 1; }
+
+  /* === Mobile top progress bar === */
+  .rail-mobile {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--bone-faint);
+    z-index: 30;
+  }
+  .rail-mobile-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--aero) 0%, var(--aero-bright) 100%);
+    width: 0%;
+    transition: width 200ms ease;
+  }
+
+  /* === Main column === */
+  main {
+    position: relative;
+    z-index: 1;
+    padding-left: var(--rail-w);
+    padding-right: 2rem;
+  }
+
+  section {
+    max-width: var(--chart-max);
+    margin: 0 auto;
+    padding: var(--section-pad) clamp(1rem, 4vw, 3rem);
+    position: relative;
+  }
+
+  /* === Eyebrow labels. One per panel, top of panel === */
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: var(--space-4);
+  }
+  .eyebrow .fig {
+    color: var(--lamp-amber);
+    font-weight: 500;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--lamp-amber);
+  }
+
+  /* === Internal section rule (replaces second-eyebrow drift) === */
+  .section-rule {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-weight: 500;
+    color: var(--bone);
+    letter-spacing: -0.01em;
+    margin: var(--space-7) 0 var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--lamp-amber);
+    display: inline-block;
+    padding-right: var(--space-6);
+  }
+
+  /* === Section intro primitive (headline + lede locked together) === */
+  .section-intro {
+    margin-bottom: var(--space-5);
+    max-width: var(--prose-max);
+  }
+  .section-intro h2 { margin-bottom: var(--space-3); }
+  .section-intro .lede {
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    line-height: 1.65;
+    max-width: var(--prose-max);
+  }
+
+  /* === Title page divider (Tab 01 cover) === */
+  .title-divider {
+    border: 0;
+    height: 1px;
+    background: var(--lamp-amber);
+    width: 80px;
+    margin: var(--space-8) 0 var(--space-7);
+    opacity: 0.85;
+  }
+
+  /* === Typography === */
+  h1, h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--bone);
+    font-variation-settings: 'opsz' 144, 'SOFT' 50, 'WONK' 0;
+  }
+  h1 { font-size: var(--type-h1); }
+  h2 { font-size: var(--type-h2); }
+  h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-weight: 500;
+    color: var(--bone);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+  }
+  .prose {
+    max-width: var(--prose-max);
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    line-height: 1.7;
+  }
+  .prose p + p { margin-top: 1.1rem; }
+  .prose strong { color: var(--bone); font-weight: 500; }
+  em { font-style: italic; color: var(--bone-dim); }
+
+  /* === Tab 01 cover-page hero === */
+  .hero-quote {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: var(--type-display);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    color: var(--bone);
+    max-width: 920px;
+    margin: var(--space-7) 0 var(--space-4);
+  }
+  .hero-quote-mark {
+    color: var(--lamp-amber);
+    font-size: 1.4em;
+    line-height: 0;
+    vertical-align: -0.15em;
+    margin-right: 0.1em;
+    font-style: normal;
+    opacity: 0.7;
+  }
+  .hero-cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    opacity: 0.7;
+    margin-bottom: 0;
+  }
+  .hero-cite-name { color: var(--bone); opacity: 1; }
+  .hero-scroll-cue {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--bone-fainter);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.6;
+    animation: scroll-bob 2.4s ease-in-out infinite;
+  }
+  .hero-scroll-cue::after {
+    content: '';
+    width: 1px;
+    height: 24px;
+    background: linear-gradient(180deg, var(--bone-fainter) 0%, transparent 100%);
+  }
+  @keyframes scroll-bob {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(4px); }
+  }
+
+  /* === FIG 01. Revenue chart === */
+  .math-headline {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    font-size: var(--type-h1);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    max-width: 820px;
+    margin-bottom: var(--space-3);
+  }
+  .math-headline .target {
+    color: var(--aero-bright);
+  }
+  .chart-wrap {
+    margin: 3.5rem 0 2rem;
+    position: relative;
+  }
+  .revenue-chart {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .revenue-chart .curve {
+    stroke: var(--aero-glow);
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    transition: stroke-dashoffset 1800ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .revenue-chart.visible .curve { stroke-dashoffset: 0; }
+  .revenue-chart .area {
+    fill: url(#area-fill);
+    opacity: 0;
+    transition: opacity 1200ms ease 600ms;
+  }
+  .revenue-chart.visible .area { opacity: 1; }
+  .revenue-chart .endpoint {
+    opacity: 0;
+    transition: opacity 400ms ease 1600ms;
+  }
+  .revenue-chart.visible .endpoint { opacity: 1; }
+  .revenue-chart .gridline {
+    stroke: var(--bone-faint);
+    stroke-width: 1;
+  }
+  .revenue-chart .axis-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    fill: var(--bone-fainter);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .revenue-chart .annotation {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    fill: var(--bone-dim);
+  }
+  .revenue-chart .annotation-num {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    font-weight: 500;
+    fill: var(--bone);
+  }
+  .revenue-chart .annotation-num.target { fill: var(--aero-bright); }
+  .stripe-band {
+    stroke-width: 3;
+  }
+
+  .chart-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-top: var(--space-3);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .chart-source { color: var(--bone); opacity: 0.7; }
+  .chart-caption .fig-id { opacity: 0.7; }
+
+  .pull-line {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-style: italic;
+    color: var(--bone);
+    margin: var(--space-7) 0 0;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--lamp-amber);
+    max-width: var(--prose-max);
+    line-height: 1.5;
+  }
+
+  /* === FIG 02. Diptych === */
+  .diptych {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin: 3rem 0 2rem;
+    max-width: var(--chart-max);
+  }
+  .person {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    padding: var(--space-5) var(--space-5);
+  }
+  .person-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+  .person-name {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h2);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--bone);
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+    display: inline-block;
+  }
+  .person.lead .person-name {
+    position: relative;
+    padding-bottom: 0.6rem;
+  }
+  .person.lead .person-name::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sun-red) 0%, var(--sun-orange) 33%, var(--sun-yellow) 66%, var(--sun-gold) 100%);
+    border-radius: 999px;
+  }
+  .person-role {
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    margin-bottom: 1.5rem;
+    line-height: 1.55;
+  }
+  .person-delivers {
+    list-style: none;
+    padding: 0;
+  }
+  .person-delivers li {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-body);
+    letter-spacing: 0;
+    color: var(--bone-dim);
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--bone-faint);
+    display: flex;
+    gap: 0.75rem;
+    line-height: 1.55;
+  }
+  .person-delivers li::before {
+    content: '+';
+    color: var(--lamp-amber);
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+  .person-delivers li:last-child {
+    border-bottom: 1px solid var(--bone-faint);
+  }
+  .pairing-line {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: var(--type-h3);
+    color: var(--bone);
+    margin-top: var(--space-7);
+    max-width: var(--prose-max);
+    line-height: 1.5;
+  }
+  .pairing-line strong { font-style: normal; color: var(--aero-bright); font-weight: 500; }
+
+  /* === FIG 03. Proof === */
+  .log-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    color: var(--bone);
+    opacity: 0.7;
+    letter-spacing: 0.08em;
+    margin: 0 0 var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .log-line::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--phosphor);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(141, 217, 59, 0.6);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Before/After H2 card */
+  .h2-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: var(--space-4) 0;
+  }
+  .h2-card-caption {
+    padding: var(--space-3) var(--space-4) 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    color: var(--bone);
+    opacity: 0.7;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .h2-card-caption::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--phosphor);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(141, 217, 59, 0.6);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .h2-card-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--bone-hairline);
+    background: rgba(29, 77, 122, 0.05);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+  }
+  .h2-card-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--bone-faint);
+    font-size: var(--type-body);
+    align-items: baseline;
+  }
+  .h2-card-row:first-of-type { border-top: 0; }
+  .h2-chef {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.12em;
+    color: var(--bone);
+    text-transform: uppercase;
+  }
+  .h2-original {
+    color: var(--bone-dim);
+    text-decoration: line-through;
+    text-decoration-color: rgba(168, 160, 154, 0.5);
+    font-size: var(--type-body);
+  }
+  .h2-engine {
+    color: var(--bone);
+    font-weight: 500;
+    font-size: var(--type-body);
+  }
+  .h2-engine-marker {
+    color: var(--aero-bright);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75em;
+    margin-right: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+  .h2-card-footer {
+    padding: 0.85rem 1.25rem;
+    border-top: 1px solid var(--bone-hairline);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.12em;
+    color: var(--bone);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .h2-card-footer .pass { color: var(--phosphor); }
+
+  /* Forensics card */
+  .forensics {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    border-left: 3px solid var(--lamp-amber);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    padding: var(--space-4) var(--space-5);
+    margin: var(--space-4) 0;
+  }
+  .forensics-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 0.6rem;
+  }
+  .forensics-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-weight: 500;
+    color: var(--bone);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .forensics-body {
+    color: var(--bone-dim);
+    font-size: var(--type-body);
+    line-height: 1.65;
+    margin-bottom: 0.85rem;
+  }
+  .forensics-foot {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--bone-faint);
+    line-height: 1.55;
+  }
+  .forensics-foot strong { color: var(--bone); font-weight: 500; }
+
+  /* JSON CRT card. The one playful moment */
+  .crt-card {
+    background: var(--navy);
+    border: 1px solid rgba(46, 111, 164, 0.35);
+    border-radius: 6px;
+    padding: 1.5rem 1.75rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+    max-width: var(--content-max);
+    box-shadow: 0 0 0 1px rgba(217, 147, 58, 0.06) inset;
+  }
+  .crt-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(141, 217, 59, 0.02) 2px, rgba(141, 217, 59, 0.02) 3px);
+    pointer-events: none;
+  }
+  .crt-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .crt-stamp {
+    color: var(--phosphor);
+    border: 1px solid rgba(141, 217, 59, 0.5);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    font-size: var(--type-micro);
+    letter-spacing: 0.18em;
+  }
+  .crt-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    line-height: 1.65;
+    color: var(--phosphor);
+    white-space: pre;
+    overflow-x: auto;
+    text-shadow: 0 0 8px rgba(141, 217, 59, 0.15);
+  }
+  .crt-code .key { color: var(--monitor); }
+  .crt-code .val { color: #B8E68A; }
+  .crt-code .comment { color: rgba(141, 217, 59, 0.45); font-style: italic; }
+
+  /* Linkability bar */
+  .link-bar {
+    margin: var(--space-5) 0 0;
+    max-width: var(--prose-max);
+  }
+  .link-bar-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 0.6rem;
+  }
+  .link-bar-score {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h2);
+    color: var(--aero-bright);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .link-bar-track {
+    height: 4px;
+    background: var(--bone-faint);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .link-bar-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--sun-red) 0%, var(--sun-orange) 33%, var(--sun-yellow) 66%, var(--sun-gold) 100%);
+    border-radius: 2px;
+    transition: width 1400ms cubic-bezier(0.32, 0.72, 0, 1) 400ms;
+  }
+  .link-bar.visible .link-bar-fill { width: 87%; }
+
+  /* === FIG 04. Program / Gantt === */
+  .day-list {
+    margin: var(--space-4) 0 var(--space-7);
+    max-width: var(--prose-max);
+    list-style: none;
+    padding: 0;
+  }
+  .day-list li {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1.25rem;
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--bone-faint);
+    align-items: baseline;
+  }
+  .day-list li:last-child { border-bottom: 1px solid var(--bone-faint); }
+  .day-list .day-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+  }
+  .day-list .day-body {
+    color: var(--bone-dim);
+    font-size: var(--type-body);
+    line-height: 1.65;
+  }
+  .day-list .day-body strong { color: var(--bone); font-weight: 500; }
+
+  /* Layer Strip. Compounding-stack visual (NON-temporal; V1.1 add) */
+  .layer-strip {
+    margin: var(--space-4) 0 var(--space-7);
+    max-width: var(--prose-max);
+    list-style: none;
+    padding: 0;
+  }
+  .layer-strip .layer {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 1.25rem;
+    padding: 0.9rem 0;
+    border-top: 1px dashed var(--bone-faint);
+    align-items: baseline;
+  }
+  .layer-strip .layer:last-child { border-bottom: 1px dashed var(--bone-faint); }
+  .layer-strip .layer-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--lamp-amber);
+    color: var(--ink, #0e0c0a);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 32px;
+    text-align: center;
+  }
+  .layer-strip .layer-title {
+    color: var(--bone);
+    font-size: var(--type-body);
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+    letter-spacing: -0.005em;
+  }
+  .layer-strip .layer-body {
+    color: var(--bone-dim);
+    font-size: var(--type-body);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Gantt */
+  .gantt-wrap {
+    margin: var(--space-7) 0 var(--space-5);
+    padding: var(--space-5) var(--space-6);
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+  }
+  .gantt-axis {
+    display: grid;
+    grid-template-columns: 160px repeat(24, 1fr);
+    gap: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    letter-spacing: 0.12em;
+    color: var(--bone-fainter);
+    margin-bottom: 0.4rem;
+    align-items: end;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--bone-faint);
+  }
+  .gantt-axis-spacer { grid-column: 1; }
+  .gantt-axis-week { text-align: center; grid-column-end: span 4; }
+  .gantt-row {
+    display: grid;
+    grid-template-columns: 160px repeat(24, 1fr);
+    gap: 0;
+    height: 32px;
+    margin-bottom: 8px;
+    align-items: center;
+  }
+  .gantt-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.08em;
+    color: var(--bone);
+    padding-right: 1rem;
+  }
+  .gantt-label-sub {
+    font-size: var(--type-micro);
+    color: var(--bone);
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    display: block;
+    margin-top: 0.15rem;
+  }
+  .gantt-bar {
+    height: 18px;
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bone);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 800ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .gantt.visible .gantt-bar { transform: scaleX(1); }
+  .gantt.visible .gantt-bar.phase-0 { transition-delay: 0ms; }
+  .gantt.visible .gantt-bar.phase-1 { transition-delay: 120ms; }
+  .gantt.visible .gantt-bar.phase-2 { transition-delay: 240ms; }
+  .gantt.visible .gantt-bar.phase-3 { transition-delay: 360ms; }
+  .gantt-bar.phase-0 { background: var(--aero-tint); border: 1px solid var(--aero-glow); }
+  .gantt-bar.phase-1 { background: rgba(29, 77, 122, 0.5); }
+  .gantt-bar.phase-2 { background: rgba(29, 77, 122, 0.7); }
+  .gantt-bar.phase-3 { background: rgba(29, 77, 122, 0.9); }
+  .gantt-star {
+    color: var(--lamp-amber);
+    font-size: 1rem;
+    line-height: 1;
+    text-align: center;
+    text-shadow: 0 0 12px rgba(217, 147, 58, 0.5);
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }
+  .gantt.visible .gantt-star { opacity: 1; }
+  .gantt.visible .gantt-star:nth-of-type(1) { transition-delay: 900ms; }
+  .gantt.visible .gantt-star:nth-of-type(2) { transition-delay: 1100ms; }
+  .gantt.visible .gantt-star:nth-of-type(3) { transition-delay: 1300ms; }
+  /* === FIG 05. Terms (3-zone layout) === */
+  .terms-zones {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+    margin: var(--space-5) 0 0;
+  }
+
+  /* Zone A. Bordered "What's included" card */
+  .diff-list-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    padding: var(--space-5) var(--space-6);
+    max-width: var(--prose-max);
+  }
+  .diff-list-card-title {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-weight: 500;
+    color: var(--bone);
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--lamp-amber);
+    display: inline-block;
+    padding-right: var(--space-6);
+  }
+  .diff-list {
+    list-style: none;
+    padding: 0;
+  }
+  .diff-list li {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 0.75rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--bone-faint);
+    color: var(--bone);
+    font-size: var(--type-body);
+    line-height: 1.55;
+  }
+  .diff-list li:last-child { border-bottom: 0; }
+  .diff-list li::before {
+    content: '+';
+    color: var(--lamp-amber);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+  }
+
+  /* Zone B. Success milestone stat-pair cards */
+  .stat-pair {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    max-width: var(--prose-max);
+  }
+  .stat-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    padding: var(--space-5) var(--space-5);
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #C5443B 0%, #E07B3F 33%, #E6B547 66%, #C9893E 100%);
+    border-radius: 999px;
+  }
+  .stat-card-num {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h1);
+    color: var(--bone);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .stat-card-num .unit { font-size: 0.4em; color: var(--bone-dim); margin-left: 0.3em; letter-spacing: 0; }
+  .stat-card-when {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin: var(--space-3) 0 var(--space-3);
+  }
+  .stat-card-what {
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    line-height: 1.55;
+  }
+  .stat-pair-foot {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    margin-top: var(--space-4);
+    max-width: var(--prose-max);
+    line-height: 1.55;
+    font-style: italic;
+  }
+
+  /* Zone C. Accordion trio */
+  .accordion-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: var(--prose-max);
+  }
+  .accordion-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .accordion-card summary {
+    list-style: none;
+    cursor: pointer;
+    padding: var(--space-4) var(--space-5);
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-body);
+    color: var(--bone);
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 200ms ease;
+  }
+  .accordion-card summary::-webkit-details-marker { display: none; }
+  .accordion-card summary:hover { background: rgba(217, 147, 58, 0.04); }
+  .accordion-card summary::after {
+    content: '+';
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--lamp-amber);
+    font-size: 1.2rem;
+    transition: transform 200ms ease;
+  }
+  .accordion-card[open] summary::after { transform: rotate(45deg); }
+  .accordion-card[open] summary { border-bottom: 1px solid var(--bone-faint); }
+  .accordion-body {
+    padding: var(--space-4) var(--space-5) var(--space-5);
+    color: var(--bone-dim);
+    font-size: var(--type-body);
+    line-height: 1.65;
+    max-width: var(--prose-max);
+  }
+  .accordion-body strong { color: var(--bone); font-weight: 500; }
+  .accordion-card summary:focus-visible { outline: 2px solid var(--lamp-amber); outline-offset: -2px; }
+
+  /* Risk cards. Linear-issue style */
+  .risk-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: var(--space-5) 0 0;
+    border-top: 1px solid var(--bone-faint);
+    max-width: var(--prose-max);
+  }
+  .risk-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 1.5rem;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--bone-faint);
+  }
+  .risk-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    padding-top: 0.2rem;
+  }
+  .risk-id .badge {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+    background: var(--aero-glow);
+  }
+  .risk-row.high .risk-id .badge { background: var(--lamp-amber); }
+  .risk-title {
+    color: var(--bone);
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    font-weight: 500;
+    line-height: 1.45;
+    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+  }
+  .risk-mit {
+    color: var(--bone-dim);
+    font-size: var(--type-body);
+    line-height: 1.65;
+  }
+  .risk-mit-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-right: 0.6rem;
+  }
+
+  /* === FIG 06. Close === */
+  .pricing-aside {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    max-width: var(--prose-max);
+    line-height: 1.65;
+    margin: var(--space-4) 0 var(--space-7);
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--lamp-amber);
+  }
+
+  /* Merged capacity + CTA into single close-action-card */
+  .close-action-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    padding: var(--space-6) var(--space-6);
+    margin: var(--space-7) 0;
+    max-width: var(--prose-max);
+    position: relative;
+    overflow: hidden;
+  }
+  .close-action-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #C5443B 0%, #E07B3F 33%, #E6B547 66%, #C9893E 100%);
+    border-radius: 999px;
+  }
+  .close-action-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: var(--space-3);
+  }
+  .close-action-body {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    color: var(--bone);
+    line-height: 1.45;
+    max-width: 620px;
+    margin-bottom: var(--space-4);
+    font-weight: 400;
+  }
+  .close-action-sub {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    max-width: 620px;
+    line-height: 1.55;
+    margin-bottom: var(--space-5);
+    font-style: italic;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1.1rem 2rem;
+    background: transparent;
+    color: var(--bone);
+    border: 1px solid var(--lamp-amber);
+    border-radius: 4px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: var(--type-body);
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: all 250ms cubic-bezier(0.32, 0.72, 0, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta:focus-visible { outline: 2px solid var(--lamp-amber); outline-offset: 4px; }
+  .cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--lamp-amber) 0%, #B17828 100%);
+    transform: translateY(101%);
+    transition: transform 350ms cubic-bezier(0.32, 0.72, 0, 1);
+    z-index: -1;
+    opacity: 0.9;
+  }
+  .cta:hover { border-color: var(--lamp-amber); transform: translateY(-1px); color: var(--ink); }
+  .cta:hover::before { transform: translateY(0); }
+  .cta .arrow { transition: transform 250ms ease; }
+  .cta:hover .arrow { transform: translateX(4px); }
+  .cta-sub {
+    font-family: 'Manrope', sans-serif;
+    font-size: var(--type-body);
+    color: var(--bone-dim);
+    margin-top: var(--space-3);
+  }
+  .cta-sub a {
+    color: var(--bone);
+    text-decoration: underline;
+    text-decoration-color: var(--bone-faint);
+    text-underline-offset: 3px;
+  }
+  .cta-sub a:hover { color: var(--lamp-amber); }
+  .signoff {
+    margin-top: var(--space-7);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--bone-faint);
+    max-width: var(--prose-max);
+  }
+  .signoff-name {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: var(--type-h3);
+    color: var(--bone);
+    letter-spacing: -0.01em;
+  }
+  .signoff-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    opacity: 0.7;
+    margin-top: 0.3rem;
+  }
+
+  /* === Footer === */
+  footer {
+    margin-left: var(--rail-w);
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    border-top: 1px solid var(--bone-faint);
+    position: relative;
+  }
+  .footer-stripe {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sun-red) 0%, var(--sun-orange) 33%, var(--sun-yellow) 66%, var(--sun-gold) 100%);
+    border-radius: 999px;
+    margin: 0 auto 1.5rem;
+  }
+  .footer-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    opacity: 0.6;
+  }
+
+  /* === Global focus ring === */
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--lamp-amber);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  /* === Stagger fade-in === */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 700ms cubic-bezier(0.32, 0.72, 0, 1), transform 700ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* === Reduced motion === */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+    .revenue-chart .curve { stroke-dashoffset: 0; }
+    .revenue-chart .area { opacity: 1; }
+    .gantt-bar { transform: scaleX(1); }
+    .gantt-star { opacity: 1; }
+  }
+
+  /* === Header === */
+  header {
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--bone-faint);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  .brand { font-family: 'Fraunces', Georgia, serif; font-size: var(--type-h3); color: var(--bone); font-weight: 500; letter-spacing: -0.01em; }
+  .brand-sub { font-family: 'JetBrains Mono', monospace; font-size: var(--type-caption); letter-spacing: 0.2em; text-transform: uppercase; color: var(--bone); margin-left: 0.5rem; opacity: 0.7; }
+  .meta { font-family: 'JetBrains Mono', monospace; font-size: var(--type-caption); letter-spacing: 0.12em; color: var(--bone); opacity: 0.65; text-align: right; }
+  .meta strong { color: var(--bone); opacity: 1; font-weight: 500; }
+
+  /* === Glass card wrapper (reusable) === */
+  .glass-card {
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.18), rgba(14, 12, 10, 0.55));
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(242, 235, 221, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(217, 147, 58, 0.10) inset,
+      0 24px 64px rgba(14, 12, 10, 0.6);
+    border-radius: 10px;
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-4) 0 var(--space-6);
+    max-width: var(--prose-max);
+  }
+  .glass-card table { margin: 0; }
+  .glass-card .risk-list { margin: 0; border-top: 0; }
+  .glass-card .risk-row:last-child { border-bottom: 0; }
+  .glass-card .risk-row:first-child { padding-top: 0; }
+
+  /* === Tables (Tab 03) === */
+  table { width: 100%; border-collapse: collapse; margin: var(--space-4) 0; font-size: var(--type-body); max-width: var(--prose-max); }
+  th, td { padding: 0.85rem 1rem; text-align: left; border-bottom: 1px solid var(--bone-faint); vertical-align: top; font-size: var(--type-body); line-height: 1.55; }
+  th { color: var(--bone); font-family: 'JetBrains Mono', monospace; font-size: var(--type-caption); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; padding-bottom: 0.6rem; }
+  tbody tr:hover td { background: rgba(29, 77, 122, 0.04); }
+  td strong { color: var(--lamp-amber); font-weight: 500; }
+
+  /* === Risk owner label (Tab 05) === */
+  .risk-owner-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--type-caption);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-right: 0.6rem;
+  }
+
+  /* === Mobile (< 768px) === */
+  @media (max-width: 768px) {
+    :root {
+      --type-display: 48px;
+      --type-h1: 34px;
+      --type-h2: 24px;
+      --type-h3: 18px;
+    }
+    .rail { display: none; }
+    .rail-mobile { display: block; }
+    .mark { display: none; }
+    main { padding-left: 0; padding-right: 0; }
+    section { padding: var(--section-pad) 1.25rem; }
+
+    /* Tab bar horizontal scroll on mobile */
+    .tab-bar-inner { overflow-x: auto; scrollbar-width: none; }
+    .tab-bar-inner::-webkit-scrollbar { display: none; }
+    .tab { padding: 0.85rem 0.85rem; font-size: 0.7rem; flex: 0 0 auto; }
+    .tab-container { padding: 0 var(--space-4) var(--space-7); }
+    .panel-nav { flex-direction: column; gap: 0.75rem; }
+    .panel-nav-btn { width: 100%; justify-content: center; }
+    .diptych { grid-template-columns: 1fr; gap: 2rem; }
+    .h2-card-header, .h2-card-row { grid-template-columns: 1fr; gap: 0.4rem; }
+    .h2-card-row { padding: 1rem; }
+    .h2-original::before { content: 'Original · '; font-family: 'JetBrains Mono', monospace; font-size: var(--type-micro); letter-spacing: 0.15em; color: var(--bone); opacity: 0.7; text-decoration: none; display: block; margin-bottom: 0.15rem; }
+    .h2-engine::before { content: 'Engine · '; font-family: 'JetBrains Mono', monospace; font-size: var(--type-micro); letter-spacing: 0.15em; color: var(--bone); display: block; margin-bottom: 0.15rem; }
+
+    /* Gantt: stack label ABOVE bar on mobile */
+    .gantt-wrap { margin: 2.5rem -0.5rem 2rem; }
+    .gantt-axis { display: none; }
+    .gantt-row {
+      grid-template-columns: 1fr;
+      height: auto;
+      margin-bottom: 1.25rem;
+      gap: 0.4rem;
+    }
+    .gantt-label {
+      padding-right: 0;
+      font-size: var(--type-caption);
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+    .gantt-label-sub {
+      display: inline;
+      margin-top: 0;
+      letter-spacing: 0.18em;
+    }
+    .gantt-bar {
+      height: 20px;
+      font-size: var(--type-micro);
+      padding: 0 0.6rem;
+      grid-column: 1 / -1 !important;
+      transform-origin: left;
+    }
+    .gantt-star {
+      display: none;
+    }
+
+    .stat-pair { grid-template-columns: 1fr; }
+    .risk-row { grid-template-columns: 1fr; gap: 0.5rem; }
+    footer { margin-left: 0; }
+    .hero-quote { margin: var(--space-5) 0 var(--space-3); }
+    .title-divider { margin: var(--space-7) 0 var(--space-6); }
+    .diff-list-card, .close-action-card { padding: var(--space-4) var(--space-4); }
+  }
+
+  /* === OPTIONAL PRIMITIVE: .audio-companion ===
+     Use when a NotebookLM audio overview exists for this proposal.
+     Add the block to Tab 01 hero area. Remove entirely if no audio.
+  */
+  .audio-companion {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--space-5);
+    margin: var(--space-5) 0 0;
+    max-width: var(--chart-max);
+    padding: var(--space-3) var(--space-4);
+    background: rgba(217, 147, 58, 0.05);
+    border: 1px solid rgba(217, 147, 58, 0.18);
+    border-left: 3px solid var(--lamp-amber);
+    border-radius: 8px;
+  }
+  .audio-companion-meta { display: flex; flex-direction: column; gap: 0.2rem; }
+  .audio-companion-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--lamp-amber); font-weight: 600;
+  }
+  .audio-companion-title { font-family: 'Fraunces', Georgia, serif; font-size: 1.05rem; color: var(--bone); line-height: 1.3; }
+  .audio-companion-sub { font-size: 13px; color: var(--bone-dim); line-height: 1.4; }
+  .audio-companion-player { width: 100%; max-width: 100%; }
+  @media (max-width: 768px) {
+    .audio-companion { grid-template-columns: 1fr; gap: var(--space-3); }
+  }
+
+  /* === OPTIONAL PRIMITIVE: .deep-dive ===
+     Expandable blue-tinted callout for supplemental depth.
+     Use for technical explainers, methodology details, or extended proof.
+  */
+  .deep-dive {
+    margin: var(--space-5) 0;
+    padding: var(--space-4) var(--space-5);
+    background: rgba(29, 77, 122, 0.10);
+    border: 1px solid rgba(29, 77, 122, 0.30);
+    border-left: 3px solid var(--aero);
+    border-radius: 8px;
+  }
+  .deep-dive-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--aero-bright); font-weight: 600; margin-bottom: 0.4rem;
+  }
+  .deep-dive-title { font-family: 'Fraunces', Georgia, serif; font-size: 1.25rem; color: var(--bone); margin-bottom: 0.3rem; line-height: 1.25; }
+  .deep-dive-body { font-size: 14px; color: var(--bone-dim); line-height: 1.55; margin-bottom: var(--space-3); }
+  .deep-dive-cta {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.7rem 1.1rem; background: var(--aero); color: var(--bone); text-decoration: none;
+    border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; transition: background 200ms ease;
+  }
+  .deep-dive-cta:hover { background: var(--aero-bright); }
+
+  /* === Layout switch: long-scroll mode === */
+  /* Default: tabbed (no class needed on body). */
+  /* Long-scroll: add class="layout-scroll" to <body>
+<!-- ====== EDIT MODE TOOLBAR (v10 self-edit feature) ======
+     CSS lives in <style>; JS lives at bottom of <body>.
+     Keys are auto-namespaced per-file (location.pathname).
+     Source: ported from proposal-package-v10-executive.html (2026-05-13).
+-->
+<div id="edit-toolbar" role="toolbar" aria-label="Editor">
+  <span class="label">EDIT</span>
+  <button id="btn-edit" type="button" title="Toggle inline text editing">EDIT MODE</button>
+  <button id="btn-blocks" type="button" title="Show per-block tools (spacing, font, move, hide)">BLOCKS</button>
+  <span class="divider"></span>
+  <button id="btn-undo" type="button" title="Undo last change (Cmd+Z)">↶ UNDO</button>
+  <button id="btn-redo" type="button" title="Redo (Cmd+Shift+Z)">↷ REDO</button>
+  <span class="divider"></span>
+  <button id="btn-show-hidden" type="button" title="Show all hidden blocks again">SHOW HIDDEN</button>
+  <button id="btn-fix-styles" type="button" title="Clean up font/style junk from pasted content">FIX STYLES</button>
+  <span class="divider"></span>
+  <button id="btn-save" type="button" class="save" title="Download HTML with your edits (Cmd+S)">SAVE</button>
+  <button id="btn-reset" type="button" class="danger" title="Revert all edits to original">RESET</button>
+</div>
+
+<div id="format-bar" role="toolbar" aria-label="Text format">
+  <button type="button" class="bold" data-format="bold" title="Bold (Cmd+B)">B</button>
+  <button type="button" class="italic" data-format="italic" title="Italic (Cmd+I)">I</button>
+  <button type="button" class="strike" data-format="strikeThrough" title="Strikethrough">S</button>
+</div>
+
+<div id="edit-help">
+  <strong>Edit Mode is ON.</strong><br>
+  Click any text to edit. Locked elements stay locked.<br>
+  <strong>BLOCKS:</strong> per-block tools · − + spacing, A− A+ font, ↑ ↓ move, ✕ hide.<br>
+  <strong>FIX STYLES:</strong> cleans pasted font junk.<br>
+  <strong>UNDO/REDO:</strong> <span class="key">Cmd+Z</span> / <span class="key">Cmd+Shift+Z</span>.<br>
+  <strong>SAVE</strong> downloads. <strong>RESET</strong> wipes auto-save.
+</div>
+
+<header>
+  <div>
+    <span class="brand">JFly.Ai</span>
+    <span class="brand-sub">Program Proposal · Executive</span>
+  </div>
+
+<!-- ====== END EDIT MODE TOOLBAR ====== -->
+. All panels stack visibly, tab nav hides. */
+  body.layout-scroll .tab-bar { display: none; }
+  body.layout-scroll .progress-row { display: none; }
+  body.layout-scroll .panel { display: block; animation: none; padding-top: var(--space-7); border-top: 1px solid var(--bone-faint); }
+  body.layout-scroll .panel:first-of-type { border-top: 0; padding-top: var(--space-5); }
+  body.layout-scroll .panel-nav { display: none; }
+  body.layout-scroll .keyboard-hint { display: none; }
+
+  /* === Print === */
+  @media print {
+    body { background: white; color: #0A0908; font-size: 10pt; }
+    body::before { display: none; }
+    .rail, .rail-mobile, .tab-bar, .panel-nav, .keyboard-hint, .hero-scroll-cue, .mark { display: none !important; }
+    .panel { display: block !important; page-break-after: always; }
+    main { padding-left: 0; }
+    section { padding: 2rem 0; page-break-inside: avoid; }
+    h1, h2, .hero-quote, .person-name, .math-headline, .capacity-body { color: #0A0908; }
+    .prose, .person-role, .risk-mit, .pricing-aside { color: #333; }
+    .eyebrow, .hero-cite, .log-line, .chart-caption, .person-tag { color: #1D4D7A; }
+    .crt-card { background: #fafafa; border: 1px solid #ccc; }
+    .crt-card::before { display: none; }
+    .crt-code { color: #1A1817; text-shadow: none; }
+    .crt-code .key { color: #1D4D7A; }
+    .gantt-bar.phase-0, .gantt-bar.phase-1, .gantt-bar.phase-2, .gantt-bar.phase-3 { background: #1D4D7A !important; transform: scaleX(1); }
+    .h2-card { border-color: #ccc; background: #fafafa; }
+    footer { margin-left: 0; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+  }
+  /* ====== EDIT MODE TOOLBAR (v10 self-edit) ====== */
+  #edit-toolbar {
+    position: fixed; top: 14px; right: 14px; z-index: 2147483647;
+    background: rgba(20, 17, 15, 0.92); backdrop-filter: blur(8px);
+    border: 1px solid rgba(242, 235, 221, 0.18); border-radius: 8px;
+    padding: 8px; display: flex; flex-wrap: wrap; gap: 6px;
+    max-width: calc(100vw - 28px);
+    font: 11px/1 "Manrope", -apple-system, sans-serif;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    pointer-events: auto;
+  }
+  #edit-toolbar button { pointer-events: auto; }
+  #edit-toolbar button {
+    background: transparent; color: var(--bone-dim);
+    border: 1px solid rgba(242, 235, 221, 0.18); border-radius: 4px;
+    padding: 7px 10px; cursor: pointer; font: inherit;
+    transition: all 0.15s ease;
+  }
+  #edit-toolbar button:hover { background: rgba(242, 235, 221, 0.08); color: var(--bone); border-color: rgba(242, 235, 221, 0.32); }
+  #edit-toolbar button.active { background: var(--sun-orange); color: var(--ink); border-color: var(--sun-orange); }
+  #edit-toolbar button.danger { color: var(--sun-red); border-color: rgba(197, 68, 59, 0.32); }
+  #edit-toolbar button.save { color: var(--sun-yellow); border-color: rgba(230, 181, 71, 0.32); }
+  #edit-toolbar .divider { width: 1px; background: rgba(242, 235, 221, 0.12); margin: 2px 4px; }
+  #edit-toolbar .label { color: var(--bone-fainter); padding: 7px 4px 7px 8px; align-self: center; }
+
+  body.edit-mode [data-editable] { outline: 1px dashed rgba(230, 181, 71, 0.45); outline-offset: 4px; cursor: text; }
+  body.edit-mode [data-editable]:hover { outline-color: var(--sun-orange); background: rgba(230, 181, 71, 0.04); }
+  body.edit-mode [data-locked]::before {
+    content: "🔒"; font-size: 11px; opacity: 0.55;
+    position: absolute; left: -22px; top: 0;
+  }
+  body.edit-mode [data-locked] { position: relative; outline: 1px dotted rgba(197, 68, 59, 0.35); outline-offset: 4px; }
+
+  body.blocks-mode [data-block] { position: relative; outline: 1px solid rgba(46, 111, 164, 0.35); outline-offset: 8px; }
+  body.blocks-mode [data-block][data-hidden] { opacity: 0.35; outline-color: rgba(197, 68, 59, 0.45); }
+  body.blocks-mode [data-block][data-hidden]::before {
+    content: "HIDDEN. Won't ship";
+    position: absolute; top: 4px; left: 4px;
+    background: var(--sun-red); color: var(--bone);
+    padding: 2px 6px; border-radius: 3px;
+    font: 9px/1 "Manrope", sans-serif;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    z-index: 10;
+  }
+  body:not(.blocks-mode) [data-hidden] { display: none !important; }
+
+  /* Every [data-block] becomes its own positioning context so the absolute chips anchor
+     to the block, not the page. Without this they get pulled into grid/flex cells and
+     blow up into huge white boxes inside the layout. */
+  body.blocks-mode [data-block] { position: relative; }
+  .spacing-chips {
+    position: absolute; top: -14px; right: 0; z-index: 50;
+    display: none; gap: 3px; width: auto; height: auto;
+    font: 11px/1 "Manrope", sans-serif;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    /* These two prevent the chips from being treated as a grid/flex CHILD by the block. */
+    grid-column: auto; grid-row: auto;
+  }
+  body.blocks-mode [data-block] > .spacing-chips { display: inline-flex; }
+  .spacing-chips .chip {
+    background: var(--aero); color: var(--bone);
+    padding: 4px 8px; border-radius: 3px;
+    cursor: pointer; user-select: none;
+    border: none; font: inherit;
+    min-width: 26px; text-align: center;
+  }
+  .spacing-chips .chip.minus { background: var(--sun-red); }
+  .spacing-chips .chip.plus { background: var(--aero); }
+  .spacing-chips .chip.font-minus { background: rgba(197, 68, 59, 0.7); }
+  .spacing-chips .chip.font-plus { background: rgba(29, 77, 122, 0.7); }
+  .spacing-chips .chip.move-up, .spacing-chips .chip.move-down { background: var(--ink-soft); border: 1px solid rgba(242, 235, 221, 0.32); }
+  .spacing-chips .chip.toggle-hide { background: var(--sun-orange); color: var(--ink); }
+  .spacing-chips .chip:hover { filter: brightness(1.2); }
+  .spacing-chips .chip-label {
+    color: var(--bone-fainter); padding: 4px 4px;
+    font-size: 11px; align-self: center;
+  }
+  .spacing-chips .chip-divider {
+    width: 1px; background: rgba(242, 235, 221, 0.25); margin: 2px 2px;
+  }
+
+  /* Floating format bar for bold/italic on selection */
+  #format-bar {
+    position: fixed; z-index: 10000;
+    background: var(--ink); border: 1px solid rgba(242, 235, 221, 0.32);
+    border-radius: 6px; padding: 4px;
+    display: none; gap: 2px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  }
+  #format-bar.visible { display: flex; }
+  #format-bar button {
+    background: transparent; color: var(--bone);
+    border: none; cursor: pointer;
+    padding: 6px 9px; border-radius: 3px;
+    font: 12px/1 "Manrope", sans-serif;
+    min-width: 28px;
+  }
+  #format-bar button:hover { background: rgba(242, 235, 221, 0.12); }
+  #format-bar button.bold { font-weight: 700; }
+  #format-bar button.italic { font-style: italic; }
+  #format-bar button.strike { text-decoration: line-through; }
+
+  #edit-help {
+    position: fixed; bottom: 14px; right: 14px; z-index: 9999;
+    background: rgba(20, 17, 15, 0.92); backdrop-filter: blur(8px);
+    border: 1px solid rgba(242, 235, 221, 0.18); border-radius: 8px;
+    padding: 12px 16px; max-width: 320px;
+    font: 12px/1.5 "Manrope", -apple-system, sans-serif;
+    color: var(--bone-dim);
+    display: none;
+  }
+  body.edit-mode #edit-help { display: block; }
+  #edit-help strong { color: var(--bone); }
+  #edit-help .key { background: rgba(242, 235, 221, 0.1); padding: 1px 5px; border-radius: 3px; font-family: "JetBrains Mono", monospace; font-size: 11px; }
+
+  @media print { #edit-toolbar, #edit-help { display: none !important; } }
+
+  /* === INVENTED PRIMITIVES for DiningOut v2 (promote to kit if approved) === */
+
+  /* .finding-stack. Vertical stack of 3 .finding cards (Tab 01 multi-signal diagnosis) */
+  .finding-stack { display: flex; flex-direction: column; gap: var(--space-5); margin: var(--space-5) 0 var(--space-6); }
+  .finding {
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-left: 3px solid var(--lamp-amber);
+    border-radius: 6px;
+    padding: var(--space-5) var(--space-5);
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: var(--space-5);
+  }
+  .finding-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: var(--type-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--lamp-amber);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+  }
+  .finding-title {
+    font-family: "Fraunces", serif;
+    font-size: var(--type-h3);
+    line-height: 1.25;
+    font-weight: 500;
+    color: var(--bone);
+    margin: 0 0 var(--space-3);
+    letter-spacing: -0.01em;
+  }
+  .finding-body { font-size: var(--type-body); color: var(--bone-dim); line-height: 1.6; margin: 0; }
+  .finding-body strong { color: var(--bone); font-weight: 600; }
+  .data-sidebar {
+    border-left: 1px solid var(--bone-hairline);
+    padding-left: var(--space-4);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--bone-dim);
+    line-height: 1.55;
+  }
+  .data-sidebar-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--bone);
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+    display: block;
+  }
+  .data-sidebar dt {
+    color: var(--bone);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 9.5px;
+    font-weight: 700;
+    margin-top: var(--space-2);
+  }
+  .data-sidebar dt:first-child { margin-top: 0; }
+  .data-sidebar dd { margin: 2px 0 0; padding: 0; color: var(--bone-dim); }
+  .data-sidebar dd.high { color: #6EE7A8; }
+  .data-sidebar dd.medium { color: var(--lamp-amber); }
+  .data-sidebar dd.speculative { color: var(--mid); font-style: italic; }
+  @media (max-width: 880px) {
+    .finding { grid-template-columns: 1fr; }
+    .data-sidebar { border-left: none; border-top: 1px solid var(--bone-hairline); padding: var(--space-4) 0 0; }
+  }
+
+  /* .friend-line. Opening 90s "friend-deal-inverted" line, Tab 01 */
+  .friend-line {
+    background: linear-gradient(90deg, rgba(29,77,122,0.12) 0%, rgba(29,77,122,0.04) 100%);
+    border-left: 3px solid var(--aero-bright);
+    padding: var(--space-4) var(--space-5);
+    border-radius: 6px;
+    margin: var(--space-5) 0;
+    font-family: "Fraunces", serif;
+    font-size: var(--type-lede);
+    line-height: 1.5;
+    color: var(--bone);
+    font-style: italic;
+  }
+  .friend-line .who {
+    display: block;
+    margin-top: var(--space-3);
+    font-family: "Manrope", sans-serif;
+    font-size: var(--type-micro);
+    color: var(--bone-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-style: normal;
+  }
+
+  /* .demo-grid · 4-up linked artifact cards (Tab 03) */
+  .demo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); margin: var(--space-5) 0 var(--space-6); }
+  .demo-card {
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 6px;
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 180ms, transform 180ms;
+  }
+  .demo-card:hover { border-color: var(--lamp-amber); transform: translateY(-1px); }
+  .demo-card .demo-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--lamp-amber);
+    font-weight: 700;
+  }
+  .demo-card .demo-title { font-family: "Fraunces", serif; font-size: var(--type-h4); color: var(--bone); margin: 0; font-weight: 500; }
+  .demo-card .demo-what { font-size: 13px; color: var(--bone-dim); margin: 0; line-height: 1.55; }
+  .demo-card .demo-arrow { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--aero-bright); margin-top: auto; padding-top: var(--space-2); }
+  @media (max-width: 880px) { .demo-grid { grid-template-columns: 1fr; } }
+
+  /* .lane-grid · 4-up role allocation cards (Tab 06) */
+  .lane-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); margin: var(--space-5) 0; }
+  .lane-card {
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 6px;
+    padding: var(--space-5);
+  }
+  .lane-card.mine { border-left: 3px solid var(--lamp-amber); }
+  .lane-card .lane-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--bone);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+  }
+  .lane-card.mine .lane-tag { color: var(--lamp-amber); }
+  .lane-card .lane-name { font-family: "Fraunces", serif; font-size: var(--type-h4); color: var(--bone); font-weight: 500; margin: 0 0 var(--space-2); letter-spacing: -0.01em; }
+  .lane-card .lane-body { font-size: 13.5px; color: var(--bone-dim); line-height: 1.6; margin: 0; }
+  .lane-card .lane-body strong { color: var(--bone); }
+  @media (max-width: 880px) { .lane-grid { grid-template-columns: 1fr; } }
+
+  /* .tier-grid + .tier-card · 3-tier pricing comparison (Tab 07) */
+  .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin: var(--space-5) 0 var(--space-6); align-items: stretch; }
+  .tier-card {
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 8px;
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .tier-card.featured {
+    border: 1px solid var(--lamp-amber);
+    background: linear-gradient(180deg, rgba(230,181,71,0.06) 0%, rgba(242,235,221,0.025) 100%);
+    box-shadow: 0 0 0 1px rgba(230,181,71,0.18);
+  }
+  .tier-card .tier-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bone-dim);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+  }
+  .tier-card.featured .tier-tag { color: var(--lamp-amber); }
+  .tier-card .tier-name { font-family: "Fraunces", serif; font-size: var(--type-h3); color: var(--bone); font-weight: 500; margin: 0 0 var(--space-2); line-height: 1.2; letter-spacing: -0.015em; }
+  .tier-card .tier-price { font-family: "JetBrains Mono", monospace; font-size: var(--type-h2); color: var(--bone); font-weight: 500; margin: var(--space-2) 0 var(--space-1); letter-spacing: -0.02em; }
+  .tier-card.featured .tier-price { color: var(--lamp-amber); }
+  .tier-card .tier-price-sub { font-family: "Manrope", sans-serif; font-size: 12px; color: var(--bone-dim); margin: 0 0 var(--space-3); }
+  .tier-card .tier-rule { font-size: 13px; color: var(--bone-dim); line-height: 1.55; font-style: italic; margin: 0 0 var(--space-4); padding-bottom: var(--space-4); border-bottom: 1px dashed var(--bone-hairline); }
+  .tier-card ul.tier-list { list-style: none; padding: 0; margin: 0 0 var(--space-4); }
+  .tier-card ul.tier-list li {
+    font-size: 13px; color: var(--bone); line-height: 1.5; padding: 4px 0 4px 18px; position: relative;
+  }
+  .tier-card ul.tier-list li::before { content: "+"; position: absolute; left: 0; color: var(--lamp-amber); font-weight: 700; }
+  .tier-card ul.tier-list li.excl { color: var(--bone-dim); }
+  .tier-card ul.tier-list li.excl::before { content: "−"; color: var(--mid); }
+  .tier-card .tier-foot {
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--bone-hairline);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--bone-dim);
+  }
+  .tier-card .tier-foot strong { color: var(--bone); }
+  @media (max-width: 1000px) { .tier-grid { grid-template-columns: 1fr; } }
+
+  /* .pending-flag. Inline pricing-pending note */
+  .pending-flag {
+    display: inline-block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9.5px;
+    background: rgba(230,181,71,0.18);
+    color: var(--lamp-amber);
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-left: var(--space-2);
+    vertical-align: middle;
+    font-weight: 700;
+  }
+
+  /* .connected-map. Tab 05 SVG diagram wrapper */
+  .connected-map {
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 8px;
+    padding: var(--space-5);
+    margin: var(--space-5) 0;
+  }
+  .connected-map svg { width: 100%; height: auto; display: block; }
+  .connected-map .map-caption { font-family: "JetBrains Mono", monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--bone-dim); margin-top: var(--space-3); text-align: center; }
+
+  /* .walk-list · 90-second live walk-through sequence (Tab 05) */
+  .walk-list { list-style: none; padding: 0; margin: var(--space-5) 0; counter-reset: walk; }
+  .walk-list li {
+    counter-increment: walk;
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 6px;
+    padding: var(--space-4) var(--space-4) var(--space-4) calc(var(--space-7) + 8px);
+    margin-bottom: var(--space-3);
+    position: relative;
+    font-size: 13.5px;
+    color: var(--bone-dim);
+    line-height: 1.6;
+  }
+  .walk-list li::before {
+    content: counter(walk);
+    position: absolute;
+    left: var(--space-4);
+    top: var(--space-4);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--lamp-amber);
+    color: var(--lamp-amber);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .walk-list li strong { color: var(--bone); }
+  .walk-list li .walk-sec { font-family: "JetBrains Mono", monospace; font-size: 10px; text-transform: uppercase; color: var(--bone-dim); letter-spacing: 0.1em; float: right; }
+
+  /* ============================================================ */
+  /* === V3 VISUAL-FIRST PRIMITIVES (added 2026-05-21 PM) === */
+  /* === Per v3-design-spec.md · 9 new primitives, inline   === */
+  /* === SVG, dark-mode native, zero JS deps.               === */
+  /* ============================================================ */
+
+  /* === V3.0 Page-level rhythm fixes === */
+  .v3-hero {
+    padding: var(--space-7) 0 var(--space-6);
+    border-bottom: 1px solid var(--bone-hairline);
+    margin-bottom: var(--space-7);
+  }
+  .v3-eyebrow {
+    font-family: "JetBrains Mono", monospace;
+    font-size: var(--type-micro);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lamp-amber);
+    margin-bottom: var(--space-4);
+  }
+  .v3-eyebrow .sep { color: var(--bone-faint); margin: 0 var(--space-2); }
+  .v3-h1 {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: clamp(36px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--bone);
+    margin: 0 0 var(--space-3);
+    max-width: 22ch;
+  }
+  .v3-lede {
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.55;
+    color: var(--bone-dim);
+    max-width: 60ch;
+    margin: 0;
+  }
+  .v3-lede strong { color: var(--bone); font-weight: 500; }
+
+  /* Big-number row (the money anchor) */
+  .v3-money-anchor {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-7) 0;
+    background: linear-gradient(180deg, rgba(217, 147, 58, 0.045), rgba(29, 77, 122, 0.06));
+    border: 1px solid rgba(217, 147, 58, 0.18);
+    border-radius: 6px;
+  }
+  .v3-money-step { text-align: center; }
+  .v3-money-step .num {
+    font-family: "Fraunces", serif;
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 500;
+    color: var(--bone);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    display: block;
+  }
+  .v3-money-step .num.amber { color: var(--lamp-amber); }
+  .v3-money-step .lbl {
+    font-family: "JetBrains Mono", monospace;
+    font-size: var(--type-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--bone-dim);
+    margin-top: var(--space-2);
+    display: block;
+  }
+  .v3-money-arrow {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 22px;
+    color: var(--lamp-amber);
+    opacity: 0.7;
+  }
+
+  /* === Finding tiles grid (3-up on desktop) === */
+  .v3-findings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    margin: var(--space-6) 0 var(--space-5);
+  }
+  @media (max-width: 900px) { .v3-findings-grid { grid-template-columns: 1fr; } }
+  .v3-finding-tile {
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 4px;
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    transition: border-color 240ms ease;
+  }
+  .v3-finding-tile:hover { border-color: rgba(217, 147, 58, 0.4); }
+  .v3-finding-tile .tile-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lamp-amber);
+  }
+  .v3-finding-tile .tile-viz {
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--space-2) 0;
+  }
+  .v3-finding-tile .tile-num {
+    font-family: "Fraunces", serif;
+    font-size: clamp(48px, 6vw, 78px);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--bone);
+  }
+  .v3-finding-tile .tile-num.amber { color: var(--lamp-amber); }
+  .v3-finding-tile .tile-headline {
+    font-family: "Fraunces", serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--bone);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .v3-finding-tile .tile-caption {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--bone-dim);
+    margin: 0;
+  }
+  .v3-finding-tile .tile-data {
+    border-top: 1px solid var(--bone-hairline);
+    padding-top: var(--space-3);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--bone-fainter);
+    line-height: 1.7;
+  }
+  .v3-finding-tile .tile-data .row { display: flex; justify-content: space-between; gap: var(--space-2); }
+  .v3-finding-tile .tile-data .row .k { color: var(--bone-fainter); text-transform: uppercase; letter-spacing: 0.12em; }
+  .v3-finding-tile .tile-data .row .v { color: var(--bone-dim); text-align: right; }
+  .v3-finding-tile .tile-data .conf {
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid currentColor;
+    border-radius: 2px;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+  }
+  .v3-finding-tile .tile-data .conf.high { color: var(--phosphor); }
+  .v3-finding-tile .tile-data .conf.medium { color: var(--lamp-amber); }
+  .v3-finding-tile .tile-data .conf.speculative { color: var(--mid); }
+
+  /* === 1. Broken Gauge === */
+  .v3-gauge {
+    width: 200px;
+    height: 120px;
+    position: relative;
+  }
+  .v3-gauge svg { width: 100%; height: 100%; overflow: visible; }
+  .v3-gauge-arc { stroke: var(--bone-faint); stroke-width: 14; fill: none; }
+  .v3-gauge-arc-filled { stroke: var(--lamp-amber); stroke-width: 14; fill: none; stroke-linecap: butt; }
+  .v3-gauge-arc-phantom { stroke: var(--bone-dim); stroke-width: 2; stroke-dasharray: 5 5; fill: none; opacity: 0.55; }
+  .v3-gauge-needle { stroke: var(--bone); stroke-width: 2; stroke-linecap: round; }
+  .v3-gauge-num {
+    position: absolute;
+    inset: auto 0 0 0;
+    text-align: center;
+    font-family: "Fraunces", serif;
+    font-size: 38px;
+    color: var(--lamp-amber);
+    line-height: 1;
+  }
+
+  /* === 2. Asymmetric Sankey (45:1 leak) === */
+  .v3-sankey {
+    width: 100%;
+    height: 160px;
+  }
+  .v3-sankey svg { width: 100%; height: 100%; overflow: visible; }
+  .v3-sankey-thick { fill: var(--lamp-amber); opacity: 0.78; }
+  .v3-sankey-thin { fill: var(--bone-dim); opacity: 0.7; }
+  .v3-sankey-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    fill: var(--bone-dim);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .v3-sankey-num {
+    font-family: "Fraunces", serif;
+    font-size: 22px;
+    fill: var(--bone);
+  }
+  .v3-sankey-num.amber { fill: var(--lamp-amber); }
+
+  /* === 3. Decay area chart === */
+  .v3-decay {
+    width: 100%;
+    height: 180px;
+  }
+  .v3-decay svg { width: 100%; height: 100%; overflow: visible; }
+  .v3-decay-bar { fill: var(--bone-fainter); }
+  .v3-decay-bar.decayed { fill: var(--lamp-amber); opacity: 0.55; }
+  .v3-decay-curve { fill: rgba(217, 147, 58, 0.22); stroke: var(--lamp-amber); stroke-width: 1.5; }
+  .v3-decay-threshold { stroke: var(--bone-dim); stroke-width: 1; stroke-dasharray: 4 4; }
+  .v3-decay-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    fill: var(--bone-fainter);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* === Search-shift callout (replaces old Tab 02) === */
+  .v3-search-callout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-5);
+    padding: var(--space-6);
+    background: linear-gradient(180deg, rgba(29, 77, 122, 0.08), rgba(29, 77, 122, 0.02));
+    border-left: 2px solid var(--aero-bright);
+    border-radius: 0 4px 4px 0;
+    margin: var(--space-7) 0 var(--space-5);
+    align-items: center;
+  }
+  @media (max-width: 800px) { .v3-search-callout { grid-template-columns: 1fr; } }
+  .v3-search-callout .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--aero-bright);
+    margin-bottom: var(--space-3);
+  }
+  .v3-search-callout .num {
+    font-family: "Fraunces", serif;
+    font-size: clamp(40px, 5vw, 68px);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--bone);
+  }
+  .v3-search-callout .num .accent { color: var(--aero-bright); }
+  .v3-search-callout p {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--bone-dim);
+    margin: 0;
+    max-width: 56ch;
+  }
+  .v3-search-callout p strong { color: var(--bone); font-weight: 500; }
+
+  /* === 4. Status board (2x2) === */
+  .v3-status-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin: var(--space-6) 0;
+  }
+  @media (max-width: 700px) { .v3-status-board { grid-template-columns: 1fr; } }
+  .v3-status-tile {
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 4px;
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .v3-status-tile .head {
+    display: flex; align-items: center; gap: var(--space-2);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+  }
+  .v3-status-tile .led {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--phosphor);
+    box-shadow: 0 0 10px var(--phosphor);
+    animation: led-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes led-pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+  .v3-status-tile .led.amber { background: var(--lamp-amber); box-shadow: 0 0 10px var(--lamp-amber); }
+  .v3-status-tile .name {
+    font-family: "Fraunces", serif;
+    font-size: 26px;
+    line-height: 1.1;
+    color: var(--bone);
+    margin: var(--space-1) 0;
+  }
+  .v3-status-tile .stat {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--bone-dim);
+    line-height: 1.6;
+  }
+  .v3-status-tile .stat code {
+    background: rgba(141, 217, 59, 0.08);
+    color: var(--phosphor);
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-size: 11px;
+  }
+  .v3-status-tile .metric {
+    font-family: "Fraunces", serif;
+    font-size: 36px;
+    color: var(--lamp-amber);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-top: var(--space-2);
+  }
+  .v3-status-tile .metric small {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--bone-dim);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: var(--space-1);
+  }
+
+  /* === Hot Wings before/after split === */
+  .v3-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--bone-hairline);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: var(--space-5) 0;
+  }
+  @media (max-width: 700px) { .v3-split { grid-template-columns: 1fr; } }
+  .v3-split-pane {
+    padding: var(--space-5);
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    position: relative;
+  }
+  .v3-split-pane.before { background: rgba(242, 235, 221, 0.015); border-right: 1px solid var(--bone-hairline); }
+  .v3-split-pane.after { background: rgba(217, 147, 58, 0.05); }
+  .v3-split-pane .pane-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+  }
+  .v3-split-pane.after .pane-tag { color: var(--lamp-amber); }
+  .v3-split-pane .pane-content {
+    font-family: "Fraunces", serif;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--bone);
+  }
+  .v3-split-pane .pane-content em { color: var(--bone-dim); font-style: italic; }
+  .v3-split-pane .pane-content code {
+    display: block;
+    background: rgba(141, 217, 59, 0.06);
+    border: 1px solid rgba(141, 217, 59, 0.18);
+    color: var(--phosphor);
+    padding: var(--space-2) var(--space-3);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    border-radius: 3px;
+    margin: var(--space-2) 0;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .v3-split-pane .schema-chip {
+    display: inline-block;
+    background: rgba(217, 147, 58, 0.12);
+    border: 1px solid rgba(217, 147, 58, 0.35);
+    color: var(--lamp-amber);
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-right: var(--space-1);
+    margin-bottom: var(--space-1);
+  }
+
+  /* === 5. Trajectory timeline + curve === */
+  .v3-trajectory {
+    width: 100%;
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 4px;
+    padding: var(--space-6);
+    margin: var(--space-5) 0;
+  }
+  .v3-trajectory svg { width: 100%; height: 320px; overflow: visible; }
+  .v3-traj-axis { stroke: var(--bone-faint); stroke-width: 1; }
+  .v3-traj-tick { stroke: var(--bone-fainter); stroke-width: 1; }
+  .v3-traj-curve {
+    fill: none;
+    stroke: var(--aero-bright);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+  .v3-traj-fill { fill: url(#traj-grad); opacity: 0.45; }
+  .v3-traj-variance { fill: rgba(217, 147, 58, 0.08); stroke: rgba(217, 147, 58, 0.3); stroke-width: 1; stroke-dasharray: 4 4; }
+  .v3-traj-station { fill: var(--lamp-amber); stroke: var(--ink); stroke-width: 3; }
+  .v3-traj-station-line { stroke: var(--bone-hairline); stroke-width: 1; stroke-dasharray: 2 4; }
+  .v3-traj-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    fill: var(--bone-dim);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .v3-traj-city {
+    font-family: "Fraunces", serif;
+    font-size: 18px;
+    fill: var(--bone);
+  }
+  .v3-traj-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    fill: var(--bone-dim);
+  }
+  .v3-traj-num.amber { fill: var(--lamp-amber); }
+  .v3-traj-end-label {
+    font-family: "Fraunces", serif;
+    font-size: 28px;
+    fill: var(--lamp-amber);
+  }
+
+  /* === Math table === */
+  .v3-math {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--space-5) 0;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+  }
+  .v3-math th, .v3-math td {
+    padding: var(--space-3) var(--space-3);
+    text-align: right;
+    border-bottom: 1px solid var(--bone-hairline);
+  }
+  .v3-math th {
+    color: var(--bone-dim);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-align: right;
+  }
+  .v3-math th:first-child, .v3-math td:first-child { text-align: left; }
+  .v3-math td { color: var(--bone); }
+  .v3-math td.muted { color: var(--bone-dim); }
+  .v3-math tr.target td { background: rgba(217, 147, 58, 0.06); color: var(--bone); }
+  .v3-math tr.target td:nth-child(n+2) { color: var(--lamp-amber); }
+  .v3-math td.range { font-family: "Fraunces", serif; font-size: 16px; }
+  .v3-math caption {
+    caption-side: bottom;
+    text-align: left;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bone-fainter);
+    padding-top: var(--space-3);
+  }
+
+  /* === 6. Static network graph (connected map) === */
+  .v3-network {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: radial-gradient(ellipse at center, rgba(29, 77, 122, 0.08), transparent 70%);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 4px;
+    margin: var(--space-5) 0;
+    overflow: hidden;
+  }
+  .v3-network svg { width: 100%; height: 100%; }
+  .v3-net-edge { stroke: var(--bone-hairline); stroke-width: 1; }
+  .v3-net-edge.path { stroke: var(--lamp-amber); stroke-width: 1.6; opacity: 0.85; }
+  .v3-net-node { fill: var(--ink); stroke: var(--bone-dim); stroke-width: 1.5; }
+  .v3-net-node.center { fill: var(--lamp-amber); stroke: var(--lamp-amber); stroke-width: 0; }
+  .v3-net-node.ring1 { fill: var(--ink); stroke: var(--aero-bright); stroke-width: 2; }
+  .v3-net-node.ring2 { fill: var(--ink); stroke: var(--bone-fainter); stroke-width: 1; }
+  .v3-net-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    fill: var(--bone-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-anchor: middle;
+  }
+  .v3-net-label.center {
+    font-family: "Fraunces", serif;
+    font-size: 14px;
+    fill: var(--ink);
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .v3-net-label.ring1 { fill: var(--bone); }
+
+  /* === 7. Quadrant lane diagram === */
+  .v3-quadrant {
+    display: grid;
+    grid-template-columns: 32px 1fr 1fr;
+    grid-template-rows: 32px 1fr 1fr 32px;
+    gap: 0;
+    margin: var(--space-5) 0;
+    position: relative;
+    min-height: 540px;
+  }
+  .v3-quadrant .q-axis-x {
+    grid-column: 2 / 4;
+    grid-row: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+    padding: 0 var(--space-3);
+  }
+  .v3-quadrant .q-axis-x .arrow { color: var(--bone-fainter); font-size: 14px; }
+  .v3-quadrant .q-axis-y {
+    grid-column: 1;
+    grid-row: 2 / 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+    padding: var(--space-3) 0;
+  }
+  .v3-quadrant .q-axis-bottom { grid-column: 2 / 4; grid-row: 4; }
+  .v3-quad-cell {
+    border: 1px solid var(--bone-hairline);
+    padding: var(--space-5);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    background: rgba(242, 235, 221, 0.012);
+  }
+  .v3-quad-cell.mine { background: rgba(217, 147, 58, 0.05); border-color: rgba(217, 147, 58, 0.3); }
+  .v3-quad-cell.empty { background: rgba(242, 235, 221, 0.005); border-style: dashed; }
+  .v3-quad-cell.tl { grid-column: 2; grid-row: 2; }
+  .v3-quad-cell.tr { grid-column: 3; grid-row: 2; }
+  .v3-quad-cell.bl { grid-column: 2; grid-row: 3; }
+  .v3-quad-cell.br { grid-column: 3; grid-row: 3; }
+  .v3-quad-cell .q-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+  }
+  .v3-quad-cell.mine .q-tag { color: var(--lamp-amber); }
+  .v3-quad-cell .q-person {
+    font-family: "Fraunces", serif;
+    font-size: 28px;
+    line-height: 1.05;
+    color: var(--bone);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .v3-quad-cell .q-detail {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--bone-dim);
+    margin: 0;
+  }
+  .v3-quad-cell.empty .q-empty {
+    font-family: "Fraunces", serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--bone-fainter);
+    line-height: 1.5;
+    max-width: 26ch;
+    margin: auto 0;
+  }
+
+  /* === 8. Staircase tiers === */
+  .v3-staircase {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-3);
+    align-items: end;
+    margin: var(--space-6) 0;
+  }
+  @media (max-width: 850px) { .v3-staircase { grid-template-columns: 1fr; align-items: stretch; } }
+  .v3-tier {
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 4px;
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .v3-tier.t1 { min-height: 460px; }
+  .v3-tier.t2 { min-height: 540px; border-color: rgba(217, 147, 58, 0.4); background: linear-gradient(180deg, rgba(217, 147, 58, 0.04), var(--ink-card)); }
+  .v3-tier.t3 { min-height: 620px; }
+  @media (max-width: 850px) { .v3-tier.t1, .v3-tier.t2, .v3-tier.t3 { min-height: 0; } }
+  .v3-tier .t-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lamp-amber);
+  }
+  .v3-tier .t-name {
+    font-family: "Fraunces", serif;
+    font-size: 28px;
+    line-height: 1.05;
+    color: var(--bone);
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .v3-tier .t-price {
+    font-family: "Fraunces", serif;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--bone);
+    margin: var(--space-2) 0;
+    letter-spacing: -0.02em;
+  }
+  .v3-tier .t-price .unit { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--bone-dim); letter-spacing: 0.14em; text-transform: uppercase; margin-left: 4px; }
+  .v3-tier .t-pending {
+    display: inline-block;
+    background: rgba(217, 147, 58, 0.1);
+    border: 1px solid rgba(217, 147, 58, 0.3);
+    color: var(--lamp-amber);
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .v3-tier .t-anchor {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--bone-dim);
+    margin: 0 0 var(--space-2);
+    font-style: italic;
+    border-top: 1px solid var(--bone-hairline);
+    padding-top: var(--space-3);
+  }
+  .v3-tier ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .v3-tier ul li {
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--bone);
+    padding-left: 18px;
+    position: relative;
+  }
+  .v3-tier ul li::before {
+    content: "+";
+    position: absolute;
+    left: 0;
+    color: var(--lamp-amber);
+    font-weight: 700;
+  }
+  .v3-tier .t-unlocks {
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--bone-hairline);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+  }
+
+  /* === 9. Venn (search shift, used in lower Tab 01 if needed) === */
+  .v3-venn {
+    position: relative;
+    width: 320px;
+    height: 280px;
+    margin: 0 auto;
+  }
+  .v3-venn .circle {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bone);
+  }
+  .v3-venn .circle.editorial { background: rgba(197, 68, 59, 0.55); top: 0; left: 30px; }
+  .v3-venn .circle.structure { background: rgba(29, 77, 122, 0.75); top: 0; right: 30px; }
+  .v3-venn .circle.velocity { background: rgba(217, 147, 58, 0.6); bottom: 0; left: 70px; }
+  .v3-venn .you-are-here {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--bone);
+    text-align: center;
+    z-index: 5;
+    letter-spacing: 0.16em;
+    background: var(--ink);
+    padding: 4px 10px;
+    border: 1px solid var(--lamp-amber);
+    border-radius: 2px;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  /* === Stripe-model IP lock card (kept from v2, refined) === */
+  .v3-ip-lock {
+    background: var(--ink-card);
+    border: 1px solid var(--bone-hairline);
+    border-radius: 4px;
+    padding: var(--space-5);
+    margin: var(--space-6) 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  @media (max-width: 700px) { .v3-ip-lock { grid-template-columns: 1fr; } }
+  .v3-ip-lock .ip-icon {
+    width: 72px; height: 72px;
+    border: 1.5px solid var(--lamp-amber);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Fraunces", serif;
+    font-size: 36px;
+    color: var(--lamp-amber);
+  }
+  .v3-ip-lock .ip-body h4 {
+    font-family: "Fraunces", serif;
+    font-size: 22px;
+    color: var(--bone);
+    margin: 0 0 var(--space-2);
+  }
+  .v3-ip-lock .ip-body p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--bone-dim);
+    margin: 0;
+    max-width: 64ch;
+  }
+  .v3-ip-lock .ip-body p strong { color: var(--bone); font-weight: 500; }
+
+  /* === Closing footer (used on Tab 05) === */
+  .v3-close {
+    text-align: center;
+    padding: var(--space-7) 0;
+    margin-top: var(--space-7);
+    border-top: 1px solid var(--bone-hairline);
+  }
+  .v3-close h3 {
+    font-family: "Fraunces", serif;
+    font-weight: 400;
+    font-size: clamp(28px, 3vw, 40px);
+    color: var(--bone);
+    margin: 0 0 var(--space-3);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .v3-close p {
+    color: var(--bone-dim);
+    font-size: 15px;
+    margin: 0;
+    max-width: 50ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* === Section-rule label === */
+  .v3-section-rule {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+    margin: var(--space-7) 0 var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--bone-hairline);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .v3-section-rule .num { color: var(--lamp-amber); }
+
+  /* === Inline panel-nav (between-tab) === */
+  .v3-panel-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-5) 0;
+    margin-top: var(--space-7);
+    border-top: 1px solid var(--bone-hairline);
+  }
+  .v3-panel-nav button {
+    background: none;
+    border: 1px solid var(--bone-hairline);
+    color: var(--bone);
+    padding: var(--space-3) var(--space-4);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 200ms ease;
+    border-radius: 3px;
+  }
+  .v3-panel-nav button:hover { border-color: var(--lamp-amber); color: var(--lamp-amber); }
+  .v3-panel-nav button.prev::before { content: "← "; }
+  .v3-panel-nav button:not(.prev)::after { content: " →"; }
+
+
+  /* === AUDIO PLAYER === */
+  .audio-player-row { display:flex; align-items:center; gap:12px; margin: 0 0 32px 0; padding: 12px 18px; background: rgba(217, 147, 58, 0.08); border: 1px solid rgba(217, 147, 58, 0.25); border-radius: 8px; max-width: 360px; }
+  .audio-play-btn { display:flex; align-items:center; gap:10px; background:transparent; border:none; color: var(--lamp-amber); font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; padding: 0; }
+  .audio-play-btn:hover { color: var(--bone); }
+  .audio-play-btn.playing svg polygon { display:none; }
+  .audio-play-btn.playing::after { content:"❚❚"; font-size:12px; }
+  .audio-time { color: var(--bone-dim); margin-left:auto; font-size: 11px; font-family: "JetBrains Mono", monospace; }
+  .audio-element { display:none; }
+
+  /* === v4 walkaway cards === */
+  .v3-walkaway-cards { display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; margin: 0 0 var(--space-5); }
+  .walkaway-card { background: rgba(141, 217, 59, 0.04); border: 1px solid rgba(141, 217, 59, 0.18); border-radius: 8px; padding: 22px 22px 20px; }
+  .wa-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--phosphor); margin-bottom: 12px; }
+  .wa-notice { font-family: 'Manrope', sans-serif; font-size: 14px; color: var(--bone); font-weight: 500; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid rgba(141, 217, 59, 0.14); }
+  .wa-keeps { font-size: 13.5px; line-height: 1.5; color: var(--bone-dim); margin-bottom: 10px; display:flex; align-items:flex-start; gap:8px; }
+  .wa-keeps:last-child { margin-bottom: 0; }
+  .wa-check { color: var(--phosphor); font-weight: 600; flex-shrink:0; font-size:14px; }
+
+  /* === v4 comparison table === */
+  .v4-comparison { background: rgba(46, 111, 164, 0.04); border: 1px solid rgba(46, 111, 164, 0.18); border-radius: 8px; overflow:hidden; margin: 0 0 var(--space-4); }
+  .v4-comparison-head { display:grid; grid-template-columns: 1.6fr 1fr 1fr; background: rgba(46, 111, 164, 0.10); border-bottom: 1px solid rgba(46, 111, 164, 0.22); }
+  .v4-comp-col-label { padding: 14px 18px; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--bone-dim); }
+  .v4-comp-col-a, .v4-comp-col-b { padding: 14px 12px; text-align:center; font-family:'Manrope', sans-serif; font-size:14px; color:var(--bone); font-weight:600; }
+  .v4-comp-col-a small, .v4-comp-col-b small { display:block; font-size:11px; font-weight:400; color:var(--bone-fainter); margin-top:4px; }
+  .v4-comp-col-b { color:var(--lamp-amber); }
+  .v4-comparison-row { display:grid; grid-template-columns: 1.6fr 1fr 1fr; border-bottom: 1px solid rgba(46, 111, 164, 0.10); }
+  .v4-comparison-row:last-child { border-bottom: none; }
+  .v4-comp-row-label { padding: 14px 18px; font-size:14px; line-height:1.45; color:var(--bone); }
+  .v4-comp-cell { padding: 14px 12px; text-align:center; display:flex; align-items:center; justify-content:center; }
+  .v4-yes { color: var(--phosphor); font-size:20px; font-weight:700; }
+  .v4-no { color: rgba(217, 147, 58, 0.55); font-size:22px; font-weight:300; }
+
+  /* === v4 Path B === */
+  .v4-path-b { background: rgba(217, 147, 58, 0.04); border: 1px solid rgba(217, 147, 58, 0.22); border-radius: 10px; padding: 28px 32px; margin: 0 0 var(--space-5); }
+  .v4-path-b-header { margin-bottom: 24px; }
+  .v4-path-b-tag { display:inline-block; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.20em; text-transform:uppercase; color: var(--lamp-amber); padding: 4px 10px; border:1px solid rgba(217,147,58,0.45); border-radius:3px; margin-bottom:14px; }
+  .v4-path-b-title { font-family:'Fraunces', serif; font-size: 26px; line-height:1.2; color: var(--bone); margin: 0 0 10px; font-weight:600; }
+  .v4-path-b-lede { font-size: 15px; line-height: 1.55; color: var(--bone-dim); max-width: 62ch; margin: 0; }
+  .v4-path-b-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 22px; }
+  .v4-path-b-card { background: rgba(20, 14, 8, 0.40); border: 1px solid rgba(217, 147, 58, 0.14); border-radius: 6px; padding: 18px 20px; }
+  .v4-pb-label { font-family:'JetBrains Mono', monospace; font-size: 11px; letter-spacing:0.16em; text-transform:uppercase; color: var(--lamp-amber); margin-bottom: 10px; }
+  .v4-path-b-card p { font-size: 13.5px; line-height: 1.55; color: var(--bone-dim); margin: 0; }
+  .v4-path-b-note { font-size: 13px; line-height: 1.5; color: var(--bone-fainter); font-style: italic; margin: 0; max-width: 70ch; }
+
+
+  /* === v4 FINAL DESIGNER PASS 2026-05-22 — synthesis fixes === */
+
+  /* Kill-switch line (was "weird font") — bump readability */
+  .v3-tier .t-unlocks {
+    font-size: 12px;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    color: var(--bone);
+    font-weight: 500;
+  }
+
+  /* Walkaway cards — bump body type, equalize heights */
+  .walkaway-card { padding: 24px 24px 22px; min-height: 220px; }
+  .wa-notice { font-size: 15px; padding-bottom: 14px; border-bottom-color: rgba(141,217,59,0.22); }
+  .wa-keeps { font-size: 14.5px; line-height: 1.55; margin-bottom: 12px; }
+  .wa-label { font-size: 12px; letter-spacing: 0.16em; }
+
+  /* Comparison table — kill amber-as-no, bump label readability */
+  .v4-comp-col-label { font-size: 12px; color: var(--bone); }
+  .v4-comp-col-a small, .v4-comp-col-b small { font-size: 12px; color: var(--bone-dim); }
+  .v4-no { color: rgba(168, 160, 154, 0.55); font-size: 24px; font-weight: 300; }
+  .v4-yes { font-size: 22px; }
+  .v4-comp-row-label { font-size: 15px; line-height: 1.5; padding: 16px 18px; }
+
+  /* Path B — promote to first-class component */
+  .v4-path-b-tag { font-size: 12px; padding: 5px 12px; letter-spacing: 0.18em; }
+  .v4-path-b-lede { font-size: 17px; line-height: 1.6; }
+  .v4-path-b-card { background: rgba(20, 14, 8, 0.55); }
+  .v4-path-b-card p { font-size: 15px; line-height: 1.6; }
+  .v4-pb-label { font-size: 12px; letter-spacing: 0.14em; }
+  .v4-path-b-note { font-size: 14px; color: var(--bone-dim); }
+
+  /* Tab 04 empty quadrant — punchline */
+  .v3-quad-cell.bl.empty {
+    border: 1px dashed rgba(217, 147, 58, 0.45);
+    background: rgba(217, 147, 58, 0.03);
+  }
+  .v3-quad-cell.bl.empty .q-tag { color: var(--lamp-amber); }
+  .v3-quad-cell.bl.empty .q-empty { font-size: 16px; color: var(--bone); line-height: 1.55; }
+
+  /* Status tiles — constrain width */
+  .v3-status-tile .stat { max-width: 30ch; }
+  .v3-status-tile .stat code { font-weight: 500; color: var(--bone); }
+
+  /* Network map labels — 8px is illegible */
+  .v3-network .v3-net-label { font-size: 10px; }
+  .v3-network text[style*="font-size:8px"] { font-size: 10px !important; }
+
+  /* Trajectory station hierarchy */
+  .v3-traj-city { font-size: 13px; font-weight: 600; }
+  .v3-traj-num { font-size: 11px; fill: var(--bone-fainter); }
+  .v3-traj-num.amber { font-size: 11px; fill: var(--lamp-amber); }
+
+  /* Tier price unification */
+  .v3-tier.t1 .t-price,
+  .v3-tier.t3 .t-price { font-size: 36px; }
+  .v3-tier.t2 .t-price { font-size: 48px; }
+
+  /* ============ v5 DESIGNER PACK ============ */
+  /* Walkaway visual reframe — drop mono uppercase chrome */
+  .wa-label { font-family:'Fraunces', serif; font-size:14px; font-weight:600; letter-spacing:0; text-transform:none; color: var(--phosphor); margin-bottom: 10px; }
+  .wa-notice { font-family:'Manrope', sans-serif; font-size:15px; font-weight:600; color: var(--bone); padding-bottom:12px; border-bottom:1px solid rgba(141,217,59,0.18); margin-bottom: 14px; }
+  .wa-keeps { font-size:14px; line-height:1.5; color: var(--bone); margin-bottom: 10px; display:flex; align-items:flex-start; gap:8px; }
+  .wa-check { color: var(--phosphor); font-size:16px; }
+  .walkaway-card { min-height: 240px; padding: 26px 24px; }
+
+  /* Tier card balance — tops aligned, bottoms ragged (v6) */
+  .v3-staircase { align-items: stretch !important; }
+  .v3-tier.t1, .v3-tier.t2, .v3-tier.t3 { min-height: 0; display:flex; flex-direction:column; }
+  .v3-tier.t2 { transform: none; box-shadow: 0 6px 24px rgba(217,147,58,0.08); }
+  .v3-tier ul { flex-grow: 0; }
+  .v3-tier .t-unlocks { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--bone-hairline); }
+
+  /* Mediavine math 3-card stack */
+  .v5-math-stack { display:grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 24px 0 12px; }
+  @media (max-width: 850px) { .v5-math-stack { grid-template-columns: 1fr; } }
+  .v5-math-card { background: rgba(20,14,8,0.5); border: 1px solid var(--bone-hairline); border-radius: 8px; padding: 24px 22px; }
+  .v5-math-card.target { border-color: rgba(217,147,58,0.4); background: linear-gradient(180deg, rgba(217,147,58,0.05), rgba(20,14,8,0.5)); }
+  .v5-math-label { font-family:'Fraunces', serif; font-size: 13px; font-weight: 600; color: var(--bone-dim); margin-bottom: 14px; letter-spacing: 0; text-transform: none; }
+  .v5-math-visits { font-family:'Fraunces', serif; font-size: 44px; font-weight: 500; color: var(--bone); line-height: 1; margin-bottom: 6px; }
+  .v5-math-visits span { display:block; font-family:'Manrope', sans-serif; font-size:12px; color: var(--bone-dim); font-weight:400; margin-top: 6px; letter-spacing: 0; }
+  .v5-math-rev { font-family:'Fraunces', serif; font-size: 30px; color: var(--lamp-amber); margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--bone-hairline); }
+  .v5-math-card.target .v5-math-rev { font-size: 34px; }
+  .v5-math-rev span { display:block; font-family:'Manrope', sans-serif; font-size:11px; color: var(--bone-fainter); font-weight:400; margin-top: 4px; }
+  .v5-math-foot { font-size: 12.5px; color: var(--bone-fainter); font-style: italic; max-width: 70ch; margin: 8px 0 var(--space-4); }
+
+  /* Network lanes (replaces v3-network SVG) */
+  .v5-lanes { display: flex; flex-direction: column; gap: 14px; background: rgba(20,14,8,0.4); border: 1px solid var(--bone-hairline); border-radius: 10px; padding: 24px 28px; margin: 0 0 var(--space-5); }
+  .v5-lane { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .v5-lane-head { font-family:'Fraunces', serif; font-size: 13px; font-weight: 600; color: var(--bone-dim); min-width: 90px; }
+  .v5-lane-node { display: inline-block; padding: 6px 12px; background: rgba(242, 235, 221, 0.05); border: 1px solid var(--bone-hairline); border-radius: 4px; font-size: 13px; color: var(--bone); }
+  .v5-lane-node.amber { background: rgba(217, 147, 58, 0.10); border-color: rgba(217, 147, 58, 0.34); color: var(--lamp-amber); }
+  .v5-lane-node.strong { background: rgba(217, 147, 58, 0.16); border-color: rgba(217, 147, 58, 0.5); color: var(--bone); font-weight: 600; }
+  .v5-lane-node.dim { color: var(--bone-fainter); border-color: rgba(141,141,141,0.18); }
+  .v5-lane-edge { color: var(--bone-dim); font-size: 14px; }
+
+  /* Hot Wings amplify */
+  .v3-split-pane.before { background: rgba(15, 12, 9, 0.65); }
+  .v3-split-pane.before .pane-content em { color: var(--bone-fainter); }
+  .v3-split-pane.after { background: rgba(217, 147, 58, 0.07); }
+  .v3-split-pane.after .pane-tag { color: var(--lamp-amber); font-weight: 600; }
+
+  /* Path-to-1M chart legibility lift */
+  .v3-trajectory svg { height: 420px; }
+  text.v3-traj-city { font-size: 15px !important; font-weight: 600; }
+  text.v3-traj-num { font-size: 12px !important; }
+  text.v3-traj-end-label { font-size: 12px !important; }
+
+  /* Path B promote */
+  .v4-path-b { border-color: rgba(217, 147, 58, 0.45); background: rgba(217,147,58,0.05); }
+  .v4-path-b-tag { color: var(--lamp-amber); border-color: rgba(217,147,58,0.55); }
+  .v4-path-b-title { font-size: 28px; }
+  .v4-path-b-lede { font-size: 16px; }
+
+  /* === END v5 fix pack === */
+
+
+  /* ============ v6 PACK ============ */
+  /* Cost vs return — 3 visual deal cards (replaces v3-math table) */
+  .v6-cost-cards { display:flex; flex-direction:column; gap:14px; margin: 0 0 var(--space-4); }
+  .v6-cost-card { display:grid; grid-template-columns: 280px 1fr; gap: 32px; background: rgba(20,14,8,0.5); border: 1px solid var(--bone-hairline); border-radius: 10px; padding: 22px 26px; align-items:center; }
+  .v6-cost-card.featured { background: linear-gradient(180deg, rgba(217,147,58,0.06), rgba(20,14,8,0.5)); border-color: rgba(217,147,58,0.36); }
+  @media (max-width: 850px) { .v6-cost-card { grid-template-columns: 1fr; gap: 14px; } }
+  .v6-cost-left { display:flex; flex-direction:column; gap:6px; }
+  .v6-cost-tier { font-family:'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bone-dim); }
+  .v6-cost-price { font-family:'Fraunces', serif; font-size: 36px; font-weight: 500; color: var(--bone); line-height: 1; }
+  .v6-cost-card.featured .v6-cost-price { color: var(--lamp-amber); }
+  .v6-cost-price span { display:block; font-family:'Manrope', sans-serif; font-size:12px; color: var(--bone-dim); font-weight: 400; margin-top: 6px; letter-spacing: 0; }
+  .v6-cost-right { display:flex; flex-direction:column; gap:10px; }
+  .v6-cost-row { font-size: 14px; line-height: 1.5; color: var(--bone); }
+  .v6-cost-label { display:inline-block; min-width: 110px; font-family:'Fraunces', serif; font-size: 12.5px; color: var(--bone-dim); font-weight: 600; margin-right: 6px; }
+
+  /* === END v6 fix pack === */
+
+</style>
+</head>
+<body>
+
+<!-- PASSCODE GATE -->
+<div id="pg-overlay" style="position:fixed;inset:0;z-index:999999;background:#0a0a0a;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;">
+  <div style="text-align:center;max-width:360px;width:100%;padding:2rem;">
+    <div style="font-size:1.5rem;font-weight:600;color:#ffffff;margin-bottom:0.5rem;">JFly.Ai Proposal</div>
+    <div style="font-size:0.875rem;color:#6b7280;margin-bottom:2rem;">Enter access code to continue</div>
+    <input id="pg-input" type="password" placeholder="Access code" autocomplete="off"
+      style="width:100%;padding:0.75rem 1rem;font-size:1rem;background:#1f1f1f;border:1px solid #333;border-radius:8px;color:#fff;outline:none;box-sizing:border-box;margin-bottom:0.75rem;text-align:center;letter-spacing:0.2em;"
+      onkeydown="if(event.key==='Enter')pgCheck()">
+    <div id="pg-err" style="font-size:0.8rem;color:#ef4444;min-height:1.2em;margin-bottom:0.5rem;"></div>
+    <button onclick="pgCheck()"
+      style="width:100%;padding:0.75rem;font-size:0.95rem;font-weight:600;background:#3b82f6;color:#fff;border:none;border-radius:8px;cursor:pointer;">Continue</button>
+  </div>
+</div>
+<script>
+(function(){
+  var K='jfly_do_v6';
+  if(sessionStorage.getItem(K)==='1'){document.getElementById('pg-overlay').style.display='none';}
+  else{setTimeout(function(){document.getElementById('pg-input').focus();},50);}
+  window.pgCheck=function(){
+    var v=document.getElementById('pg-input').value.trim();
+    if(v.toLowerCase()==='shalisa'){
+      sessionStorage.setItem(K,'1');
+      document.getElementById('pg-overlay').style.display='none';
+    } else {
+      document.getElementById('pg-err').textContent='Incorrect code — try again.';
+      document.getElementById('pg-input').value='';
+      setTimeout(function(){document.getElementById('pg-input').focus();},10);
+    }
+  };
+})();
+</script>
+
+<header>
+  <div>
+    <span class="brand">JFly.Ai</span>
+    <span class="brand-sub">Program Proposal</span>
+  </div>
+  <div class="meta">
+    <!-- SWAP:chrome:header-meta -->
+    Prepared for <strong style="color: var(--bone);">Jeff Suskin + Josh Dinar · DiningOut</strong><br>
+    May 22, 2026 · Test starts week of May 26
+    <!-- /SWAP:chrome:header-meta -->
+  </div>
+</header>
+
+<nav class="tab-bar" aria-label="Proposal sections">
+  <div class="tab-bar-inner" role="tablist">
+    <button class="tab active" data-tab="0" role="tab" aria-selected="true"><span class="tab-num">01</span>The Diagnosis</button>
+    <button class="tab" data-tab="1" role="tab" aria-selected="false"><span class="tab-num">02</span>The Proof</button>
+    <button class="tab" data-tab="2" role="tab" aria-selected="false"><span class="tab-num">03</span>The Path</button>
+    <button class="tab" data-tab="3" role="tab" aria-selected="false"><span class="tab-num">04</span>Roles</button>
+    <button class="tab" data-tab="4" role="tab" aria-selected="false"><span class="tab-num">05</span>Pricing</button>
+  </div>
+  <div class="progress-row">
+    <span class="progress-dot active"></span>
+    <span class="progress-dot"></span>
+    <span class="progress-dot"></span>
+    <span class="progress-dot"></span>
+    <span class="progress-dot"></span>
+  </div>
+</nav>
+
+<div class="tab-container">
+
+  <!-- =========== 01 THE DIAGNOSIS =========== -->
+  <section class="panel active" data-panel="0">
+
+    <div class="v3-hero">
+      <div class="v3-eyebrow">01 <span class="sep">/</span> 05 <span class="sep">·</span> The Diagnosis</div>
+      <h1 class="v3-h1">Quick level-one GA4 audit.<br>Here&rsquo;s what surfaced.</h1>
+      <p class="v3-lede">Three findings, all hiding in 90 days of <strong>your own</strong> GA4 data. Each one is fixable. Together they&rsquo;re the gap between 150K visits a month and the <strong>1M trajectory below</strong>.</p>
+    </div>
+    <div class="audio-player-row">
+      <button class="audio-play-btn" aria-label="Listen to this slide">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polygon points="3,2 14,8 3,14" fill="currentColor"/></svg>
+        <span class="audio-label">Listen to this slide</span>
+        <span class="audio-time">2:23</span>
+      </button>
+      <audio class="audio-element" preload="none">
+        <source data-src="audio/tab-1-diagnosis.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
+
+    <!-- THREE-FINDING GRID -->
+    <div class="v3-findings-grid">
+
+      <!-- Finding 1. Broken Meter -->
+      <div class="v3-finding-tile">
+        <div class="tile-tag">Finding 01 &middot; Measurement</div>
+        <div class="tile-viz">
+          <div class="v3-gauge">
+            <svg viewBox="0 0 200 130" aria-hidden="true">
+              <!-- Background arc -->
+              <path class="v3-gauge-arc" d="M 18 105 A 82 82 0 0 1 182 105"/>
+              <!-- Filled arc (tiny · 0.19% of 180deg) -->
+              <path class="v3-gauge-arc-filled" d="M 18 105 A 82 82 0 0 1 18.6 102.8"/>
+              <!-- Phantom (what's actually true) -->
+              <path class="v3-gauge-arc-phantom" d="M 100 23 A 82 82 0 0 1 182 105"/>
+              <!-- Needle -->
+              <line class="v3-gauge-needle" x1="100" y1="105" x2="22" y2="102"/>
+              <!-- Center post -->
+              <circle cx="100" cy="105" r="4" fill="var(--bone)"/>
+              <!-- Tick labels -->
+              <text x="14" y="125" class="v3-net-label" style="fill:var(--bone-fainter); font-size: 11px;">0%</text>
+              <text x="180" y="125" class="v3-net-label" style="fill:var(--bone-fainter); font-size: 11px;" text-anchor="end">100%</text>
+            </svg>
+            <div class="v3-gauge-num">0.19%</div>
+          </div>
+        </div>
+        <h3 class="tile-headline">Your meter is broken.</h3>
+        <p class="tile-caption">Real AI traffic hides inside <code style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--phosphor);background:rgba(141,217,59,0.06);padding:1px 5px;border-radius:2px;">google/organic</code>. Cross-domain tracking is off. Surf Denver still ships <code style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--phosphor);background:rgba(141,217,59,0.06);padding:1px 5px;border-radius:2px;">{{campaign.id}}</code> placeholders in production.</p>
+        <div class="tile-data">
+          <div class="row"><span class="k">Source</span><span class="v">GA4 + UTM &middot; all 20 props</span></div>
+          <div class="row"><span class="k">Signal</span><span class="v">849 sessions/Q &middot; ChatGPT 12.7&times;</span></div>
+          <div class="row"><span class="k">Window</span><span class="v">90 days</span></div>
+          <div class="row"><span class="k">Conf</span><span class="v"><span class="conf high">HIGH</span></span></div>
+        </div>
+      </div>
+
+      <!-- Finding 2 · 45:1 Sankey -->
+      <div class="v3-finding-tile">
+        <div class="tile-tag">Finding 02 &middot; Network Leak</div>
+        <div class="tile-viz">
+          <div class="v3-sankey">
+            <svg viewBox="0 0 280 160" aria-hidden="true">
+              <!-- Left column label -->
+              <text x="6" y="22" class="v3-sankey-label">Events</text>
+              <text x="6" y="50" class="v3-sankey-num amber">4,500</text>
+              <!-- Right column label -->
+              <text x="274" y="22" class="v3-sankey-label" text-anchor="end">Editorial</text>
+              <text x="274" y="50" class="v3-sankey-num" text-anchor="end">~100</text>
+              <!-- Thick outbound (events → editorial) -->
+              <path class="v3-sankey-thick" d="M 30 60 Q 140 60, 250 60 L 250 110 Q 140 110, 30 110 Z"/>
+              <!-- Hairline return (editorial → events) -->
+              <path class="v3-sankey-thin" d="M 250 130 Q 140 130, 30 130 L 30 132 Q 140 132, 250 132 Z"/>
+              <!-- Arrow ticks -->
+              <text x="140" y="89" class="v3-sankey-label" text-anchor="middle" style="fill:var(--ink);font-size:11px;letter-spacing:0.2em;">&rarr; 4,500 &rarr;</text>
+              <text x="140" y="146" class="v3-sankey-label" text-anchor="middle">&larr; 100 &larr;</text>
+              <!-- Ratio label -->
+              <text x="140" y="14" class="v3-sankey-num amber" text-anchor="middle" style="font-size:18px;">45 : 1</text>
+            </svg>
+          </div>
+        </div>
+        <h3 class="tile-headline">Two businesses, one company.</h3>
+        <p class="tile-caption">Events ship readers to editorial. Editorial barely ships back. <strong style="color:var(--bone);">Three of five</strong> standalone event sites carry no canonical link to diningout.com. Google can't tell you own them.</p>
+        <div class="tile-data">
+          <div class="row"><span class="k">Source</span><span class="v">Cross-domain referrer audit</span></div>
+          <div class="row"><span class="k">Signal</span><span class="v">3 of 6 event sites &middot; 0 reciprocal</span></div>
+          <div class="row"><span class="k">Window</span><span class="v">90 days</span></div>
+          <div class="row"><span class="k">Conf</span><span class="v"><span class="conf high">HIGH</span> &middot; <span class="conf speculative">SPEC intent</span></span></div>
+        </div>
+      </div>
+
+      <!-- Finding 3. Authority Decay -->
+      <div class="v3-finding-tile">
+        <div class="tile-tag">Finding 03 &middot; Authority Decay</div>
+        <div class="tile-viz">
+          <div class="v3-decay">
+            <svg viewBox="0 0 280 160" aria-hidden="true" preserveAspectRatio="none">
+              <!-- 20 lifetime bars sorted desc, current monthly = much lower -->
+              <!-- Lifetime traffic bars (tall) -->
+              <g>
+                <rect class="v3-decay-bar" x="6"   y="6"   width="10" height="138"/>
+                <rect class="v3-decay-bar" x="20"  y="10"  width="10" height="134"/>
+                <rect class="v3-decay-bar" x="34"  y="14"  width="10" height="130"/>
+                <rect class="v3-decay-bar" x="48"  y="18"  width="10" height="126"/>
+                <rect class="v3-decay-bar" x="62"  y="22"  width="10" height="122"/>
+                <rect class="v3-decay-bar" x="76"  y="28"  width="10" height="116"/>
+                <rect class="v3-decay-bar decayed" x="90"  y="34"  width="10" height="110"/>
+                <rect class="v3-decay-bar decayed" x="104" y="40"  width="10" height="104"/>
+                <rect class="v3-decay-bar decayed" x="118" y="44"  width="10" height="100"/>
+                <rect class="v3-decay-bar decayed" x="132" y="48"  width="10" height="96"/>
+                <rect class="v3-decay-bar decayed" x="146" y="54"  width="10" height="90"/>
+                <rect class="v3-decay-bar decayed" x="160" y="60"  width="10" height="84"/>
+                <rect class="v3-decay-bar decayed" x="174" y="66"  width="10" height="78"/>
+                <rect class="v3-decay-bar decayed" x="188" y="72"  width="10" height="72"/>
+                <rect class="v3-decay-bar decayed" x="202" y="78"  width="10" height="66"/>
+                <rect class="v3-decay-bar decayed" x="216" y="84"  width="10" height="60"/>
+                <rect class="v3-decay-bar decayed" x="230" y="92"  width="10" height="52"/>
+                <rect class="v3-decay-bar decayed" x="244" y="100" width="10" height="44"/>
+                <rect class="v3-decay-bar decayed" x="258" y="108" width="10" height="36"/>
+              </g>
+              <!-- Current monthly traffic overlay (cliff after bar 6) -->
+              <path class="v3-decay-curve" d="M 6 28 L 20 36 L 34 42 L 48 52 L 62 70 L 76 95 L 90 125 L 104 130 L 118 132 L 132 134 L 146 135 L 160 136 L 174 137 L 188 137 L 202 138 L 216 138 L 230 139 L 244 139 L 258 140 L 268 140 L 268 160 L 6 160 Z"/>
+              <!-- Threshold line -->
+              <line class="v3-decay-threshold" x1="0" y1="128" x2="280" y2="128"/>
+              <text x="278" y="124" class="v3-decay-label" text-anchor="end" style="fill:var(--bone-dim);">200/mo</text>
+            </svg>
+          </div>
+        </div>
+        <h3 class="tile-headline">Authority is decaying.</h3>
+        <p class="tile-caption"><strong style="color:var(--bone);">16 of your top-20</strong> all-time Denver articles are functionally dead today, including #1 and #2 (the smash-burger pair, 144K lifetime views, under 200/mo combined). The structural shape is still right. The schema is missing.</p>
+        <div class="tile-data">
+          <div class="row"><span class="k">Source</span><span class="v">GA4 &middot; top-20 lifetime vs 30d</span></div>
+          <div class="row"><span class="k">Signal</span><span class="v">Evergreen &lt;4&times; variance &middot; spike-die &gt;10&times;</span></div>
+          <div class="row"><span class="k">Pattern</span><span class="v">16 / 20 in decay shape</span></div>
+          <div class="row"><span class="k">Conf</span><span class="v"><span class="conf high">HIGH</span> &middot; <span class="conf medium">MED ROI</span></span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MONEY ANCHOR -->
+    <div class="v3-money-anchor">
+      <div class="v3-money-step">
+        <span class="num">150K</span>
+        <span class="lbl">Visits today</span>
+      </div>
+      <div class="v3-money-arrow">&rarr;</div>
+      <div class="v3-money-step">
+        <span class="num amber">1M</span>
+        <span class="lbl">Trajectory &middot; 18&ndash;24mo &middot; <span style="color:var(--bone-fainter);font-family:'JetBrains Mono',monospace;font-size: 11px;letter-spacing:0.16em;text-transform:uppercase;">projection</span></span>
+      </div>
+      <div class="v3-money-arrow">&rarr;</div>
+      <div class="v3-money-step">
+        <span class="num amber">$300K</span>
+        <span class="lbl">Display ad revenue / yr &middot; <span style="color:var(--bone-fainter);font-family:'JetBrains Mono',monospace;font-size: 11px;letter-spacing:0.16em;text-transform:uppercase;">@ $25 RPM</span></span>
+      </div>
+    </div>
+
+    <!-- SEARCH-SHIFT CALLOUT (folds in old Tab 02) -->
+    <div class="v3-search-callout">
+      <div>
+        <div class="tag">Why this matters now</div>
+        <div class="num"><span class="accent">Answers</span><br>first</div>
+      </div>
+      <div>
+        <p><strong>Most restaurant search now ends in a SERP feature or AI summary before the click.</strong> Google AI Overviews, ChatGPT, Perplexity, and Claude all read structured markup to decide what to cite. Your editorial has the shape AI engines reward: lists, cities, use-cases, Q&amp;A. The schema layer is what's missing. <em style="color:var(--bone-fainter);">Same prose. Smarter wrapper. Exponential visibility.</em></p>
+      </div>
+    </div>
+
+    <div class="v3-panel-nav">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--bone-fainter);letter-spacing:0.16em;">01 &middot; THE DIAGNOSIS</span>
+      <button data-goto="1">The Proof</button>
+    </div>
+  </section>
+
+  <!-- =========== 02 THE PROOF =========== -->
+  <section class="panel" data-panel="1">
+
+    <div class="v3-hero">
+      <div class="v3-eyebrow">02 <span class="sep">/</span> 05 <span class="sep">·</span> The Proof</div>
+      <h1 class="v3-h1">Engine live.<br>Plugin built.<br>Schema validated.</h1>
+      <p class="v3-lede">Linnea&rsquo;s writing was never touched. Hot Wings shows what changed instead: every one of her 15 restaurants now appears to Google as its own listing. Same prose. Machine-readable wrapper. Validated by Google&rsquo;s own tester this week.</p>
+    </div>
+    <div class="audio-player-row">
+      <button class="audio-play-btn" aria-label="Listen to this slide">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polygon points="3,2 14,8 3,14" fill="currentColor"/></svg>
+        <span class="audio-label">Listen to this slide</span>
+        <span class="audio-time">1:26</span>
+      </button>
+      <audio class="audio-element" preload="none">
+        <source data-src="audio/tab-2-proof.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
+
+    <div class="v3-status-board">
+      <div class="v3-status-tile">
+        <div class="head"><span class="led"></span>Engine</div>
+        <div class="name">Vercel Python</div>
+        <div class="stat">Live URL &middot; production version <code>0.1.1</code> &middot; <span style="color:var(--bone-fainter);">running on Claude (Anthropic)</span></div>
+        <div class="metric">12 / 12<small>Promptfoo green on fixture</small></div>
+      </div>
+      <div class="v3-status-tile">
+        <div class="head"><span class="led"></span>Plugin</div>
+        <div class="name">WordPress &middot; v0.1.1</div>
+        <div class="stat">Sandbox-validated on OrbStack &middot; AIOSEO Free + Elementor</div>
+        <div class="metric">20KB<small>Install zip ready for Taylor</small></div>
+      </div>
+      <div class="v3-status-tile">
+        <div class="head"><span class="led"></span>Hot Wings</div>
+        <div class="name">15 restaurants</div>
+        <div class="stat">Full pipeline 2026-05-19 &middot; 5 FAQs &middot; ItemList + FAQPage</div>
+        <div class="metric">8KB<small>JSON-LD in page head</small></div>
+      </div>
+      <div class="v3-status-tile">
+        <div class="head"><span class="led amber"></span>Rich Results</div>
+        <div class="name">Google Validator</div>
+        <div class="stat">1 Carousel &middot; 1 FAQ &middot; 5 Local Businesses &middot; 5 Organizations</div>
+        <div class="metric">12 / 12<small>Items validated &check;</small></div>
+      </div>
+    </div>
+
+    <div class="v3-section-rule"><span class="num">01</span> What Linnea wrote &middot; What Google now sees</div>
+
+    <div class="v3-split">
+      <div class="v3-split-pane before">
+        <div class="pane-tag">Before &middot; What Linnea wrote</div>
+        <div class="pane-content">
+          <em>"Hot Wings has been Denver's go-to wing destination since 1992. The Buffalo-style wings here are tossed in a vinegar-forward sauce that has spawned dozens of imitators&hellip;"</em>
+        </div>
+        <div class="pane-tag" style="margin-top:auto;">Indexed as: paragraph text only</div>
+      </div>
+      <div class="v3-split-pane after">
+        <div class="pane-tag">After &middot; What Google + LLMs now see</div>
+        <div>
+          <span class="schema-chip">+ ItemList</span>
+          <span class="schema-chip">+ LocalBusiness &times; 15</span>
+          <span class="schema-chip">+ FAQPage</span>
+          <span class="schema-chip">+ Restaurant</span>
+          <span class="schema-chip">+ Address</span>
+          <span class="schema-chip">+ Geo</span>
+        </div>
+        <div class="pane-content" style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;color:var(--bone-dim);margin-top:auto;">
+          <code>"@type": "ItemList",
+"numberOfItems": 15,
+"itemListElement": [&hellip;]</code>
+          <span style="color:var(--phosphor);font-size:11px;">verbatim source_quote on every fact &middot; 0 fabricated</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="v3-section-rule"><span class="num">02</span> Why not just install a plugin?</div>
+
+    <p style="font-size:16px;line-height:1.5;color:var(--bone);max-width:62ch;margin:0 0 var(--space-4);">Fair question. Off-the-shelf plugins do something different. Here&rsquo;s the side-by-side:</p>
+
+    <div class="v4-comparison">
+      <div class="v4-comparison-head">
+        <div class="v4-comp-col-label">What it does</div>
+        <div class="v4-comp-col-a">Plugins<br><small>(AIOSEO Pro, Yoast, Schema Pro)</small></div>
+        <div class="v4-comp-col-b">This engine</div>
+      </div>
+      <div class="v4-comparison-row">
+        <div class="v4-comp-row-label">Adds basic schema to pages</div>
+        <div class="v4-comp-cell"><span class="v4-yes">&check;</span></div>
+        <div class="v4-comp-cell"><span class="v4-yes">&check;</span></div>
+      </div>
+      <div class="v4-comparison-row">
+        <div class="v4-comp-row-label">Pulls every restaurant out of your articles by name</div>
+        <div class="v4-comp-cell"><span class="v4-no">&times;</span></div>
+        <div class="v4-comp-cell"><span class="v4-yes">&check;</span></div>
+      </div>
+      <div class="v4-comparison-row">
+        <div class="v4-comp-row-label">Quotes the article word-for-word for every fact</div>
+        <div class="v4-comp-cell"><span class="v4-no">&times;</span></div>
+        <div class="v4-comp-cell"><span class="v4-yes">&check;</span></div>
+      </div>
+      <div class="v4-comparison-row">
+        <div class="v4-comp-row-label">Builds FAQs from what readers actually ask</div>
+        <div class="v4-comp-cell"><span class="v4-no">&times;</span></div>
+        <div class="v4-comp-cell"><span class="v4-yes">&check;</span></div>
+      </div>
+      <div class="v4-comparison-row">
+        <div class="v4-comp-row-label">Event-schema timing across your six markets</div>
+        <div class="v4-comp-cell"><span class="v4-no">&times;</span></div>
+        <div class="v4-comp-cell"><span class="v4-yes">&check;</span></div>
+      </div>
+      <div class="v4-comparison-row">
+        <div class="v4-comp-row-label">Monthly refresh on your top 50 articles</div>
+        <div class="v4-comp-cell"><span class="v4-no">&times;</span></div>
+        <div class="v4-comp-cell"><span class="v4-yes">&check;</span></div>
+      </div>
+    </div>
+
+    <p style="font-size:14px;color:var(--bone-dim);max-width:62ch;margin:var(--space-4) 0 0;font-style:italic;">A plugin is the floor. The actual work is everything above the floor.</p>
+
+    <div class="v3-section-rule"><span class="num">03</span> One thing to know about cost</div>
+
+    <p style="font-size:16px;line-height:1.55;color:var(--bone);max-width:62ch;margin:0 0 var(--space-4);">Longer articles cost a little more to process. A 15-restaurant piece runs about $0.40 in API cost. A 33-restaurant feature runs roughly twice that. JFly absorbs every API cost during the pilot &mdash; you don&rsquo;t see a bill until after we agree the work is worth it.</p>
+
+    <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--bone-fainter);letter-spacing:0.14em;">
+      Engine health-check: <a href="https://diningout-optimizer-engine.vercel.app/health" target="_blank" rel="noopener" style="color:var(--lamp-amber);">diningout-optimizer-engine.vercel.app/health</a>
+    </p>
+
+    <div class="v3-panel-nav">
+      <button data-goto="0" class="prev">The Diagnosis</button>
+      <button data-goto="2">The Path</button>
+    </div>
+  </section>
+
+  <!-- =========== 03 THE PATH =========== -->
+  <section class="panel" data-panel="2">
+
+    <div class="v3-hero">
+      <div class="v3-eyebrow">03 <span class="sep">/</span> 05 <span class="sep">·</span> The Path to 1M</div>
+      <h1 class="v3-h1">Five cities, in order.<br>One curve underneath.</h1>
+      <p class="v3-lede">Five markets, in the order the data says to launch them. Denver first because that&rsquo;s where the pilot proves the engine. Houston second because you&rsquo;ve already shown it scales there. Dallas, Atlanta, Phoenix follow on evidence. <strong>The curve underneath is what builds over time. A path, not a promise.</strong></p>
+    </div>
+    <div class="audio-player-row">
+      <button class="audio-play-btn" aria-label="Listen to this slide">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polygon points="3,2 14,8 3,14" fill="currentColor"/></svg>
+        <span class="audio-label">Listen to this slide</span>
+        <span class="audio-time">1:31</span>
+      </button>
+      <audio class="audio-element" preload="none">
+        <source data-src="audio/tab-3-path.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
+
+    <!-- TRAJECTORY TIMELINE + CURVE -->
+    <div class="v3-trajectory">
+      <svg viewBox="0 0 1080 320" aria-label="Trajectory timeline showing 4 levers and 150K to 1M growth curve">
+        <defs>
+          <linearGradient id="traj-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2E6FA4" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#2E6FA4" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Y axis labels -->
+        <text x="14" y="38" class="v3-traj-label">1M</text>
+        <text x="14" y="160" class="v3-traj-label">500K</text>
+        <text x="14" y="270" class="v3-traj-label">150K</text>
+
+        <!-- X axis baseline -->
+        <line class="v3-traj-axis" x1="60" y1="280" x2="1060" y2="280"/>
+        <!-- Y axis tick lines -->
+        <line class="v3-traj-tick" x1="60" y1="40" x2="1060" y2="40"/>
+        <line class="v3-traj-tick" x1="60" y1="160" x2="1060" y2="160"/>
+        <line class="v3-traj-tick" x1="60" y1="270" x2="1060" y2="270"/>
+
+        <!-- Variance band (dashed) -->
+        <path class="v3-traj-variance" d="M 60 270 C 220 268, 340 260, 440 240 S 700 130, 1060 30 L 1060 70 C 700 170, 540 220, 440 250 S 220 272, 60 274 Z"/>
+        <!-- Trajectory curve (filled) -->
+        <path class="v3-traj-fill" d="M 60 272 C 220 270, 340 262, 440 245 S 700 145, 1060 50 L 1060 280 L 60 280 Z"/>
+        <!-- Trajectory line -->
+        <path class="v3-traj-curve" d="M 60 272 C 220 270, 340 262, 440 245 S 700 145, 1060 50"/>
+
+        <!-- Stations: M0 Denver / M2 Houston / M5 Dallas / M8 Atlanta / M12 Phoenix -->
+        <!-- Denver (M0, x=160) -->
+        <line class="v3-traj-station-line" x1="160" y1="20" x2="160" y2="280"/>
+        <circle class="v3-traj-station" cx="160" cy="20" r="9" style="fill:var(--lamp-amber);stroke:var(--lamp-amber);"/>
+        <text x="160" y="14" class="v3-traj-label" text-anchor="middle">M 0</text>
+        <text x="160" y="50" class="v3-traj-city" text-anchor="middle" style="fill:var(--lamp-amber);">Denver</text>
+        <text x="160" y="68" class="v3-traj-num" text-anchor="middle">Home base &middot; 150K / mo</text>
+        <text x="160" y="82" class="v3-traj-num amber" text-anchor="middle">Pilot launches here</text>
+
+        <!-- Houston (M2, x=340) -->
+        <line class="v3-traj-station-line" x1="340" y1="20" x2="340" y2="280"/>
+        <circle class="v3-traj-station" cx="340" cy="20" r="8"/>
+        <text x="340" y="14" class="v3-traj-label" text-anchor="middle">M 2</text>
+        <text x="340" y="50" class="v3-traj-city" text-anchor="middle">Houston</text>
+        <text x="340" y="68" class="v3-traj-num" text-anchor="middle">Top article: 8,471 / 90d</text>
+        <text x="340" y="82" class="v3-traj-num amber" text-anchor="middle">Scale what works</text>
+
+        <!-- Dallas (M5, x=540) -->
+        <line class="v3-traj-station-line" x1="540" y1="20" x2="540" y2="280"/>
+        <circle class="v3-traj-station" cx="540" cy="20" r="8"/>
+        <text x="540" y="14" class="v3-traj-label" text-anchor="middle">M 5</text>
+        <text x="540" y="50" class="v3-traj-city" text-anchor="middle">Dallas</text>
+        <text x="540" y="68" class="v3-traj-num" text-anchor="middle">40K sessions, thin editorial</text>
+        <text x="540" y="82" class="v3-traj-num amber" text-anchor="middle">Fastest revenue lever</text>
+
+        <!-- Atlanta (M8, x=740) -->
+        <line class="v3-traj-station-line" x1="740" y1="20" x2="740" y2="280"/>
+        <circle class="v3-traj-station" cx="740" cy="20" r="8"/>
+        <text x="740" y="14" class="v3-traj-label" text-anchor="middle">M 8</text>
+        <text x="740" y="50" class="v3-traj-city" text-anchor="middle">Atlanta</text>
+        <text x="740" y="68" class="v3-traj-num" text-anchor="middle">16K events, zero editorial</text>
+        <text x="740" y="82" class="v3-traj-num amber" text-anchor="middle">Cheapest leverage</text>
+
+        <!-- Phoenix (M12, x=940) -->
+        <line class="v3-traj-station-line" x1="940" y1="20" x2="940" y2="280"/>
+        <circle class="v3-traj-station" cx="940" cy="20" r="8" style="fill:var(--bone-fainter);"/>
+        <text x="940" y="14" class="v3-traj-label" text-anchor="middle">M 12</text>
+        <text x="940" y="50" class="v3-traj-city" text-anchor="middle" style="fill:var(--bone-dim);">Phoenix</text>
+        <text x="940" y="68" class="v3-traj-num" text-anchor="middle">Tier 3 priority &middot; defer</text>
+        <text x="940" y="82" class="v3-traj-num" text-anchor="middle">Wait for compounding data</text>
+
+        <!-- 150K start label -->
+        <text x="70" y="296" class="v3-traj-num" text-anchor="start" style="fill:var(--bone-dim);">150K / mo today &middot; Denver core</text>
+        <!-- 1M end label (positioned bottom-right to avoid Phoenix collision) -->
+        <text x="1060" y="296" class="v3-traj-num amber" text-anchor="end" style="font-size:13px;">1M / mo &middot; $300K / yr @ $25 RPM &rarr;</text>
+      </svg>
+    </div>
+
+    <div class="v3-section-rule"><span class="num">01</span> The math &middot; one table, sensitivity included</div>
+
+    <div class="v5-math-stack">
+      <div class="v5-math-card today">
+        <div class="v5-math-label">Today</div>
+        <div class="v5-math-visits">150K<span>visits / month</span></div>
+        <div class="v5-math-rev">$0&ndash;15K<span>affiliate only &middot; ad threshold not yet hit</span></div>
+      </div>
+      <div class="v5-math-card mid">
+        <div class="v5-math-label">Month 12 &middot; conservative</div>
+        <div class="v5-math-visits">400K<span>visits / month</span></div>
+        <div class="v5-math-rev">$96K&ndash;106K<span>$18 RPM display + affiliate</span></div>
+      </div>
+      <div class="v5-math-card target">
+        <div class="v5-math-label">Month 24 &middot; full trajectory</div>
+        <div class="v5-math-visits">1M<span>visits / month</span></div>
+        <div class="v5-math-rev">$300K<span>$25&ndash;30 RPM &middot; the pilot tests this</span></div>
+      </div>
+    </div>
+    <p class="v5-math-foot">$25 RPM is the published food-vertical mid-range. Jeff verifies the actual rate with Mediavine &mdash; JFly does the math.</p>
+
+    <div class="v3-section-rule"><span class="num">02</span> How we connect the dots &middot; AI doing what no agency can</div>
+
+    <p style="font-size:15px;color:var(--bone-dim);max-width:64ch;margin:0 0 var(--space-3);">This is the real difference. Every conversation we&rsquo;ve had, every GA4 query, every article scrape, every schema audit, every pattern across your 20 properties &mdash; <strong style="color:var(--bone);">AI pulls it all into one connected map.</strong> No agency does this. They look at one node. We look at the whole network, and we find the lines between them that nobody else sees.</p>
+
+    <div style="margin:var(--space-3) 0 var(--space-4);padding:18px 6px;background:rgba(0,0,0,0.28);border:1px solid rgba(141,217,59,0.16);border-radius:8px;">
+      <img src="obsidian-graph.png" alt="Connected graph of DiningOut findings, patterns, fixes, and the path to 1M" style="display:block;width:100%;height:auto;max-height:620px;object-fit:contain;" />
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:var(--space-4);">
+      <div style="padding:12px 14px;background:rgba(20,14,8,0.4);border-left:2px solid var(--phosphor);border-radius:4px;">
+        <div style="font-family:'Fraunces',serif;font-size:13px;color:var(--phosphor);margin-bottom:4px;">Findings</div>
+        <p style="font-size:13px;color:var(--bone-dim);margin:0;line-height:1.5;">Measurement Cliff. 45:1 leak. Spike-and-die pattern. AI baseline plateau. Pulled straight from your GA4.</p>
+      </div>
+      <div style="padding:12px 14px;background:rgba(20,14,8,0.4);border-left:2px solid var(--phosphor);border-radius:4px;">
+        <div style="font-family:'Fraunces',serif;font-size:13px;color:var(--phosphor);margin-bottom:4px;">Patterns</div>
+        <p style="font-size:13px;color:var(--bone-dim);margin:0;line-height:1.5;">Eater 38 vs DiningOut Edge. Spike Pattern is Event Signal. Departmentalized vs Unified. How the dots actually talk to each other.</p>
+      </div>
+      <div style="padding:12px 14px;background:rgba(20,14,8,0.4);border-left:2px solid var(--lamp-amber);border-radius:4px;">
+        <div style="font-family:'Fraunces',serif;font-size:13px;color:var(--lamp-amber);margin-bottom:4px;">Levers</div>
+        <p style="font-size:13px;color:var(--bone-dim);margin:0;line-height:1.5;">Essential 50 Refresh. Event Schema Template. Reciprocal Linking. Multi-Market Rollout. Where the work goes.</p>
+      </div>
+      <div style="padding:12px 14px;background:rgba(20,14,8,0.4);border-left:2px solid var(--lamp-amber);border-radius:4px;">
+        <div style="font-family:'Fraunces',serif;font-size:13px;color:var(--lamp-amber);margin-bottom:4px;">Already built</div>
+        <p style="font-size:13px;color:var(--bone-dim);margin:0;line-height:1.5;">Engine Live. Plugin Pipeline. Schema Validation Proof. Source Quote Grounding. The right side of the map already exists.</p>
+      </div>
+    </div>
+
+    <div class="v3-panel-nav">
+      <button data-goto="1" class="prev">The Proof</button>
+      <button data-goto="3">Roles</button>
+    </div>
+  </section>
+
+  <!-- =========== 04 YOUR LANE / MY LANE =========== -->
+  <section class="panel" data-panel="3">
+
+    <div class="v3-hero">
+      <div class="v3-eyebrow">04 <span class="sep">/</span> 05 <span class="sep">·</span> Roles</div>
+      <h1 class="v3-h1">Four lanes. Sovereign editorial.<br>One structural layer behind it.</h1>
+      <p class="v3-lede">Linnea keeps writing. Taylor keeps WordPress. Ryan keeps SEO (currently). I take the schema layer behind the prose. <strong>Nobody on your team loses scope. Nobody gets new homework. The map below shows exactly who touches what.</strong></p>
+    </div>
+    <div class="audio-player-row">
+      <button class="audio-play-btn" aria-label="Listen to this slide">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polygon points="3,2 14,8 3,14" fill="currentColor"/></svg>
+        <span class="audio-label">Listen to this slide</span>
+        <span class="audio-time">1:13</span>
+      </button>
+      <audio class="audio-element" preload="none">
+        <source data-src="audio/tab-4-lanes.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
+
+    <div class="v3-quadrant">
+      <div class="q-axis-x">
+        <span><span class="arrow">&larr;</span> Editorial</span>
+        <span>Technical <span class="arrow">&rarr;</span></span>
+      </div>
+      <div class="q-axis-y">
+        <span>Their work <span class="arrow">&darr;</span></span>
+        <span><span class="arrow">&uarr;</span> My work</span>
+      </div>
+
+      <div class="v3-quad-cell tl">
+        <div class="q-tag">Editorial &middot; Theirs</div>
+        <h3 class="q-person">Linnea writes.</h3>
+        <p class="q-detail">Prose untouched. Voice untouched. Editorial calendar yours. <strong style="color:var(--bone);">Writers don't touch this engagement.</strong></p>
+      </div>
+
+      <div class="v3-quad-cell tr">
+        <div class="q-tag">Technical &middot; Theirs</div>
+        <h3 class="q-person">Taylor + Ryan.</h3>
+        <p class="q-detail"><strong style="color:var(--bone);">Taylor</strong> &middot; 6&ndash;10 hrs plugin install + Cloudflare/DNS. 30-min/week sync during pilot.<br><strong style="color:var(--bone);">Ryan</strong> &middot; GSC baseline pull before engine touches anything.</p>
+      </div>
+
+      <div class="v3-quad-cell bl empty">
+        <div class="q-tag">Editorial &middot; Mine</div>
+        <p class="q-empty">Empty by design. Your editorial is sovereign. I don't write here. I don't suggest topics. I don't ever touch a word Linnea ships.</p>
+      </div>
+
+      <div class="v3-quad-cell br mine">
+        <div class="q-tag">Technical &middot; Mine</div>
+        <h3 class="q-person">JJ &middot; JFly.Ai.</h3>
+        <p class="q-detail">Engine + plugin + extraction model. Monthly 50 update cadence. Event tags ready before each city launch. Tracking across all your sites. New-market research.</p>
+      </div>
+    </div>
+
+    <div class="v3-section-rule"><span class="num">01</span> Everything we build is yours &middot; forever</div>
+
+    <div class="v3-ip-lock">
+      <div class="ip-icon">$</div>
+      <div class="ip-body">
+        <h4>The engine runs on our servers. Everything it builds lives on your WordPress. Forever.</h4>
+        <p>Think of it like a contractor building you a house. We bring the tools. You keep the house. The schema, FAQs, and fast-facts live inside your WordPress &mdash; yours forever. Every article we touch keeps working on day one and on day one thousand. New articles getting added to the stack &mdash; that's what the retainer keeps building.</p>
+      </div>
+    </div>
+
+    <div class="v3-section-rule"><span class="num">02</span> Built to keep running &middot; everything compounds with or without me</div>
+
+    <div class="v3-ip-lock" style="background:rgba(141,217,59,0.04);border-color:rgba(141,217,59,0.18);">
+      <div class="ip-icon" style="color:var(--phosphor);">&#10003;</div>
+      <div class="ip-body">
+        <h4>JFly.Ai isn't a person. It's a documented system.</h4>
+        <p>Three protections, in writing, before week 1: <strong>(1) Source-code escrow</strong> on the engine and plugin, released to DiningOut if JFly.Ai stops operating. <strong>(2) Taylor cross-training pass</strong> on the plugin internals during pilot, so WordPress side has continuity hands-on. <strong>(3) Vercel infrastructure documented</strong> with a one-page runbook for redeployment by any competent engineer. The schema you already injected keeps working forever regardless. The engine you can rebuild or hand off.</p>
+      </div>
+    </div>
+
+    <div class="v3-panel-nav">
+      <button data-goto="2" class="prev">The Path</button>
+      <button data-goto="4">Pricing</button>
+    </div>
+  </section>
+
+  <!-- =========== 05 THE LADDER =========== -->
+  <section class="panel" data-panel="4">
+
+    <div class="v3-hero">
+      <div class="v3-eyebrow">05 <span class="sep">/</span> 05 <span class="sep">·</span> Pricing</div>
+      <h1 class="v3-h1">Three ways to work together.</h1>
+      <p class="v3-lede">An audit to start. A retainer to keep it running. Performance based on top.</p>
+    </div>
+    <div class="audio-player-row">
+      <button class="audio-play-btn" aria-label="Listen to this slide">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polygon points="3,2 14,8 3,14" fill="currentColor"/></svg>
+        <span class="audio-label">Listen to this slide</span>
+        <span class="audio-time">1:37</span>
+      </button>
+      <audio class="audio-element" preload="none">
+        <source data-src="audio/tab-5-ladder.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+
+
+    <div class="v3-staircase">
+      <!-- Tier 1 -->
+      <div class="v3-tier t1">
+        <div class="t-num">Tier 01 &middot; The Audit</div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:nowrap;margin:8px 0 14px;">
+          <h3 class="t-name" style="font-size:22px;margin:0;line-height:1.2;">Full<br>Diagnostic</h3>
+          <div class="t-price" style="font-size:22px;white-space:nowrap;margin:0;line-height:1.2;">$1,000<span style="font-size:0.62em;color:var(--bone-fainter);font-weight:400;letter-spacing:0.04em;"> &middot; one-time</span></div>
+        </div>
+        <p class="t-anchor" style="min-height:3em;"><strong>You&rsquo;re buying the audit. The 30-article test rides along free.</strong></p>
+
+        <div style="background:rgba(20,14,8,0.4);border:1px solid rgba(141,217,59,0.18);border-radius:6px;padding:14px 16px;margin:14px 0 12px;">
+          <div style="font-family:'Fraunces', serif;font-size:14px;font-weight:600;color:var(--phosphor);margin-bottom:10px;">What you get</div>
+          <ul style="list-style:none;padding:0;margin:0;font-size:13.5px;line-height:1.6;color:var(--bone-dim);">
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">Full diagnostic</strong> &middot; GA4, AI visibility, schema, network, decay, markets</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">Tracking cleaned up</strong> &middot; cross-property + broken UTMs</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">30 articles upgraded</strong> &middot; schema, FAQs, fast-facts &mdash; writers untouched</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">Bi-weekly Loom + live dashboard</strong></li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">Lift measured against your SEO baseline</strong></li>
+            <li style="padding:6px 0;"><strong style="color:var(--bone);">Case-study rights + warm intros</strong></li>
+          </ul>
+        </div>
+
+        <div class="t-unlocks">8-week engagement &middot; guarantee: traffic doesn&rsquo;t move, you keep everything</div>
+      </div>
+
+      <!-- Tier 2 (recommended) -->
+      <div class="v3-tier t2">
+        <div class="t-num">Tier 02 &middot; The Engine</div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:nowrap;margin:8px 0 14px;">
+          <h3 class="t-name" style="font-size:22px;margin:0;line-height:1.2;">Monthly<br>Retainer</h3>
+          <div class="t-price" style="font-size:22px;white-space:nowrap;margin:0;line-height:1.2;">$600<span style="font-size:0.62em;color:var(--bone-fainter);font-weight:400;letter-spacing:0.04em;"> &middot; per month</span></div>
+        </div>
+        <p class="t-anchor" style="min-height:3em;"><strong>The whole engine, running every month. Articles, schema, events, tracking &mdash; all kept tight.</strong></p>
+
+        <div style="background:rgba(20,14,8,0.4);border:1px solid rgba(141,217,59,0.18);border-radius:6px;padding:14px 16px;margin:14px 0 12px;">
+          <div style="font-family:'Fraunces', serif;font-size:14px;font-weight:600;color:var(--phosphor);margin-bottom:10px;">What you get every month</div>
+          <ul style="list-style:none;padding:0;margin:0;font-size:13.5px;line-height:1.6;color:var(--bone-dim);">
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">4 hours consulting + work</strong> &middot; additional at $150/hr</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">$10 per article optimized</strong> &middot; your pick, your pace</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">Event tags before launch</strong> &middot; Top Taco, Chicken Fight, Rare</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">AI mentions tracked</strong> &middot; ChatGPT, Perplexity, Google</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">Tracking stays clean</strong> &middot; cross-property + UTMs</li>
+            <li style="padding:6px 0;"><strong style="color:var(--bone);">Live dashboard + bi-weekly Zoom</strong></li>
+          </ul>
+        </div>
+
+        <div class="t-unlocks">3-month minimum &middot; 30-day notice after &middot; new market scouted quarterly</div>
+      </div>
+
+      <!-- Tier 3 -->
+      <div class="v3-tier t3">
+        <div class="t-num">Tier 03 &middot; The Upside</div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:nowrap;margin:8px 0 14px;">
+          <h3 class="t-name" style="font-size:22px;margin:0;line-height:1.2;">Performance<br>Based</h3>
+          <div class="t-price" style="font-size:22px;white-space:nowrap;margin:0;line-height:1.2;"><span style="font-size:0.62em;color:var(--bone-fainter);font-weight:400;letter-spacing:0.04em;">TBD</span></div>
+        </div>
+        <p class="t-anchor" style="min-height:3em;"><strong>The bigger objectives we surfaced. Lower base, shared upside &mdash; designed together.</strong></p>
+
+        <div style="background:rgba(20,14,8,0.4);border:1px solid rgba(141,217,59,0.18);border-radius:6px;padding:14px 16px;margin:14px 0 12px;">
+          <div style="font-family:'Fraunces', serif;font-size:14px;font-weight:600;color:var(--phosphor);margin-bottom:10px;">Where the bigger upside lives</div>
+          <ul style="list-style:none;padding:0;margin:0;font-size:13.5px;line-height:1.6;color:var(--bone-dim);">
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">Event &harr; editorial reciprocity</strong> &middot; close the leak between your sites</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">Essential 50 refresh engine</strong> &middot; top articles compounding, not decaying</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">Multi-market rollout</strong> &middot; Houston, Dallas, Atlanta, Phoenix</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">Event-site schema</strong> &middot; Top Taco, Chicken Fight, Rare, Garnish</li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(141,217,59,0.08);"><strong style="color:var(--bone);">AI citation share growth</strong> &middot; ChatGPT, Perplexity, Google AI</li>
+            <li style="padding:6px 0;"><strong style="color:var(--bone);">Sponsor + Mediavine lift</strong> &middot; revenue scales with traffic</li>
+          </ul>
+        </div>
+
+        <div class="t-unlocks">Scoped after Tier 2 has data &middot; flat vs. performance split, your call</div>
+      </div>
+    </div>
+
+
+    <div class="v3-close">
+      <blockquote style="font-family:'Fraunces',serif;font-size:24px;line-height:1.4;color:var(--lamp-amber);font-style:italic;border-left:3px solid var(--lamp-amber);padding-left:24px;margin:0 0 32px 0;max-width:62ch;">"Fucking I wish I would have done this like six years ago."<cite style="display:block;font-family:'JetBrains Mono',monospace;font-style:normal;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--bone-dim);margin-top:12px;">Jeff Suskin &middot; in person &middot; May 19, 2026</cite></blockquote>
+      <h3>Six years of good articles are already sitting on your site.<br>The schema is what&rsquo;s missing.</h3>
+      <p>Say yes on this call. The pilot starts Monday.</p>
+    </div>
+
+    <div class="v3-panel-nav">
+      <button data-goto="3" class="prev">Roles</button>
+      <button data-goto="0">Back to the diagnosis</button>
+    </div>
+  </section>
+</div><!-- .tab-container -->
+
+<footer>
+  <div class="footer-stripe"></div>
+  <div class="footer-text"><!-- SWAP:chrome:footer-text -->JFly.Ai · Let's Build Your AiOS · Prepared May 22, 2026 · v6-FINAL · Confidential to DiningOut<!-- /SWAP:chrome:footer-text --></div>
+</footer>
+
+<script>
+  // === Tab logic ===
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  const dots = document.querySelectorAll('.progress-dot');
+  let currentTab = 0;
+  const firedAnims = new Set();
+
+  function triggerPanelAnims(index) {
+    // v3 panels render their SVGs inline. No JS-triggered reveal needed.
+  }
+
+  function goToTab(index) {
+    if (index < 0 || index >= tabs.length) return;
+    currentTab = index;
+    tabs.forEach((tab, i) => {
+      tab.classList.toggle('active', i === index);
+      tab.setAttribute('aria-selected', i === index);
+    });
+    panels.forEach((panel, i) => panel.classList.toggle('active', i === index));
+    dots.forEach((dot, i) => {
+      dot.classList.remove('active', 'completed');
+      if (i === index) dot.classList.add('active');
+      else if (i < index) dot.classList.add('completed');
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    const tabSlugs = ['diagnosis', 'proof', 'path', 'lanes', 'ladder'];
+    history.replaceState(null, '', '#' + tabSlugs[index]);
+    triggerPanelAnims(index);
+  }
+
+  tabs.forEach((tab, i) => tab.addEventListener('click', () => goToTab(i)));
+  document.querySelectorAll('[data-goto]').forEach(btn =>
+    btn.addEventListener('click', () => goToTab(parseInt(btn.dataset.goto)))
+  );
+
+  // === Keyboard arrow nav ===
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); goToTab(Math.min(currentTab + 1, tabs.length - 1)); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); goToTab(Math.max(currentTab - 1, 0)); }
+  });
+
+  // === Hash nav on load ===
+  const tabSlugs = ['diagnosis', 'proof', 'path', 'lanes', 'ladder'];
+  const initHash = window.location.hash.replace('#', '');
+  const initIdx = tabSlugs.indexOf(initHash);
+  if (initIdx > 0) { goToTab(initIdx); }
+  else { setTimeout(() => triggerPanelAnims(0), 300); }
+</script>
+
+
+<!-- ====== EDIT MODE TOOLBAR. JS module (self-contained, no deps) ====== -->
+<script>
+(function () {
+  const STORAGE_KEY = 'jfly-proposal-autosave-' + (location.pathname.split('/').pop() || 'default');
+  const PRISTINE_KEY = 'jfly-proposal-pristine-' + (location.pathname.split('/').pop() || 'default');
+
+  const LOCKED_SELECTORS = [
+    '.hero-quote blockquote',
+    '.crt-card', '.crt-code', 'pre',
+    '.forensics-foot',
+    '.close-action-card h2',
+    '.close-action-card .cta',
+    '.close-action-card .cta-sub',
+    '.risk-label',
+    '.eyebrow',
+    'code',
+    '.tab-nav', 'header .brand', 'header .brand-sub', 'header .meta',
+    'footer'
+  ];
+  const EDITABLE_TAGS = ['h1','h2','h3','h4','h5','p','li','span','strong','em','blockquote','div'];
+  const BLOCK_SELECTORS = ['.headline-tile', '.hero-quote', '.proof-strip', '.section-intro',
+                            '.diff-list-card', '.terms-zones', '.diptych', '.contract-card',
+                            '.gantt-compact', '.phase-card', '.accordion-stack', '.h2-card',
+                            '.forensics', '.link-bar', '.layer-strip', '.pull-line',
+                            '.pairing-line', '.pricing-aside', '.risk-pill-trio',
+                            '.close-action-card'];
+
+  // ===== PRISTINE SNAPSHOT (for RESET). Stored in localStorage so survives reload
+  function snapshotPristineIfNeeded() {
+    if (!localStorage.getItem(PRISTINE_KEY)) {
+      localStorage.setItem(PRISTINE_KEY, document.body.innerHTML);
+    }
+  }
+
+  // ===== AUTOSAVE. Restores on reload
+  // Stash the original toolbar/help/format-bar HTML once at script start so we can
+  // re-inject them after any autosave restore (the autosave only stores CONTENT).
+  const TOOLBAR_REFS = ['edit-toolbar','format-bar','edit-help'];
+  let toolbarHTMLCache = '';
+  function captureToolbarHTML() {
+    toolbarHTMLCache = TOOLBAR_REFS
+      .map(id => {
+        const el = document.getElementById(id);
+        return el ? el.outerHTML : '';
+      })
+      .join('\n');
+  }
+  function reinjectToolbar() {
+    // Remove any stale toolbar pieces from restored content
+    TOOLBAR_REFS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+    // Re-inject the fresh toolbar HTML at the top of body
+    if (toolbarHTMLCache) {
+      document.body.insertAdjacentHTML('afterbegin', toolbarHTMLCache);
+    }
+  }
+  function stripToolbarFromString(html) {
+    let out = html;
+    TOOLBAR_REFS.forEach(id => {
+      out = out.replace(new RegExp('<[^>]*id="' + id + '"[^>]*>[\\s\\S]*?<\\/[a-z]+>', 'i'), '');
+    });
+    return out;
+  }
+  function loadAutosave() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved && saved.length > 100) {
+      // Strip chips containers (legacy <div> form was illegal inside <p> and corrupted parse)
+      let cleaned = saved.replace(/<(div|span)\s+class="spacing-chips"[^>]*>[\s\S]*?<\/\1>/g, '');
+      // Strip any old toolbar HTML embedded in the autosave so the FRESH toolbar from the source
+      // file isn't shadowed by a stale copy. reinjectToolbar() puts the current one back.
+      cleaned = stripToolbarFromString(cleaned);
+      document.body.innerHTML = cleaned;
+      reinjectToolbar();
+      return true;
+    }
+    return false;
+  }
+  function autosave() {
+    try {
+      // Save body WITHOUT the toolbar/help/format-bar. Those are source-controlled, not user content.
+      const clone = document.body.cloneNode(true);
+      TOOLBAR_REFS.forEach(id => {
+        const el = clone.querySelector('#' + id);
+        if (el) el.remove();
+      });
+      localStorage.setItem(STORAGE_KEY, clone.innerHTML);
+    } catch (e) {}
+  }
+
+  // Structural layout blocks. Get blocks-mode chips, but NEVER contentEditable themselves.
+  // Editing happens on the text leaves INSIDE them. Marking the container editable corrupts
+  // layout (e.g. .gantt-compact rows collide when contenteditable wraps the whole grid).
+  const STRUCTURAL_BLOCKS = ['.gantt-compact','.phase-card','.contract-card','.proof-strip',
+                              '.risk-pill-trio','.h2-card','.diptych','.terms-zones','.layer-strip'];
+
+  // ===== MARK EDITABLE / LOCKED / BLOCK
+  function markEditable() {
+    document.querySelectorAll(EDITABLE_TAGS.join(',')).forEach(el => {
+      if (el.closest(LOCKED_SELECTORS.join(','))) return;
+      if (el.matches(LOCKED_SELECTORS.join(','))) return;
+      if (el.matches(STRUCTURAL_BLOCKS.join(','))) return; // never editable on the layout shell
+      if (el.querySelector('h1,h2,h3,h4,h5,p,li')) return;
+      const text = (el.textContent || '').trim();
+      if (text.length === 0) return;
+      el.setAttribute('data-editable', '');
+    });
+    document.querySelectorAll(LOCKED_SELECTORS.join(',')).forEach(el => {
+      const text = (el.textContent || '').trim();
+      if (text.length > 0) el.setAttribute('data-locked', '');
+    });
+    document.querySelectorAll(BLOCK_SELECTORS.join(',')).forEach(el => {
+      el.setAttribute('data-block', '');
+      // Inject full block-tools chip strip if not present
+      if (!el.querySelector(':scope > .spacing-chips')) {
+        // Use <span> not <div>. Block elements like <div> are illegal inside <p>,
+        // and the browser will yank them (and any sibling text) out on parse/restore.
+        const chips = document.createElement('span');
+        chips.className = 'spacing-chips';
+        chips.innerHTML =
+          '<button type="button" class="chip minus" data-block-action="space-minus" title="Tighten padding -8px">−</button>' +
+          '<button type="button" class="chip plus" data-block-action="space-plus" title="Loosen padding +8px">+</button>' +
+          '<span class="chip-divider"></span>' +
+          '<button type="button" class="chip font-minus" data-block-action="font-minus" title="Font size -2px">A−</button>' +
+          '<button type="button" class="chip font-plus" data-block-action="font-plus" title="Font size +2px">A+</button>' +
+          '<span class="chip-divider"></span>' +
+          '<button type="button" class="chip move-up" data-block-action="move-up" title="Move block up">↑</button>' +
+          '<button type="button" class="chip move-down" data-block-action="move-down" title="Move block down">↓</button>' +
+          '<span class="chip-divider"></span>' +
+          '<button type="button" class="chip toggle-hide" data-block-action="toggle-hide" title="Hide / show this block">✕</button>';
+        el.prepend(chips);
+      }
+    });
+  }
+
+  // ===== UNDO/REDO STACKS
+  const undoStack = [];
+  const redoStack = [];
+  const MAX_HISTORY = 50;
+  let lastSnapshot = null;
+
+  function snapshot() {
+    return document.body.innerHTML;
+  }
+  function pushUndo() {
+    if (lastSnapshot === null) return;
+    undoStack.push(lastSnapshot);
+    if (undoStack.length > MAX_HISTORY) undoStack.shift();
+    redoStack.length = 0; // clear redo on new action
+    updateUndoButtons();
+  }
+  function captureBaseline() {
+    lastSnapshot = snapshot();
+  }
+  function undo() {
+    if (undoStack.length === 0) return;
+    const current = snapshot();
+    redoStack.push(current);
+    const prev = undoStack.pop();
+    document.body.innerHTML = prev;
+    rebindAll();
+    lastSnapshot = prev;
+    autosave();
+    updateUndoButtons();
+  }
+  function redo() {
+    if (redoStack.length === 0) return;
+    const current = snapshot();
+    undoStack.push(current);
+    const next = redoStack.pop();
+    document.body.innerHTML = next;
+    rebindAll();
+    lastSnapshot = next;
+    autosave();
+    updateUndoButtons();
+  }
+  function updateUndoButtons() {
+    if (!btnUndo || !btnRedo) return;
+    btnUndo.disabled = undoStack.length === 0;
+    btnRedo.disabled = redoStack.length === 0;
+    btnUndo.style.opacity = undoStack.length === 0 ? '0.4' : '1';
+    btnRedo.style.opacity = redoStack.length === 0 ? '0.4' : '1';
+  }
+
+  // ===== TOOLBAR REFS
+  const btnEdit = document.getElementById('btn-edit');
+  const btnBlocks = document.getElementById('btn-blocks');
+  const btnUndo = document.getElementById('btn-undo');
+  const btnRedo = document.getElementById('btn-redo');
+  const btnShowHidden = document.getElementById('btn-show-hidden');
+  const btnFixStyles = document.getElementById('btn-fix-styles');
+  const btnSave = document.getElementById('btn-save');
+  const btnReset = document.getElementById('btn-reset');
+  const formatBar = document.getElementById('format-bar');
+
+  let editOn = false;
+  let blocksOn = false;
+
+  function setEditMode(on) {
+    editOn = on;
+    document.body.classList.toggle('edit-mode', on);
+    btnEdit.classList.toggle('active', on);
+    btnEdit.textContent = on ? 'EDITING' : 'EDIT MODE';
+    document.querySelectorAll('[data-editable]').forEach(el => {
+      el.contentEditable = on ? 'true' : 'false';
+    });
+    if (on) captureBaseline();
+    if (!on) hideFormatBar();
+  }
+  function setBlocksMode(on) {
+    blocksOn = on;
+    document.body.classList.toggle('blocks-mode', on);
+    btnBlocks.classList.toggle('active', on);
+    btnBlocks.textContent = on ? 'BLOCKS ON' : 'BLOCKS';
+    if (on) captureBaseline();
+  }
+
+  // ===== BLOCK CHIP CLICKS (spacing / font / move / hide)
+  document.addEventListener('click', (e) => {
+    const action = e.target.getAttribute && e.target.getAttribute('data-block-action');
+    if (!action) return;
+    const block = e.target.closest('[data-block]');
+    if (!block) return;
+    pushUndo();
+
+    if (action === 'space-minus' || action === 'space-plus') {
+      const current = parseInt(window.getComputedStyle(block).paddingTop) || 0;
+      const delta = action === 'space-minus' ? -8 : 8;
+      const next = Math.max(0, current + delta);
+      block.style.paddingTop = next + 'px';
+      block.style.paddingBottom = next + 'px';
+    } else if (action === 'font-minus' || action === 'font-plus') {
+      const delta = action === 'font-minus' ? -2 : 2;
+      const textNodes = block.querySelectorAll('h1, h2, h3, h4, h5, p, li, span, blockquote');
+      textNodes.forEach(n => {
+        if (n.closest('.spacing-chips')) return;
+        const current = parseFloat(window.getComputedStyle(n).fontSize) || 16;
+        const next = Math.max(8, Math.min(80, current + delta));
+        n.style.fontSize = next + 'px';
+      });
+    } else if (action === 'move-up') {
+      const prev = block.previousElementSibling;
+      if (prev && prev.hasAttribute('data-block')) {
+        block.parentNode.insertBefore(block, prev);
+      }
+    } else if (action === 'move-down') {
+      const next = block.nextElementSibling;
+      if (next && next.hasAttribute('data-block')) {
+        block.parentNode.insertBefore(next, block);
+      }
+    } else if (action === 'toggle-hide') {
+      if (block.hasAttribute('data-hidden')) {
+        block.removeAttribute('data-hidden');
+      } else {
+        block.setAttribute('data-hidden', '');
+      }
+    }
+    captureBaseline();
+    autosave();
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  // ===== SHOW HIDDEN. Un-hide all
+  function showAllHidden() {
+    pushUndo();
+    document.querySelectorAll('[data-hidden]').forEach(el => el.removeAttribute('data-hidden'));
+    captureBaseline();
+    autosave();
+  }
+
+  // ===== SELECTION FORMAT BAR
+  function showFormatBar() {
+    if (!editOn) return hideFormatBar();
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return hideFormatBar();
+    const range = sel.getRangeAt(0);
+    // Only show if selection is inside an editable element
+    const anchor = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentNode);
+    if (!anchor || !anchor.closest('[data-editable]')) return hideFormatBar();
+    const rect = range.getBoundingClientRect();
+    if (rect.width === 0 && rect.height === 0) return hideFormatBar();
+    formatBar.style.top = (window.scrollY + rect.top - 44) + 'px';
+    formatBar.style.left = (window.scrollX + rect.left + rect.width / 2 - 56) + 'px';
+    formatBar.classList.add('visible');
+  }
+  function hideFormatBar() {
+    if (!formatBar) return;
+    formatBar.classList.remove('visible');
+  }
+  if (formatBar) {
+    document.addEventListener('selectionchange', () => {
+      if (editOn) showFormatBar();
+    });
+    document.addEventListener('mousedown', (e) => {
+      if (!e.target.closest('#format-bar')) hideFormatBar();
+    });
+    formatBar.addEventListener('mousedown', (e) => {
+      const fmt = e.target.getAttribute && e.target.getAttribute('data-format');
+      if (!fmt) return;
+      pushUndo();
+      document.execCommand(fmt, false, null);
+      captureBaseline();
+      autosave();
+      e.preventDefault();
+    });
+  }
+
+  // ===== PASTE HANDLER. Strip formatting so the parent element's CSS (font-size,
+  //                    family, weight) is preserved. Without this, browsers paste
+  //                    <span style="font-size:13px"> blobs that override .hero-quote etc.
+  document.addEventListener('paste', (e) => {
+    if (!editOn) return;
+    const target = e.target.closest && e.target.closest('[data-editable]');
+    if (!target) return;
+    e.preventDefault();
+    // Snapshot BEFORE paste so Cmd+Z restores cleanly
+    pushUndo();
+    const text = (e.clipboardData || window.clipboardData).getData('text/plain') || '';
+    // Insert as plain text. Preserves the parent element's inherited styling
+    document.execCommand('insertText', false, text);
+    captureBaseline();
+    autosave();
+  });
+
+  // ===== STYLE-STRIP ON BLUR. Kill any inline font-size/family/color that snuck
+  //                  into editable children. Keeps inheritance from the kit CSS clean.
+  function stripInlineStyles(root) {
+    if (!root) return;
+    // 1. Unwrap legacy <font> tags entirely. Pure typography pollution from paste
+    root.querySelectorAll('font').forEach(f => {
+      const parent = f.parentNode;
+      while (f.firstChild) parent.insertBefore(f.firstChild, f);
+      parent.removeChild(f);
+    });
+    // 2. Unwrap pasted spans that carry only foreign styling
+    root.querySelectorAll('span').forEach(s => {
+      if (s.closest('.spacing-chips')) return;
+      const cls = (s.getAttribute('class') || '').trim();
+      const keep = cls && !/^(Apple-|ms-|MsoNormal|s\d+)$/i.test(cls) && !/Apple-style-span/i.test(cls);
+      if (keep) return;
+      const parent = s.parentNode;
+      while (s.firstChild) parent.insertBefore(s.firstChild, s);
+      parent.removeChild(s);
+    });
+    // 3. Strip typography inline styles from EVERYTHING. Including data-block elements.
+    //    Block-level styles set by chips are padding only (preserved). Typography pollution
+    //    on a data-block (e.g. <p class="hero-quote" style="font-size:13px">) was the bug.
+    root.querySelectorAll('[style]').forEach(el => {
+      if (el.closest('.spacing-chips')) return;
+      ['font','font-size','font-family','font-weight','font-style','color','line-height','letter-spacing','text-transform','background','background-color','text-decoration']
+        .forEach(p => el.style.removeProperty(p));
+      if (!el.getAttribute('style')) el.removeAttribute('style');
+    });
+  }
+  document.addEventListener('focusout', (e) => {
+    if (!editOn) return;
+    const target = e.target.closest && e.target.closest('[data-editable]');
+    if (!target) return;
+    stripInlineStyles(target);
+    autosave();
+  }, true);
+
+  // ===== TEXT EDIT TRACKING. Capture every text change for undo
+  let debounceTimer = null;
+  document.addEventListener('input', (e) => {
+    if (!editOn) return;
+    if (!e.target.closest('[data-editable]')) return;
+    // Debounce: push undo state after 600ms of inactivity
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      pushUndo();
+      captureBaseline();
+      autosave();
+    }, 600);
+  });
+
+  // ===== KEYBOARD SHORTCUTS
+  document.addEventListener('keydown', (e) => {
+    const meta = e.metaKey || e.ctrlKey;
+    if (meta && e.key === 'z' && !e.shiftKey) { e.preventDefault(); undo(); }
+    else if (meta && e.key === 'z' && e.shiftKey) { e.preventDefault(); redo(); }
+    else if (meta && e.key === 'y') { e.preventDefault(); redo(); }
+    else if (meta && e.key === 's') { e.preventDefault(); saveEdits(); }
+  });
+
+  // ===== TOAST. Small confirmation flash so JJ sees that an action fired
+  function toast(msg, color) {
+    let t = document.getElementById('edit-toast');
+    if (!t) {
+      t = document.createElement('div');
+      t.id = 'edit-toast';
+      t.style.cssText = 'position:fixed;left:50%;top:80px;transform:translateX(-50%);z-index:2147483647;background:rgba(20,17,15,0.96);color:#F2EBDD;padding:12px 20px;border-radius:8px;border:1px solid rgba(242,235,221,0.32);font:13px/1.2 "Manrope",sans-serif;letter-spacing:0.04em;box-shadow:0 8px 32px rgba(0,0,0,0.5);opacity:0;transition:opacity 0.2s ease;pointer-events:none;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.borderColor = color || 'rgba(230,181,71,0.6)';
+    t.style.opacity = '1';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2200);
+  }
+
+  // ===== SAVE
+  function saveEdits() {
+    const editWas = editOn, blocksWas = blocksOn;
+    if (editOn) setEditMode(false);
+    if (blocksOn) setBlocksMode(false);
+    const clone = document.documentElement.cloneNode(true);
+    ['#edit-toolbar', '#edit-help', '#format-bar'].forEach(sel => {
+      const el = clone.querySelector(sel);
+      if (el) el.remove();
+    });
+    clone.querySelectorAll('.spacing-chips').forEach(el => el.remove());
+    clone.querySelectorAll('[data-hidden]').forEach(el => el.remove()); // hidden blocks are EXCLUDED from saved file
+    clone.querySelectorAll('[data-editable]').forEach(el => {
+      el.removeAttribute('data-editable');
+      el.removeAttribute('contenteditable');
+    });
+    clone.querySelectorAll('[data-locked]').forEach(el => el.removeAttribute('data-locked'));
+    clone.querySelectorAll('[data-block]').forEach(el => el.removeAttribute('data-block'));
+
+    const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (location.pathname.split('/').pop() || 'proposal-edited.html');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (editWas) setEditMode(true);
+    if (blocksWas) setBlocksMode(true);
+    toast('✓ Saved to Downloads/' + (location.pathname.split('/').pop() || 'proposal-edited.html'));
+  }
+
+  // ===== RESET. Wipe autosave + restore pristine
+  function resetEdits() {
+    if (!confirm('Revert ALL edits and return to the original v10? This wipes auto-save.')) return;
+    // Nuke BOTH stores so a clean reload pulls 100% from disk source.
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(PRISTINE_KEY);
+    window.location.reload();
+  }
+
+  // ===== REBIND on innerHTML wipes
+  function rebindAll() {
+    markEditable();
+    // Toolbar + help are part of body innerHTML in stashes, so they come back. Re-grab refs.
+    // (No re-grab needed: same DOM IDs, querySelector still resolves.)
+    if (editOn) {
+      document.querySelectorAll('[data-editable]').forEach(el => el.contentEditable = 'true');
+    }
+  }
+
+  // ===== INIT
+  captureToolbarHTML(); // Stash fresh toolbar HTML BEFORE any autosave restore overwrites it
+  snapshotPristineIfNeeded();
+  const restored = loadAutosave();
+  // If autosave restored a state that has broken inline typography (from older paste edits
+  // before the paste handler existed), sweep it clean once at load.
+  if (restored) stripInlineStyles(document.body);
+  markEditable();
+  captureBaseline();
+  updateUndoButtons();
+  // Delegated toolbar handler. Survives ANY body.innerHTML wipe (autosave restore, undo/redo,
+  // reinjectToolbar). The original const btn* references can become stale after a rebuild;
+  // delegation looks up live IDs on click.
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest && e.target.closest('#edit-toolbar button');
+    if (!btn) return;
+    const id = btn.id;
+    if (id === 'btn-edit') return setEditMode(!editOn);
+    if (id === 'btn-blocks') return setBlocksMode(!blocksOn);
+    if (id === 'btn-undo') return undo();
+    if (id === 'btn-redo') return redo();
+    if (id === 'btn-show-hidden') return showAllHidden();
+    if (id === 'btn-fix-styles') {
+      pushUndo();
+      stripInlineStyles(document.body);
+      captureBaseline();
+      autosave();
+      toast('✓ Styles cleaned');
+      return;
+    }
+    if (id === 'btn-save') return saveEdits();
+    if (id === 'btn-reset') return resetEdits();
+  });
+})();
+
+// Audio player
+document.querySelectorAll('.audio-player-row').forEach(row => {
+  const btn = row.querySelector('.audio-play-btn');
+  const audio = row.querySelector('.audio-element');
+  const source = audio.querySelector('source');
+  btn.addEventListener('click', () => {
+    if (!source.src) { source.src = source.dataset.src; audio.load(); }
+    document.querySelectorAll('.audio-element').forEach(a => {
+      if (a !== audio) { a.pause(); a.closest('.audio-player-row').querySelector('.audio-play-btn').classList.remove('playing'); }
+    });
+    if (audio.paused) { audio.play(); btn.classList.add('playing'); }
+    else { audio.pause(); btn.classList.remove('playing'); }
+    audio.onended = () => btn.classList.remove('playing');
+  });
+});
+
+</script>
+
+
+</body>
+</html>
