@@ -22,7 +22,10 @@ A ready made prompt for every kind of document you sell. Paste one in, fill in a
 
 Both are built for a burger and beer style spot, like the ones your group runs. Read them to see what finished work looks like. Use them as the proof pieces you show when you pitch, or rebuild them in your own voice as your first practice documents.
 
-**6. research/research-notes.md.** The thinking behind the plan.
+**6. Simple-Agreement-and-Scope.md.** Your friendly one page agreement.
+You do not need this until someone says yes. When they do, this is the plain language note that sets what you will deliver, what it costs, and who owns what. It protects you from work creeping bigger than you agreed, which matters most on hard days. It has a ready to use template you fill in and send.
+
+**7. research/research-notes.md.** The thinking behind the plan.
 You do not need this to get started. It is here so you can see that every number and every claim in this packet stands on real, public research about you, about The Culinary Creative Group, about how big groups standardize, and about what consultants really charge. Read it only if you want the receipts.
 
 ## The short version
@@ -31,6 +34,6 @@ If you only do one thing today, open `vision/The-Vision.pdf`, then read `START-H
 
 ## A note on the files
 
-The documents ending in `.md` are plain text files. You can open them in any text reader, in Notes, or in any word processor. The deck is a `.pdf` you can open on any device, with a `.pptx` PowerPoint version alongside it.
+The documents ending in `.md` are plain text files. You can open them in any text reader, in Notes, or in any word processor. Almost every one of them also comes as a matching `.pdf` with the same name, ready to print or email or hand to someone. The deck is a `.pdf` you can open on any device, with a `.pptx` PowerPoint version alongside it. The `build-scripts` folder just holds the small programs used to make the PDFs and the deck. You can ignore it.
 
 Take it one step at a time, Mark. You have got this.

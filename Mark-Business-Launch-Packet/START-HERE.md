@@ -201,7 +201,7 @@ One fixed price for a defined, complete system, paid in milestones as you finish
 - **Full core operations and training system for one concept: 18,000 to 25,000 dollars.**
 - Paid in thirds. One third to start, one third at the halfway mark, one third on delivery.
 
-Use the project fee when a client wants a guaranteed full scope by a certain date. Use per document to start small. Steer toward the retainer whenever you can, because steady beats lumpy, especially for you.
+Use the project fee when a client wants a fixed, complete scope delivered by a certain date. Use per document to start small. Steer toward the retainer whenever you can, because steady beats lumpy, especially for you.
 
 ---
 
@@ -211,7 +211,9 @@ This is the part that probably feels hardest, so we made it the easiest. You are
 
 First, the most important rule. **Stay in your lane and say so out loud.** The group already has a Director of Human Resources and a recruiting manager. You are not touching hiring law, benefits, payroll, or compliance. Your lane is floor level operations. How the work gets done, how people are trained to do it, and how a new location opens cleanly. When you make that clear, you are not a threat to anyone. You are a missing piece that makes the HR team's job easier, because well trained people on documented systems are easier to manage.
 
-Second, an angle that is working in your favor right now. The group's new Chief Executive, Richard Flaherty, came from Punch Bowl Social and Wagamama. Those are brands built on repeatable systems and openings that run the same way every time. A leader from that world already believes in written playbooks. You will not have to convince him that systems matter. You only have to show him you can build them for these concepts, from the inside, fast.
+Second, an angle that is working in your favor right now. The group's new Chief Executive, Richard Flaherty, came from Punch Bowl Social and Wagamama. Those are brands built on repeatable systems and openings that run the same way every time. A leader from that world already believes in written playbooks. You will not have to convince him that systems matter. You only have to show him you can build them for these concepts, from the inside, fast. One quick note. Leadership there changed recently, so before you walk in, confirm the current names and titles of whoever you are talking to. It is a small thing that keeps you looking sharp.
+
+Third, name the payoff in their words. A systems minded leader buys results, not paper. So say what the work is worth. A documented opening playbook can save weeks of work on every new location and keep the guest experience the same across all of them. That is real money and real reputation. Put it in plain numbers if you can, like the days saved on the next opening.
 
 Here is your script. It is short and humble. Pick the version that fits where you are.
 
@@ -228,6 +230,22 @@ Use this as a friendly outreach to your former manager or the operations leader.
 > I have been building something I think the group could really use. As we keep opening locations, the training and the opening procedures get rebuilt every time, and a lot of it lives in people's heads. I have put together a way to capture all of that into clean playbooks, location by location, so openings get easier and every spot runs consistent. It stays completely in the operations lane, no overlap with HR or recruiting. I would love to show you one finished example I built for a concept like ours and talk about whether it would help. No pressure at all.
 
 In both versions you lead with the problem they already feel, you point to your track record, you make the HR boundary clear, and you ask for one small yes. That is the whole pitch.
+
+### If you are still on salary, set it up the right way
+
+This is the one part to handle carefully, so it never becomes awkward. If you pitch your own employer while you are still on their payroll, the fair question they may think is, "is this not just part of his job already." Get ahead of it, calmly and in the open.
+
+- **Get a yes in writing before you do any paid work.** A short, friendly email is enough. Confirm that you will build these documents as a separate paid arrangement, outside your regular duties, and that they are happy with that. This protects both of you.
+- **Be clear about what belongs to whom.** Work you do as part of your salaried job usually belongs to the company. This paid arrangement is for work beyond your role. Your reusable templates, with the names and private details removed, stay yours. Say that plainly and put it in writing too. There is a simple plain language scope note in this folder, the file named Simple-Agreement-and-Scope.md, that you can use for all of this.
+- **If they say "just do this as part of your job," you still win.** You have two good moves. One, agree on a defined extra project with its own scope and a stipend or bonus, so the extra work is recognized and paid. Two, keep it warm and revisit a paid arrangement when you move off salary, while you keep building your own library in the meantime. Either way, you proved the value, and that is the real goal.
+
+### How to talk about how you work
+
+You will wonder whether to mention the tool. Here is the simple truth that keeps you honest and keeps your value clear.
+
+- **You are selling 25 years of knowing what actually works on a floor.** That is the product. The tool is just how you type it up fast.
+- **It is fine to be open about using modern tools.** If it comes up, the honest line is easy: "I use good tools to get it on the page quickly, but you are paying for what only I know, what really works on a floor and what does not."
+- **Never lead with the tool, and never lead with what it costs you.** A group is not paying a monthly fee for typing. They are paying for judgment they cannot get anywhere else. Lead with the problem you solve and the years behind you. The tool is a detail.
 
 ---
 
@@ -303,6 +321,8 @@ Here is where it can go.
 - **Productize the opening playbook.** A repeatable new location opening playbook is something almost every growing operator wants and almost none have. That alone can become a steady product.
 - **Feed the group's own consulting arm.** The Culinary Creative Group runs a consulting practice. The clean systems you build for their restaurants could become tools their consulting clients pay for too. That is a bigger conversation for later, but the door is open, and you would be the natural person to walk through it.
 
+One caution, so this stays clean. The documents you build specifically for a client belong to that client. What you keep and reuse are your own templates and methods, with their private details removed. Keep that line clear and agree on it in writing, using the scope note in this folder. Be thoughtful about reselling anything that is truly specific to one group, especially this one, since they run their own consulting practice. Your knowledge and your general templates travel with you. Their private details and recipes do not. Hold that line and your reputation stays spotless.
+
 You are not just doing work. You are building a catalog. Each finished document is a brick. The library is the house.
 
 ---
@@ -326,6 +346,12 @@ Yes. Claude Pro is your only required cost. No office, no staff, no software sui
 
 **What if I have a bad health week?**
 You rest. The work waits. If you are on a retainer, a slow week does not cost you anything, because you are paid for the finished work over the month, not by the hour. This is built for exactly that.
+
+**What if they say this is already part of my job?**
+That is a fair question, and you have good answers, covered in the pitch section. You can agree on a defined extra project with its own scope and a stipend, so the extra work is recognized and paid. Or you can keep it friendly and set up the paid arrangement when you move off salary, while you build your own library now. Either way, you proved the value. If you are still on salary, get a yes in writing first, and use the scope note in this folder so the line between your job and this work is clear.
+
+**Do I tell them I use an AI tool?**
+You do not lead with it, and you never hide it. If it comes up, the honest line is simple: you use good tools to write fast, but they are paying for 25 years of knowing what works on a floor. Sell the judgment, not the tool. The pitch section has more on this.
 
 **How do I know my prices are fair?**
 Because they sit inside what real consultants charge, and well below what an outside firm would charge this group for the same system. The research notes file shows every range and source. You are a bargain and a better fit, because you already know their floors.

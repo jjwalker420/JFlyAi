@@ -76,7 +76,7 @@ This is the week you talk to the group. It is one calm conversation, not a hard 
 This week you turn interest into something real, or you keep the momentum going if they need time.
 
 - **If they said yes to a sample,** build the one document they asked for and deliver it clean and polished. Then talk about an ongoing arrangement, and steer toward the monthly retainer described in START-HERE.md.
-- **If they want to move forward,** agree on the shape of it. The retainer is your best option, because it gives you steady income and protects you on slow weeks.
+- **If they want to move forward,** agree on the shape of it in writing using the simple scope note in this folder, Simple-Agreement-and-Scope.md. Spell out what a month includes, so the work cannot creep bigger than you agreed. The retainer is your best option, because it gives you steady income and protects you on slow weeks. If you are still on salary, get a friendly yes in writing first, as START-HERE.md explains.
 - **Start the flagship.** Begin the new location opening playbook, your most valuable product. Even a rough start counts.
 - **If they need more time,** that is fine. Keep finishing documents for your library, and remember your samples work at any other group in Denver too. You are not stuck waiting on one yes.
 
