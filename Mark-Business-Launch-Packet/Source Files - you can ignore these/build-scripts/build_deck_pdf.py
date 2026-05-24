@@ -255,7 +255,7 @@ rect(0, 0, 13.333, 7.5, DEEP)
 rect(0.9, 2.5, 0.9, 0.16, ACCENT)
 para(0.9, 2.85, 11.5, "You already built this.", 46, WHITE, bold=True, leading=50)
 para(0.9, 3.65, 11.5, "Now you sell it.", 46, ACCENT, bold=True, leading=50)
-para(0.9, 5.1, 11.3, "Your first move is simple: set up Claude, then read START-HERE.", 18, WHITE, leading=24)
+para(0.9, 5.1, 11.3, "Your first move is simple: set up Claude, then read the Start Here playbook.", 18, WHITE, leading=24)
 para(0.9, 5.55, 11.3, "One finished document at a time, Mark. You have got this.", 18, SLATE, leading=24)
 newpage()
 

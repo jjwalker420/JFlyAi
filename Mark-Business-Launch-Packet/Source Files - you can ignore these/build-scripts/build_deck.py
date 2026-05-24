@@ -312,7 +312,7 @@ txt(s, 0.9, 2.85, 11.5, 2.0, [
     [("Now you sell it.", 46, ACCENT, True)],
 ], line_spacing=1.03, space_after=2)
 txt(s, 0.9, 5.1, 11.3, 1.0, [
-    [("Your first move is simple: set up Claude, then read START-HERE.", 18, WHITE, False)],
+    [("Your first move is simple: set up Claude, then read the Start Here playbook.", 18, WHITE, False)],
     [("One finished document at a time, Mark. You have got this.", 18, SLATE, False)],
 ], line_spacing=1.2)
 

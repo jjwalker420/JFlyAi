@@ -20,14 +20,14 @@ This week you get the tools working and you finish your first document. That is 
 
 ### Day 2. Set up your folders and read your samples. About 30 minutes.
 - Make your main folder, My Documents Business, with the folders Clients, Finished, Templates, and Samples inside it.
-- Open the two finished samples in this packet's examples folder. Read the server training manual and the opening checklist. See how a finished document looks and feels.
+- Open the two finished samples in the Tools and Examples folder. Read the server training manual and the opening checklist. See how a finished document looks and feels.
 - That is it. Now you know your target.
 
 ### Day 3. Rest or read.
-- No task. If you feel good, reread START-HERE.md. If not, rest with no guilt. The work waits.
+- No task. If you feel good, reread the Start Here playbook, document 3. If not, rest with no guilt. The work waits.
 
 ### Day 4. Make your first document, the talking part. About 20 minutes.
-- Open the desktop app. Open copy-paste-prompts.md and paste in the prompt for a training manual or a checklist.
+- Open the desktop app. Open the Copy and Paste Prompts document from the Tools and Examples folder and paste in the prompt for a training manual or a checklist.
 - Talk for about ten minutes about how the job really works. Do not aim for perfect. Just get it out of your head.
 - Tell Claude to write it up. Read the first draft once. Stop there for the day.
 
@@ -49,7 +49,7 @@ This week you finish two or three more documents and you get your pitch ready. W
 
 - **Finish a second document.** Pick something different from your first, so your samples show range. If your first was a training manual, do a checklist or a procedure this time.
 - **Finish a third document** if you have the energy. Three finished documents is a real portfolio.
-- **Pick your pitch version.** Open START-HERE.md to the pitch section. Choose Version A if you are still on salary, or Version B if you are off work right now. Read it out loud once or twice until it feels natural in your own words.
+- **Pick your pitch version.** Open the Start Here playbook to the pitch section. Choose Version A if you are still on salary, or Version B if you are off work right now. Read it out loud once or twice until it feels natural in your own words.
 - **Pick your proof piece.** Decide which one finished document you will show first. The server training manual or the opening checklist for a burger and beer style concept are strong choices, because the group has exactly that kind of spot.
 - **Build in rest.** Two or three working sessions this week is plenty. Rest the rest.
 
@@ -75,8 +75,8 @@ This is the week you talk to the group. It is one calm conversation, not a hard 
 
 This week you turn interest into something real, or you keep the momentum going if they need time.
 
-- **If they said yes to a sample,** build the one document they asked for and deliver it clean and polished. Then talk about an ongoing arrangement, and steer toward the monthly retainer described in START-HERE.md.
-- **If they want to move forward,** agree on the shape of it in writing using the simple scope note in this folder, Simple-Agreement-and-Scope.md. Spell out what a month includes, so the work cannot creep bigger than you agreed. The retainer is your best option, because it gives you steady income and protects you on slow weeks. If you are still on salary, get a friendly yes in writing first, as START-HERE.md explains.
+- **If they said yes to a sample,** build the one document they asked for and deliver it clean and polished. Then talk about an ongoing arrangement, and steer toward the monthly retainer described in the Start Here playbook.
+- **If they want to move forward,** agree on the shape of it in writing using the Simple Agreement and Scope document in the Tools and Examples folder. Spell out what a month includes, so the work cannot creep bigger than you agreed. The retainer is your best option, because it gives you steady income and protects you on slow weeks. If you are still on salary, get a friendly yes in writing first, as the Start Here playbook explains.
 - **Start the flagship.** Begin the new location opening playbook, your most valuable product. Even a rough start counts.
 - **If they need more time,** that is fine. Keep finishing documents for your library, and remember your samples work at any other group in Denver too. You are not stuck waiting on one yes.
 

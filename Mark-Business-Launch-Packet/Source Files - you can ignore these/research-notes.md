@@ -1,6 +1,6 @@
 # Research Notes
 
-Mark, this file shows you the thinking behind the plan. You do not need to read it to get started. It is here so you can see that every number and every claim in this packet stands on something real. Read START-HERE.md first. Come back here only if you want the receipts.
+Mark, this file shows you the thinking behind the plan. You do not need to read it to get started. It is here so you can see that every number and every claim in this packet stands on something real. Read the Start Here playbook, document 3, first. Come back here only if you want the receipts.
 
 Date of research: May 2026.
 
@@ -64,7 +64,7 @@ This is not a guess about one company. It is what happens to every group that ke
 - Knowledge lives in people's heads. The best general managers and bartenders carry the real playbook in their memory. When they leave, it leaves with them.
 - Every opening starts close to scratch. A 23 unit group that keeps opening new spots often rebuilds training, checklists, and procedures each time instead of pulling a proven playbook off the shelf.
 
-Your lane sits exactly on this pain. You make the knowledge in people's heads into documents anyone can use. You make every opening start from a proven playbook instead of a blank page. That is floor level operations work. It is not human resources compliance, and it is not recruiting. That distinction is the heart of how you stay in your lane and complement their existing HR team, which is covered in the pitch section of START-HERE.md.
+Your lane sits exactly on this pain. You make the knowledge in people's heads into documents anyone can use. You make every opening start from a proven playbook instead of a blank page. That is floor level operations work. It is not human resources compliance, and it is not recruiting. That distinction is the heart of how you stay in your lane and complement their existing HR team, which is covered in the pitch section of the Start Here playbook.
 
 ---
 
@@ -89,7 +89,7 @@ I researched what restaurant operations consultants, fractional operations leade
 - Projects: project fees commonly run 5,000 to 50,000 dollars depending on scope.
 - Building a set of procedures by hand takes time. A focused set of standard operating procedures can take 15 to 20 hours of work, more for a full system.
 
-How I turned that into your prices. Your model is different from an on site fractional executive. You work from home, at your own pace, producing finished documents. So I anchored your build retainer below the fractional executive range and above the small retainer range, which fits a serious build done remotely. I set per document prices in line with focused procedure work. I set the full project price below what an outside firm would charge a 23 unit group to build the whole system from the outside, which would realistically run 30,000 to 75,000 dollars or more once you add travel and discovery time. Your advantage is that you already know their floors, so your discovery time is near zero. Every number in START-HERE.md sits inside these researched ranges.
+How I turned that into your prices. Your model is different from an on site fractional executive. You work from home, at your own pace, producing finished documents. So I anchored your build retainer below the fractional executive range and above the small retainer range, which fits a serious build done remotely. I set per document prices in line with focused procedure work. I set the full project price below what an outside firm would charge a 23 unit group to build the whole system from the outside, which would realistically run 30,000 to 75,000 dollars or more once you add travel and discovery time. Your advantage is that you already know their floors, so your discovery time is near zero. Every number in the Start Here playbook sits inside these researched ranges.
 
 ---
 

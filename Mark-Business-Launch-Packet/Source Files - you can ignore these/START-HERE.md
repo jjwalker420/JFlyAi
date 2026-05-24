@@ -129,7 +129,7 @@ Then just talk, the way you would walk a new manager through it. How does a serv
 
 That is one finished, sellable document. Start to finish, maybe an hour the first time, faster after that. You did the thinking. The tool did the typing.
 
-There are ready made prompts for every document type in the file called copy-paste-prompts.md. You can paste one in, fill in a couple of blanks, and start talking. That file is your shortcut so you never face a blank screen.
+There are ready made prompts for every document type in the Copy and Paste Prompts document, inside the Tools and Examples folder. You can paste one in, fill in a couple of blanks, and start talking. That document is your shortcut so you never face a blank screen.
 
 ---
 
@@ -179,7 +179,7 @@ Here is everything you can offer, grouped into the three families, and then pack
 
 ## Pricing, grounded in real numbers
 
-Every number here sits inside what real restaurant and operations consultants charge in 2026. The research notes file shows the sources. There are three ways to charge. The retainer is the one I recommend, and I will explain why.
+Every number here sits inside what real restaurant and operations consultants charge in 2026. The Research Notes document, marked 6, shows the sources. There are three ways to charge. The retainer is the one I recommend, and I will explain why.
 
 ### The anchor, so you know your value
 If this group hired an outside consulting firm to build their whole operations and opening system from the outside, it would realistically cost them **30,000 to 75,000 dollars or more**, plus travel, plus weeks of that firm learning their concepts from scratch. You already know their floors. Your discovery time is close to zero. That is your edge, and it is why your prices are fair and still a bargain for them.
@@ -236,7 +236,7 @@ In both versions you lead with the problem they already feel, you point to your 
 This is the one part to handle carefully, so it never becomes awkward. If you pitch your own employer while you are still on their payroll, the fair question they may think is, "is this not just part of his job already." Get ahead of it, calmly and in the open.
 
 - **Get a yes in writing before you do any paid work.** A short, friendly email is enough. Confirm that you will build these documents as a separate paid arrangement, outside your regular duties, and that they are happy with that. This protects both of you.
-- **Be clear about what belongs to whom.** Work you do as part of your salaried job usually belongs to the company. This paid arrangement is for work beyond your role. Your reusable templates, with the names and private details removed, stay yours. Say that plainly and put it in writing too. There is a simple plain language scope note in this folder, the file named Simple-Agreement-and-Scope.md, that you can use for all of this.
+- **Be clear about what belongs to whom.** Work you do as part of your salaried job usually belongs to the company. This paid arrangement is for work beyond your role. Your reusable templates, with the names and private details removed, stay yours. Say that plainly and put it in writing too. There is a simple plain language scope note for this, the Simple Agreement and Scope document in the Tools and Examples folder, that you can use for all of it.
 - **If they say "just do this as part of your job," you still win.** You have two good moves. One, agree on a defined extra project with its own scope and a stipend or bonus, so the extra work is recognized and paid. Two, keep it warm and revisit a paid arrangement when you move off salary, while you keep building your own library in the meantime. Either way, you proved the value, and that is the real goal.
 
 ### How to talk about how you work
@@ -272,7 +272,7 @@ Do not pitch with an idea. Pitch with a finished example in your hand. It change
 
 So before you talk to anyone, build **one finished sample document**, tied to a real concept you can point to. A great choice is a server training manual or an opening checklist for a casual neighborhood burger and beer spot, because the group has exactly that kind of concept and it is easy for anyone to picture.
 
-Good news. Two finished, polished samples are already in this folder, in the examples folder. A complete server training manual and a complete front and back of house opening checklist, both written for a Tap and Burger style concept. Read them. Make them yours. Use them as your proof pieces on day one, or rebuild them in your own voice as your very first practice documents. Either way, you walk into your first conversation with something real.
+Good news. Two finished, polished samples are already here for you, in the Tools and Examples folder, each marked as a Sample. A complete server training manual and a complete front and back of house opening checklist, both written for a Tap and Burger style concept. Read them. Make them yours. Use them as your proof pieces on day one, or rebuild them in your own voice as your very first practice documents. Either way, you walk into your first conversation with something real.
 
 ---
 
@@ -321,7 +321,7 @@ Here is where it can go.
 - **Productize the opening playbook.** A repeatable new location opening playbook is something almost every growing operator wants and almost none have. That alone can become a steady product.
 - **Feed the group's own consulting arm.** The Culinary Creative Group runs a consulting practice. The clean systems you build for their restaurants could become tools their consulting clients pay for too. That is a bigger conversation for later, but the door is open, and you would be the natural person to walk through it.
 
-One caution, so this stays clean. The documents you build specifically for a client belong to that client. What you keep and reuse are your own templates and methods, with their private details removed. Keep that line clear and agree on it in writing, using the scope note in this folder. Be thoughtful about reselling anything that is truly specific to one group, especially this one, since they run their own consulting practice. Your knowledge and your general templates travel with you. Their private details and recipes do not. Hold that line and your reputation stays spotless.
+One caution, so this stays clean. The documents you build specifically for a client belong to that client. What you keep and reuse are your own templates and methods, with their private details removed. Keep that line clear and agree on it in writing, using the Simple Agreement and Scope document in the Tools and Examples folder. Be thoughtful about reselling anything that is truly specific to one group, especially this one, since they run their own consulting practice. Your knowledge and your general templates travel with you. Their private details and recipes do not. Hold that line and your reputation stays spotless.
 
 You are not just doing work. You are building a catalog. Each finished document is a brick. The library is the house.
 
@@ -348,16 +348,16 @@ Yes. Claude Pro is your only required cost. No office, no staff, no software sui
 You rest. The work waits. If you are on a retainer, a slow week does not cost you anything, because you are paid for the finished work over the month, not by the hour. This is built for exactly that.
 
 **What if they say this is already part of my job?**
-That is a fair question, and you have good answers, covered in the pitch section. You can agree on a defined extra project with its own scope and a stipend, so the extra work is recognized and paid. Or you can keep it friendly and set up the paid arrangement when you move off salary, while you build your own library now. Either way, you proved the value. If you are still on salary, get a yes in writing first, and use the scope note in this folder so the line between your job and this work is clear.
+That is a fair question, and you have good answers, covered in the pitch section. You can agree on a defined extra project with its own scope and a stipend, so the extra work is recognized and paid. Or you can keep it friendly and set up the paid arrangement when you move off salary, while you build your own library now. Either way, you proved the value. If you are still on salary, get a yes in writing first, and use the Simple Agreement and Scope document in the Tools and Examples folder so the line between your job and this work is clear.
 
 **Do I tell them I use an AI tool?**
 You do not lead with it, and you never hide it. If it comes up, the honest line is simple: you use good tools to write fast, but they are paying for 25 years of knowing what works on a floor. Sell the judgment, not the tool. The pitch section has more on this.
 
 **How do I know my prices are fair?**
-Because they sit inside what real consultants charge, and well below what an outside firm would charge this group for the same system. The research notes file shows every range and source. You are a bargain and a better fit, because you already know their floors.
+Because they sit inside what real consultants charge, and well below what an outside firm would charge this group for the same system. The Research Notes document, marked 6, shows every range and source. You are a bargain and a better fit, because you already know their floors.
 
 **Where do I start, right now?**
-Read the file called how-this-folder-works.md to see what every file is for. Then open the vision deck to see the whole picture on one screen. Then come back here and start the first 30 days. The very first task is simple. Set up Claude.
+Open the document marked 1, Read Me First, to see what every file is for. Then open document 2, The Vision, to see the whole picture on one screen. Then come back to this Start Here playbook and begin the first 30 days. The very first task is simple. Set up Claude.
 
 ---
 
