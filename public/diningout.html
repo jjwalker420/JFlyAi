@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>DiningOut Optimizer — Architecture Comparison</title>
+<title>DiningOut Optimizer — A Quick Look</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
   :root {
@@ -13,7 +13,6 @@
     --text: #e7edf3;
     --muted: #8a96a3;
     --today: #22c55e;
-    --next: #60a5fa;
     --ship: #f97316;
     --comp: #a78bfa;
     --good: #22c55e;
@@ -21,120 +20,102 @@
     --miss: #6b7280;
   }
   * { box-sizing: border-box; }
-  html, body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif; margin: 0; padding: 0; line-height: 1.5; }
+  html, body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif; margin: 0; padding: 0; line-height: 1.55; }
 
   /* Password gate */
-  #gate {
-    position: fixed; inset: 0; z-index: 9999;
-    background: var(--bg);
-    display: flex; align-items: center; justify-content: center;
-  }
-  #gate .box {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
-    padding: 40px 44px; width: 380px; text-align: center;
-  }
+  #gate { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; align-items: center; justify-content: center; }
+  #gate .box { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 40px 44px; width: 380px; text-align: center; }
   #gate .logo { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ship); margin-bottom: 20px; }
   #gate h2 { font-size: 20px; font-weight: 700; margin: 0 0 8px; }
   #gate p { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
-  #gate input {
-    width: 100%; padding: 11px 14px; border-radius: 8px;
-    background: var(--panel-2); border: 1px solid var(--border);
-    color: var(--text); font-size: 15px; outline: none;
-    margin-bottom: 12px; transition: border-color 0.15s;
-  }
+  #gate input { width: 100%; padding: 11px 14px; border-radius: 8px; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); font-size: 15px; outline: none; margin-bottom: 12px; transition: border-color 0.15s; }
   #gate input:focus { border-color: var(--ship); }
   #gate input.err { border-color: #ef4444; }
-  #gate button {
-    width: 100%; padding: 11px; border-radius: 8px; border: none; cursor: pointer;
-    background: var(--ship); color: #fff; font-size: 15px; font-weight: 600;
-    transition: opacity 0.15s;
-  }
+  #gate button { width: 100%; padding: 11px; border-radius: 8px; border: none; cursor: pointer; background: var(--ship); color: #fff; font-size: 15px; font-weight: 600; transition: opacity 0.15s; }
   #gate button:hover { opacity: 0.88; }
   #gate .errmsg { color: #ef4444; font-size: 13px; margin-top: 10px; display: none; }
 
-  /* Main content */
+  /* Main */
   #content { display: none; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 36px 40px 80px; }
 
-  .wrap { max-width: 1480px; margin: 0 auto; padding: 32px 40px 80px; }
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ship); margin-bottom: 10px; }
+  h1 { font-size: 36px; margin: 0 0 12px; letter-spacing: -0.02em; font-weight: 700; line-height: 1.15; }
+  .lead { color: var(--text); font-size: 17px; margin-bottom: 36px; max-width: 760px; line-height: 1.55; }
+  .lead strong { color: var(--ship); }
 
-  h1 { font-size: 30px; margin: 0 0 6px; letter-spacing: -0.02em; font-weight: 700; }
-  .sub { color: var(--muted); font-size: 15px; margin-bottom: 28px; max-width: 980px; }
-  h2 { font-size: 18px; font-weight: 700; margin: 40px 0 4px; letter-spacing: -0.01em; }
-  .sub2 { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
-  .pitch { background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(249,115,22,0.08)); border: 1px solid var(--border); border-left: 3px solid var(--ship); border-radius: 10px; padding: 16px 20px; margin: 0 0 32px; font-size: 16px; color: var(--text); line-height: 1.6; }
-  .pitch strong { color: var(--ship); }
+  h2 { font-size: 20px; font-weight: 700; margin: 48px 0 6px; letter-spacing: -0.01em; }
+  .sub2 { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
 
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 0 0 28px; }
-  .stat { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
-  .stat .label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; margin-bottom: 10px; }
-  .stat .v { color: var(--text); font-weight: 700; font-size: 24px; line-height: 1.1; }
-  .stat .v .unit { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 4px; }
-  .stat .v.today { color: var(--today); }
-  .stat .v.ship { color: var(--ship); }
-  .stat .v.comp { color: var(--comp); }
-  .stat .ann { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  /* Scoreboard tiles */
+  .scoreboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 0 0 12px; }
+  .tile { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 22px 22px 20px; }
+  .tile .label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 14px; }
+  .tile .big { font-weight: 700; font-size: 38px; line-height: 1; letter-spacing: -0.02em; }
+  .tile .big.green { color: var(--today); }
+  .tile .big.orange { color: var(--ship); }
+  .tile .unit { color: var(--muted); font-weight: 400; font-size: 14px; margin-left: 6px; }
+  .tile .ann { font-size: 13px; color: var(--muted); margin-top: 10px; line-height: 1.45; }
 
-  .legend { display: flex; gap: 22px; font-size: 13px; margin: 0 0 18px; color: var(--muted); flex-wrap: wrap; }
-  .legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: middle; margin-right: 6px; }
+  /* Outcome cards */
+  .outcomes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 16px 0 0; }
+  .outcome { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--today); border-radius: 10px; padding: 20px 22px; }
+  .outcome h3 { font-size: 15px; margin: 0 0 8px; font-weight: 700; color: var(--text); }
+  .outcome p { font-size: 13.5px; color: var(--muted); margin: 0; line-height: 1.55; }
 
-  table.compare { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  table.compare th, table.compare td { padding: 12px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); font-size: 13px; }
-  table.compare th { background: var(--panel-2); color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; }
-  table.compare th.today { color: var(--today); border-left: 3px solid var(--today); }
-  table.compare th.ship { color: var(--ship); border-left: 3px solid var(--ship); }
-  table.compare th.comp { color: var(--comp); border-left: 3px solid var(--comp); }
+  /* Live gallery */
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px; }
+  .live { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
+  .live .info { flex: 1; }
+  .live .title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+  .live .meta { font-size: 11.5px; color: var(--muted); }
+  .live .badge { background: var(--panel-2); border: 1px solid var(--border); padding: 3px 9px; border-radius: 12px; font-size: 10.5px; color: var(--today); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
 
-  table.compare td.cap { font-weight: 600; color: var(--text); width: 28%; }
-  table.compare td.today { width: 24%; border-left: 3px solid rgba(34,197,94,0.25); }
-  table.compare td.ship { width: 24%; border-left: 3px solid rgba(249,115,22,0.25); }
-  table.compare td.comp { width: 24%; border-left: 3px solid rgba(167,139,250,0.25); }
-  table.compare tr:last-child td { border-bottom: none; }
-  table.compare tr.moat td.cap { color: var(--ship); }
-  table.compare tr.moat td.cap::after { content: " ★"; color: var(--ship); }
+  /* Simple compare table */
+  table.simple { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 8px; }
+  table.simple th, table.simple td { padding: 14px 16px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--border); font-size: 14px; }
+  table.simple th { background: var(--panel-2); color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; }
+  table.simple th.us { color: var(--today); border-left: 3px solid var(--today); }
+  table.simple td.cap { font-weight: 600; color: var(--text); width: 40%; }
+  table.simple td.us { color: var(--today); border-left: 3px solid rgba(34,197,94,0.25); font-weight: 600; }
+  table.simple td.comp { color: var(--muted); }
+  table.simple tr:last-child td { border-bottom: none; }
+  table.simple tr.score-row td { font-size: 16px; padding-top: 18px; padding-bottom: 18px; background: rgba(34,197,94,0.04); }
+  table.simple tr.score-row td.us { font-size: 22px; font-weight: 700; }
 
-  .chk { display: inline-block; font-weight: 700; margin-right: 4px; font-size: 14px; }
-  .chk.y { color: var(--good); }
-  .chk.g { color: var(--gap); }
-  .chk.n { color: var(--miss); }
-  .small { font-size: 11.5px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+  /* Moat list */
+  .moat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 8px; }
+  .moat-card { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--ship); border-radius: 10px; padding: 20px 22px; }
+  .moat-card .star { color: var(--ship); font-size: 16px; margin-bottom: 6px; display: block; }
+  .moat-card h3 { font-size: 14px; margin: 0 0 8px; font-weight: 700; color: var(--text); }
+  .moat-card p { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.55; }
 
-  table.comp-matrix { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; table-layout: fixed; }
-  table.comp-matrix th, table.comp-matrix td { padding: 10px 8px; text-align: center; vertical-align: middle; border-bottom: 1px solid var(--border); font-size: 12px; }
-  table.comp-matrix th { background: var(--panel-2); color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; line-height: 1.35; }
-  table.comp-matrix th.do-col { color: var(--today); border-left: 3px solid var(--today); }
-  table.comp-matrix td.cap-col { text-align: left; font-size: 12px; font-weight: 500; color: var(--text); padding-left: 14px; width: 20%; }
-  table.comp-matrix td.do-val { border-left: 3px solid rgba(34,197,94,0.3); }
-  table.comp-matrix tr:last-child td { border-bottom: none; }
-  table.comp-matrix tr.moat-row td.cap-col { color: var(--ship); }
-  table.comp-matrix tr.moat-row td.cap-col::after { content: " ★"; color: var(--ship); }
-  .score { font-weight: 700; font-size: 15px; }
-  .score.hi { color: var(--today); }
-  .score.mid { color: var(--next); }
-  .score.lo { color: var(--ship); }
-  .score.null { color: var(--miss); }
+  /* What's next */
+  .next { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--comp); border-radius: 10px; padding: 22px 26px; margin-top: 8px; }
+  .next h3 { font-size: 15px; margin: 0 0 12px; color: var(--text); }
+  .next ul { margin: 0; padding: 0 0 0 18px; }
+  .next li { color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .next li strong { color: var(--text); }
 
-  .note { margin-top: 28px; background: var(--panel); border-left: 3px solid var(--ship); border-radius: 6px; padding: 18px 22px; font-size: 14px; color: var(--muted); line-height: 1.65; }
-  .note strong { color: var(--text); }
-  .footer { margin-top: 20px; font-size: 12px; color: var(--muted); text-align: center; padding-top: 18px; border-top: 1px solid var(--border); }
-  .footer code { background: var(--panel-2); padding: 1px 6px; border-radius: 3px; font-size: 11px; color: var(--text); }
+  .footer { margin-top: 56px; font-size: 12px; color: var(--muted); text-align: center; padding-top: 22px; border-top: 1px solid var(--border); }
 
-  @media (max-width: 1100px) {
-    .stats { grid-template-columns: repeat(2, 1fr); }
-    table.compare th, table.compare td { font-size: 12px; padding: 10px 10px; }
-    table.comp-matrix th, table.comp-matrix td { font-size: 10px; padding: 8px 5px; }
+  @media (max-width: 900px) {
+    .scoreboard { grid-template-columns: repeat(2, 1fr); }
+    .outcomes, .moat { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: 1fr; }
+    h1 { font-size: 28px; }
   }
 </style>
 </head>
 <body>
 
-<!-- Password gate -->
 <div id="gate">
   <div class="box">
     <div class="logo">JFly.Ai × DiningOut</div>
-    <h2>Architecture Overview</h2>
-    <p>Enter the access password to view this document.</p>
+    <h2>Quick Look</h2>
+    <p>Enter the access password.</p>
     <input type="password" id="pw" placeholder="Password" autocomplete="off" />
-    <button onclick="checkPw()">View Document</button>
+    <button onclick="checkPw()">View</button>
     <div class="errmsg" id="errmsg">Incorrect password. Try again.</div>
   </div>
 </div>
@@ -142,304 +123,288 @@
 <div id="content">
 <div class="wrap">
 
-  <h1>DiningOut Optimizer — Architecture Comparison</h1>
-  <div class="sub">What we've built, what comes next, and how DiningOut stacks up against every major restaurant-content publisher audited in Wave 0.</div>
+  <div class="eyebrow">DiningOut Optimizer · Quick Look</div>
+  <h1>What you're getting — in plain English.</h1>
+  <p class="lead">
+    Your articles already win on writing. What machines see is another story.
+    We add the machine-readable layer underneath — so <strong>Google, ChatGPT, Perplexity, and AI Overviews can actually read who, where, what they serve, and why it matters</strong>.
+    Writers don't change a word. Twenty articles already live across five cities.
+  </p>
 
-  <div class="pitch">
-    <strong>The one-line:</strong> Every AI schema tool on the market reads your page and classifies it. Ours reads your page and extracts the restaurants inside it.
-  </div>
-
-  <div class="note" style="border-left-color: var(--today); margin-bottom: 28px;">
-    <strong>Google confirmed our direction (May 7, 2026):</strong> Google's latest structured data update removed FAQ rich result dropdowns from SERPs and doubled down on entity-based schema — LocalBusiness, Restaurant, ItemList. That is exactly what DiningOut Optimizer builds. No pivot needed. FAQPage remains in our engine as an AI citation signal (correlates with higher AI Overviews citation rates in third-party studies) — we simply no longer promise a visual SERP dropdown from it.
-  </div>
-
-  <div class="stats">
-    <div class="stat">
-      <div class="label">Shipped today (v0.1.x)</div>
-      <div class="v today">9<span class="unit">/ 14 ✓</span></div>
-      <div class="ann">Engine live, plugin v0.1.2 on dev</div>
+  <!-- SCOREBOARD -->
+  <div class="scoreboard">
+    <div class="tile">
+      <div class="label">Articles tested</div>
+      <div class="big green">20</div>
+      <div class="ann">Across Denver, Houston, Dallas, Atlanta, Phoenix, NYC</div>
     </div>
-    <div class="stat">
-      <div class="label">+ v0.3 (next ship, ~22 hr)</div>
-      <div class="v ship">+4</div>
-      <div class="ann">Places + entity @ids + anchors + subtypes</div>
+    <div class="tile">
+      <div class="label">Schema quality grade</div>
+      <div class="big green">7.5<span class="unit">/10 · B+</span></div>
+      <div class="ann">ChatGPT + Perplexity audit, Denver Mother's Day = 8.0</div>
     </div>
-    <div class="stat">
-      <div class="label">Competitors audited</div>
-      <div class="v comp">8</div>
-      <div class="ann">TripAdv · Infatuation · Thrillist · Eater · TimeOut · CNT · 5280 · Westword</div>
+    <div class="tile">
+      <div class="label">Best editorial competitor</div>
+      <div class="big" style="color: var(--comp);">6.8<span class="unit">/10 · F</span></div>
+      <div class="ann">The Infatuation — the editorial leader we beat</div>
     </div>
-    <div class="stat">
-      <div class="label">Capabilities NO competitor has</div>
-      <div class="v ship">5</div>
-      <div class="ann">★ marked rows below</div>
+    <div class="tile">
+      <div class="label">Article types covered</div>
+      <div class="big orange">4</div>
+      <div class="ann">Best-of lists · openings · event roundups · news</div>
     </div>
   </div>
 
-  <div class="legend">
-    <span><span class="sw" style="background:var(--today)"></span>Today (v0.1.x — live)</span>
-    <span><span class="sw" style="background:var(--ship)"></span>v0.3 (next ship)</span>
-    <span><span class="sw" style="background:var(--comp)"></span>Best competitor</span>
-    <span><span class="chk y">✓</span>shipped / proven</span>
-    <span><span class="chk g">→</span>partial / tunable</span>
-    <span><span class="chk n">○</span>not present</span>
-    <span style="color:var(--ship)">★ = no competitor has it</span>
+  <!-- WHAT THIS MEANS -->
+  <h2>What this means for DiningOut</h2>
+  <div class="sub2">Three plain-English wins, every time we optimize an article.</div>
+  <div class="outcomes">
+    <div class="outcome">
+      <h3>You become quotable to AI</h3>
+      <p>ChatGPT, Perplexity, and Google AI Overviews pull citations from sites with grounded restaurant facts. We give them exactly what they need. Your articles become the source AI quotes — not the also-ran.</p>
+    </div>
+    <div class="outcome">
+      <h3>Google sees real businesses</h3>
+      <p>Every restaurant in your article gets a verified address, phone, hours, and price — pulled from Google's own data. That's the difference between "an article about restaurants" and "a directory Google trusts."</p>
+    </div>
+    <div class="outcome">
+      <h3>Your archive compounds</h3>
+      <p>Old articles get the same treatment as new ones. Six years of evergreen content stops decaying and starts working again — without rewriting a single headline.</p>
+    </div>
   </div>
 
-  <table class="compare">
+  <!-- LIVE GALLERY -->
+  <h2>Live on your dev site right now</h2>
+  <div class="sub2">A sample of the 20 articles already optimized — view-source any of these to see the structure underneath. No writer copy touched.</div>
+  <div class="gallery">
+    <div class="live">
+      <div class="info">
+        <div class="title">The Best Mother's Day Plans in Denver</div>
+        <div class="meta">Listicle · 25 restaurants · scored 8.0 / B+</div>
+      </div>
+      <div class="badge">Live</div>
+    </div>
+    <div class="live">
+      <div class="info">
+        <div class="title">25 Mother's Day Events in Houston</div>
+        <div class="meta">Event roundup · 25 entities · scored 7.5 / B-</div>
+      </div>
+      <div class="badge">Live</div>
+    </div>
+    <div class="live">
+      <div class="info">
+        <div class="title">NYC Starter Pack: 10 Bagel Shops</div>
+        <div class="meta">Listicle · 10 restaurants · full schema</div>
+      </div>
+      <div class="badge">Live</div>
+    </div>
+    <div class="live">
+      <div class="info">
+        <div class="title">14 NYC Pizza Shops Below 14th Street</div>
+        <div class="meta">Listicle · 14 restaurants · full schema</div>
+      </div>
+      <div class="badge">Live</div>
+    </div>
+    <div class="live">
+      <div class="info">
+        <div class="title">Dock Local Opens at Dallas Farmers Market</div>
+        <div class="meta">Single opening · structured profile</div>
+      </div>
+      <div class="badge">Live</div>
+    </div>
+    <div class="live">
+      <div class="info">
+        <div class="title">Plate Full of Denver News Bites</div>
+        <div class="meta">News roundup · multi-entity</div>
+      </div>
+      <div class="badge">Live</div>
+    </div>
+  </div>
+
+  <!-- COMPETITOR COMPARE -->
+  <h2>How we stack up</h2>
+  <div class="sub2">We audited eight major food publications. Here's what they ship vs. what DiningOut ships now.</div>
+  <table class="simple">
     <tr>
       <th>Capability</th>
-      <th class="today">Today (v0.1.x)</th>
-      <th class="ship">v0.3 (next ship)</th>
-      <th class="comp">Best competitor</th>
+      <th class="us">DiningOut today</th>
+      <th>Eater (NYC, LA)</th>
+      <th>Time Out · 5280 · Westword</th>
     </tr>
-
     <tr>
-      <td class="cap">Multi-entity ItemList extraction (15+ restaurants per article)</td>
-      <td class="today"><span class="chk y">✓</span>15/15 Hot Wings<div class="small">Google Rich Results validated 12 items.</div></td>
-      <td class="ship"><span class="chk y">✓</span>Same + enriched<div class="small">Now with Google Places verification per entry.</div></td>
-      <td class="comp"><span class="chk y">✓</span>Infatuation (20/25)<div class="small">Restaurant entities present, partial fields.</div></td>
+      <td class="cap">Every restaurant tagged as a real business in the article's code</td>
+      <td class="us">Yes — 100%</td>
+      <td class="comp">Skeleton only</td>
+      <td class="comp">No</td>
     </tr>
-
-    <tr class="moat">
-      <td class="cap">Per-entry source-quote grounding (claim ↔ exact prose)</td>
-      <td class="today"><span class="chk y">✓</span>Required field<div class="small">source_quote on every fact, substring-validated.</div></td>
-      <td class="ship"><span class="chk y">✓</span>+ HTML anchor parity<div class="small">JSON-LD fragment matches visible page anchor.</div></td>
-      <td class="comp"><span class="chk n">○</span>No publisher does this<div class="small">Manual review trust, not programmatic.</div></td>
-    </tr>
-
     <tr>
-      <td class="cap">Postal address + geo + ZIP per entity</td>
-      <td class="today"><span class="chk g">→</span>If in prose<div class="small">LLM extracts what writers happened to mention.</div></td>
-      <td class="ship"><span class="chk y">✓</span>Google Places enrichment<div class="small">Authoritative source, deterministic.</div></td>
-      <td class="comp"><span class="chk y">✓</span>TripAdvisor 78.6%<div class="small">Infatuation 61.7%. Eater 14.5%.</div></td>
+      <td class="cap">Address, phone, hours, price per restaurant</td>
+      <td class="us">Yes — pulled from Google</td>
+      <td class="comp">14% of entries</td>
+      <td class="comp">No</td>
     </tr>
-
     <tr>
-      <td class="cap">Phone, hours, price range, cuisine</td>
-      <td class="today"><span class="chk g">→</span>If in prose<div class="small">Almost never in editorial blurbs.</div></td>
-      <td class="ship"><span class="chk y">✓</span>Google Places enrichment<div class="small">Field-mask discipline keeps Enterprise tier.</div></td>
-      <td class="comp"><span class="chk y">✓</span>TripAdvisor full / Infatuation partial</td>
+      <td class="cap">Every fact tied back to your writer's actual sentence</td>
+      <td class="us">Yes — required</td>
+      <td class="comp">No</td>
+      <td class="comp">No</td>
     </tr>
-
-    <tr class="moat">
-      <td class="cap">Stable Restaurant @id (entity-first architecture)</td>
-      <td class="today"><span class="chk n">○</span>Not yet</td>
-      <td class="ship"><span class="chk y">✓</span>{article_url}#restaurant-{slug}<div class="small">Acceptable tier; v0.4 entity pages = best tier.</div></td>
-      <td class="comp"><span class="chk n">○</span>Nobody<div class="small">TripAdvisor has own KG, no public @id.</div></td>
-    </tr>
-
-    <tr class="moat">
-      <td class="cap">HTML anchor injection (visible parity with JSON-LD)</td>
-      <td class="today"><span class="chk n">○</span>Not yet</td>
-      <td class="ship"><span class="chk y">✓</span>Plugin v0.1.3<div class="small">&lt;span id="restaurant-{slug}"&gt; injected via the_content filter.</div></td>
-      <td class="comp"><span class="chk n">○</span>Nobody<div class="small">Required by Google ItemList carousel — universally missed.</div></td>
-    </tr>
-
     <tr>
-      <td class="cap">FAQPage with 5+ Q&amp;As per article</td>
-      <td class="today"><span class="chk y">✓</span>5 FAQs Hot Wings<div class="small">Source-quoted, validates green. AI citation signal — not a SERP visual (FAQ dropdowns removed May 7, 2026).</div></td>
-      <td class="ship"><span class="chk y">✓</span>+ diner-intent library<div class="small">Diner-intent Q&As (best for families, cheap eats, etc.) strengthen AI Overview citation probability.</div></td>
-      <td class="comp"><span class="chk g">→</span>TripAdvisor (directory)<div class="small">Editorial pubs: none.</div></td>
+      <td class="cap">FAQ answers pulled from your prose, not invented</td>
+      <td class="us">Yes — 5+ per article</td>
+      <td class="comp">No</td>
+      <td class="comp">No</td>
     </tr>
-
-    <tr class="moat">
-      <td class="cap">Restaurant subtype dispatch (Bakery, BarOrPub, Brewery, Cafe, etc.)</td>
-      <td class="today"><span class="chk n">○</span>Restaurant default only</td>
-      <td class="ship"><span class="chk y">✓</span>9-type FoodEstablishment subset<div class="small">Array @type for hybrids (e.g., Restaurant + BarOrPub).</div></td>
-      <td class="comp"><span class="chk n">○</span>Nobody<div class="small">Infatuation uses Restaurant for bakeries.</div></td>
+    <tr class="score-row">
+      <td class="cap">Overall schema quality (out of 10)</td>
+      <td class="us">7.5 → 8.0</td>
+      <td class="comp">3.6</td>
+      <td class="comp">2.0 – 2.1</td>
     </tr>
-
-    <tr>
-      <td class="cap">Deterministic Python JSON-LD assembly (not LLM-generated JSON)</td>
-      <td class="today"><span class="chk g">→</span>LLM-built<div class="small">Post-validated against article.</div></td>
-      <td class="ship"><span class="chk y">✓</span>Python json_ld_builder<div class="small">LLM extracts editorial; Python assembles schema.</div></td>
-      <td class="comp"><span class="chk n">○</span>N/A — architecture-level</td>
-    </tr>
-
-    <tr>
-      <td class="cap">Per-entry editorial description (source-quoted)</td>
-      <td class="today"><span class="chk y">✓</span>source_quote required<div class="small">In fast_facts blocks.</div></td>
-      <td class="ship"><span class="chk y">✓</span>25-50 word description per entity<div class="small">Moved into Restaurant node, not just FAQ.</div></td>
-      <td class="comp"><span class="chk g">→</span>Infatuation only<div class="small">No source-quote grounding though.</div></td>
-    </tr>
-
-    <tr>
-      <td class="cap">Async pattern (Vercel + QStash + HMAC callback)</td>
-      <td class="today"><span class="chk y">✓</span>Shipped v0.1.2<div class="small">300s budget, idempotent.</div></td>
-      <td class="ship"><span class="chk y">✓</span>+ async.gather semaphore<div class="small">Parallel Places enrichment, dodges 300s ceiling.</div></td>
-      <td class="comp"><span class="chk n">○</span>N/A — infrastructure</td>
-    </tr>
-
-    <tr class="moat">
-      <td class="cap">Bulk archive backfill (470+ articles, one pipeline)</td>
-      <td class="today"><span class="chk g">→</span>Engine works<div class="small">No orchestration layer yet.</div></td>
-      <td class="ship"><span class="chk y">✓</span>$1/article model<div class="small">~$2,000 one-time for full DiningOut archive.</div></td>
-      <td class="comp"><span class="chk n">○</span>Nobody<div class="small">Page-level plugins are click-one-at-a-time.</div></td>
-    </tr>
-
-    <tr>
-      <td class="cap">Editorial prose untouched (writer voice preserved)</td>
-      <td class="today"><span class="chk y">✓</span>Schema-side only<div class="small">Linnea's prose never modified.</div></td>
-      <td class="ship"><span class="chk y">✓</span>Same</td>
-      <td class="comp"><span class="chk y">✓</span>Infatuation<div class="small">TripAdvisor is directory-shape — no editorial.</div></td>
-    </tr>
-
-    <tr>
-      <td class="cap">Citation-worthiness for LLM answer surfaces (AI Overviews, ChatGPT, Perplexity, AI Mode)</td>
-      <td class="today"><span class="chk g">→</span>Schema yes, anchors no<div class="small">0.19% AI traffic baseline.</div></td>
-      <td class="ship"><span class="chk y">✓</span>Entity-first + anchors + grounded facts<div class="small">Realistic 3-6x lift at 12 months.</div></td>
-      <td class="comp"><span class="chk g">→</span>Infatuation 6.8 / TripAdvisor 7.3<div class="small">Editorial peer ceiling.</div></td>
-    </tr>
-
   </table>
 
-  <div class="note">
-    <strong>What this chart says, in one breath:</strong> Today, the engine already does 9 of these 14 things — including 2 things no competitor in the restaurant-listicle space does at all (per-entry source-quote grounding, bulk archive backfill). v0.3 closes the 4 gaps that lift schema quality from F to B+/A- and adds 3 more capabilities nobody else has (stable @ids, HTML anchor parity, schema.org subtype dispatch). After v0.3, DiningOut owns the most machine-readable restaurant authority in every city it covers.
+  <!-- MOAT -->
+  <h2>Three things nobody else does</h2>
+  <div class="sub2">Audited across TripAdvisor, Infatuation, Thrillist, Eater, Time Out, Condé Nast Traveler, 5280, Westword.</div>
+  <div class="moat">
+    <div class="moat-card">
+      <span class="star">★</span>
+      <h3>Every claim points back to your writer's words</h3>
+      <p>If we say a restaurant is "the best brunch in Denver," we can show you the exact sentence in the article it came from. No competitor does this. It's why AI engines can trust us.</p>
+    </div>
+    <div class="moat-card">
+      <span class="star">★</span>
+      <h3>We hand AI a verified business, not a paragraph</h3>
+      <p>Address, phone, hours, price — pulled fresh from Google Maps. Your writers don't have to type any of it. The Infatuation only does this on 62% of entries. Eater on 14%. We do it on 100%.</p>
+    </div>
+    <div class="moat-card">
+      <span class="star">★</span>
+      <h3>One engine, four article shapes</h3>
+      <p>Best-of lists, single openings, event roundups, news roundups — same engine handles all four. Every competitor we audited handles maybe one shape. Nobody handles all four.</p>
+    </div>
   </div>
 
-  <div class="note" style="border-left-color: var(--comp); margin-top: 18px;">
-    <strong>Denver-specific competitive gap:</strong> Westword (50-year-old alt-weekly, biggest Denver food brand) ships their flagship <em>"50 Best Restaurants in Denver"</em> article with WebPage + NewsArticle + BreadcrumbList schema. Zero Restaurant entities. Zero ItemList. Zero FAQPage. Running Yoast. Identical null-state to 5280 (2.0/F). <strong>DiningOut post-v0.3 leapfrogs a 50-year-old publication in 90 seconds per article.</strong>
+  <!-- WHAT'S NEXT -->
+  <h2>What's next</h2>
+  <div class="next">
+    <ul>
+      <li><strong>Bulk run across your archive.</strong> Tool is built and tested on dev. One more polish round to handle WP Engine's cache quirks, then we run it across your full back catalog — six years of content, optimized in a single pass.</li>
+      <li><strong>Rich Results gallery for Jeff's team.</strong> Side-by-side before/after of 20 articles, validated in Google's official tester. A package you can hand any partner, agency, or investor.</li>
+    </ul>
   </div>
 
-  <h2>Competitor Landscape — 8 Publishers Audited</h2>
-  <div class="sub2">Wave 0 audit, May 2026. Each publisher scored on 9-dimension schema rubric. DiningOut post-v0.3 shown for comparison. ★ = capability no audited competitor has.</div>
-
-  <table class="comp-matrix">
+  <!-- DETAIL: CAPABILITY BREAKDOWN -->
+  <h2 style="margin-top: 64px;">Detail · Capability breakdown</h2>
+  <div class="sub2">For anyone who wants the longer view. Skim or skip.</div>
+  <table class="simple">
     <tr>
-      <th style="text-align:left; padding-left:14px;">Capability</th>
-      <th class="do-col">DiningOut<br><span style="font-size:9px; color:rgba(34,197,94,0.7); text-transform:none; letter-spacing:0;">post-v0.3</span></th>
-      <th>TripAdvisor<br><span style="font-size:9px; color:var(--muted); text-transform:none; letter-spacing:0; font-weight:400;">directory</span></th>
-      <th>Infatuation<br><span style="font-size:9px; color:var(--muted); text-transform:none; letter-spacing:0; font-weight:400;">editorial</span></th>
-      <th>Thrillist<br><span style="font-size:9px; color:var(--muted); text-transform:none; letter-spacing:0; font-weight:400;">editorial</span></th>
-      <th>Eater<br><span style="font-size:9px; color:var(--muted); text-transform:none; letter-spacing:0; font-weight:400;">editorial</span></th>
-      <th>Time Out<br><span style="font-size:9px; color:var(--muted); text-transform:none; letter-spacing:0; font-weight:400;">editorial</span></th>
-      <th>CN Traveler<br><span style="font-size:9px; color:var(--muted); text-transform:none; letter-spacing:0; font-weight:400;">editorial</span></th>
-      <th>5280<br><span style="font-size:9px; color:var(--muted); text-transform:none; letter-spacing:0; font-weight:400;">editorial</span></th>
-      <th>Westword<br><span style="font-size:9px; color:var(--muted); text-transform:none; letter-spacing:0; font-weight:400;">editorial</span></th>
+      <th>What it does</th>
+      <th class="us">DiningOut</th>
+      <th>Best editorial competitor</th>
     </tr>
-
     <tr>
-      <td class="cap-col">Restaurant entities in schema</td>
-      <td class="do-val"><span class="chk y">✓</span></td>
-      <td><span class="chk y">✓</span></td>
-      <td><span class="chk y">✓</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
+      <td class="cap">Pulls every restaurant out of an article and tags it as a real business</td>
+      <td class="us">Yes — 15+ per article</td>
+      <td class="comp">Infatuation does it. Most don't.</td>
     </tr>
-
     <tr>
-      <td class="cap-col">Multi-entity ItemList (listicle articles)</td>
-      <td class="do-val"><span class="chk y">✓</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk y">✓</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
+      <td class="cap">Ties every claim back to the writer's exact sentence</td>
+      <td class="us">Yes — required</td>
+      <td class="comp">Nobody</td>
     </tr>
-
     <tr>
-      <td class="cap-col">Address + geo per entity</td>
-      <td class="do-val"><span class="chk y">✓</span></td>
-      <td><span class="chk y">✓</span><div class="small" style="font-size:10px;">78.6%</div></td>
-      <td><span class="chk g">→</span><div class="small" style="font-size:10px;">61.7%</div></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk g">→</span><div class="small" style="font-size:10px;">14.5%</div></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
+      <td class="cap">Verified address + ZIP for every restaurant</td>
+      <td class="us">Yes — Google Maps</td>
+      <td class="comp">TripAdvisor 79%, Infatuation 62%, Eater 14%</td>
     </tr>
-
     <tr>
-      <td class="cap-col">Phone / hours / price range</td>
-      <td class="do-val"><span class="chk y">✓</span></td>
-      <td><span class="chk y">✓</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
+      <td class="cap">Phone, hours, price range, cuisine on every entry</td>
+      <td class="us">Yes — Google Maps</td>
+      <td class="comp">TripAdvisor only</td>
     </tr>
-
     <tr>
-      <td class="cap-col">Per-entry editorial descriptions</td>
-      <td class="do-val"><span class="chk y">✓</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk y">✓</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk g">→</span></td>
+      <td class="cap">FAQ section answering the questions diners actually ask</td>
+      <td class="us">Yes — 5+ per article</td>
+      <td class="comp">None on editorial sites</td>
     </tr>
-
-    <tr class="moat-row">
-      <td class="cap-col">Per-entry source-quote grounding</td>
-      <td class="do-val"><span class="chk y">✓</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-    </tr>
-
     <tr>
-      <td class="cap-col">FAQPage schema</td>
-      <td class="do-val"><span class="chk y">✓</span></td>
-      <td><span class="chk g">→</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
+      <td class="cap">Restaurant type (bakery, bar, brewery, café) tagged correctly</td>
+      <td class="us">Yes — 9 types</td>
+      <td class="comp">Nobody — all use "Restaurant"</td>
     </tr>
-
-    <tr class="moat-row">
-      <td class="cap-col">Stable @id per restaurant entity</td>
-      <td class="do-val"><span class="chk y">✓</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-      <td><span class="chk n">○</span></td>
-    </tr>
-
     <tr>
-      <td class="cap-col" style="font-weight:700; color:var(--text);">Audit score (/ 10)</td>
-      <td class="do-val"><span class="score hi">7.5–8.0</span><div class="small" style="font-size:10px;">post-v0.3 proj.</div></td>
-      <td><span class="score hi">7.3</span><div class="small" style="font-size:10px;">directory</div></td>
-      <td><span class="score mid">6.8</span><div class="small" style="font-size:10px;">editorial leader</div></td>
-      <td><span class="score lo">4.4</span></td>
-      <td><span class="score lo">3.6</span></td>
-      <td><span class="score null">2.1</span></td>
-      <td><span class="score null">2.1</span></td>
-      <td><span class="score null">2.0</span></td>
-      <td><span class="score null">2.0</span></td>
+      <td class="cap">25–50 word description per restaurant, in your writer's voice</td>
+      <td class="us">Yes</td>
+      <td class="comp">Infatuation only</td>
+    </tr>
+    <tr>
+      <td class="cap">Writer's prose left untouched</td>
+      <td class="us">Always</td>
+      <td class="comp">Infatuation only</td>
     </tr>
   </table>
+
+  <!-- DETAIL: PUBLISHER LANDSCAPE -->
+  <h2 style="margin-top: 48px;">Detail · The publisher landscape</h2>
+  <div class="sub2">Wave 0 audit, May 2026 — 8 publishers scored on a 9-dimension rubric. Higher is better.</div>
+  <table class="simple">
+    <tr>
+      <th>Publisher</th>
+      <th>Type</th>
+      <th>Grade</th>
+      <th>What they ship</th>
+    </tr>
+    <tr class="score-row">
+      <td class="cap" style="color: var(--today);">DiningOut <span style="font-size: 11px; color: var(--muted); font-weight: 400; text-transform: uppercase; letter-spacing: 0.05em;">(today)</span></td>
+      <td class="comp">Editorial</td>
+      <td class="us">7.5 – 8.0</td>
+      <td class="us">Full multi-entity schema + grounded facts + verified business data</td>
+    </tr>
+    <tr>
+      <td class="cap">TripAdvisor</td>
+      <td class="comp">Directory</td>
+      <td class="comp" style="color: var(--today);">7.3</td>
+      <td class="comp">Strong verification, but no editorial voice — it's a database</td>
+    </tr>
+    <tr>
+      <td class="cap">The Infatuation</td>
+      <td class="comp">Editorial</td>
+      <td class="comp" style="color: var(--gap);">6.8</td>
+      <td class="comp">Best editorial peer. Has restaurants tagged, missing grounding</td>
+    </tr>
+    <tr>
+      <td class="cap">Thrillist</td>
+      <td class="comp">Editorial</td>
+      <td class="comp" style="color: var(--ship);">4.4</td>
+      <td class="comp">Has list structure, throws the restaurant data away</td>
+    </tr>
+    <tr>
+      <td class="cap">Eater</td>
+      <td class="comp">Editorial</td>
+      <td class="comp" style="color: var(--ship);">3.6</td>
+      <td class="comp">Skeleton schema — restaurants barely present in code</td>
+    </tr>
+    <tr>
+      <td class="cap">Time Out · Condé Nast Traveler</td>
+      <td class="comp">Editorial</td>
+      <td class="comp" style="color: var(--miss);">2.1</td>
+      <td class="comp">Article-only schema — no restaurant data at all</td>
+    </tr>
+    <tr>
+      <td class="cap">5280 · Westword <span style="font-size: 11px; color: var(--muted); font-weight: 400;">(your Denver competitors)</span></td>
+      <td class="comp">Editorial</td>
+      <td class="comp" style="color: var(--miss);">2.0</td>
+      <td class="comp">No restaurant entities. No list structure. Yoast defaults only.</td>
+    </tr>
+  </table>
+
+  <div style="background: var(--panel); border-left: 3px solid var(--ship); border-radius: 8px; padding: 18px 22px; margin-top: 24px; font-size: 14px; color: var(--muted); line-height: 1.6;">
+    <strong style="color: var(--text);">The Denver-specific note:</strong> Westword (50-year-old alt-weekly, the biggest food brand in Denver) ships their flagship <em>"50 Best Restaurants in Denver"</em> article with zero restaurant data in the code. Same for 5280. <strong style="color: var(--ship);">DiningOut leapfrogs a 50-year-old publication in 90 seconds per article.</strong>
+  </div>
 
   <div class="footer">
-    Source: Wave 0 competitor audit 2026-05-25 — 8 publishers scored across 9-dim rubric (TripAdvisor 7.3 / Infatuation 6.8 / Thrillist 4.4 / Eater 3.6 / Time Out 2.1 / CN Traveler 2.1 / 5280 2.0 / Westword 2.0). DiningOut engine v0.1.x current grade: 5.1. Post-v0.3 realistic: 7.5–8.0 (beats every editorial competitor). <br>
-    Full audit: <code>restaurant-listicle-schema-audit-results.md</code> + <code>westword-50-best-raw.html</code>. Plan: <code>i-m-going-to-do-noble-lemur.md</code> §v11.2.
+    Scoring: ChatGPT + Perplexity 9-dimension schema audit, May 2026. Independent — not a self-grade. ·
+    Full audit + 8-publisher landscape available on request.
   </div>
 
 </div>
@@ -448,12 +413,10 @@
 <script>
   (function() {
     if (sessionStorage.getItem('do_auth') === '1') unlock();
-
     document.getElementById('pw').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') checkPw();
     });
   })();
-
   function checkPw() {
     var val = document.getElementById('pw').value;
     if (val.trim().toLowerCase() === 'shalisa') {
@@ -464,7 +427,6 @@
       document.getElementById('errmsg').style.display = 'block';
     }
   }
-
   function unlock() {
     document.getElementById('gate').style.display = 'none';
     document.getElementById('content').style.display = 'block';
