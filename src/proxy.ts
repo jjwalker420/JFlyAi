@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 // Auth flow: form POST → cookie set → all /proposals/* requests check cookie.
 
 export const config = {
-  matcher: ['/proposals/:path*', '/diningout-funnel-proposal'],
+  matcher: ['/proposals/:path*', '/diningout-DOO-Final-proposal'],
 };
 
 const COOKIE_NAME = 'jfly-proposal-auth';
