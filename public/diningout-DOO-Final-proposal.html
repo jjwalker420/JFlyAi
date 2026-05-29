@@ -1432,6 +1432,115 @@ a:focus-visible, button:focus-visible {
   .panel-nav { flex-direction: column; gap: var(--space-3); }
   .panel-nav-btn { width: 100%; text-align: center; }
 }
+
+/* ============================================================================
+   MOBILE OPTIMIZATION — REFINEMENT PASS 2 (added 2026-05-29)
+   Closes specific issues from on-device review:
+   1. Header tabs scroll cleanly (was: clipped at edges)
+   2. Big stat (144,000 → <200) fits + wraps
+   3. Article chart bars stack clean (was: squished bars)
+   4. Before/after table converts to card list (was: horizontal scroll)
+   ============================================================================ */
+@media (max-width: 720px) {
+  /* Header tabs — proper horizontal scroll, no center-justify clip */
+  .header-tabs {
+    justify-content: flex-start !important;
+    padding: 0 0.75rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .header-tabs::-webkit-scrollbar { display: none; }
+  .header-tabs .tab { flex: 0 0 auto; scroll-snap-align: start; }
+
+  /* Big two-number stat (144,000 → <200) — wrap + smaller */
+  .forensics-stat {
+    font-size: clamp(36px, 9vw, 56px);
+    line-height: 1.05;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .forensics-stat .arrow { margin: 0 0.2em; display: inline-block; }
+
+  /* Article chart rows — stack title over bars cleanly */
+  .chart-row {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-2) !important;
+    padding: var(--space-3) 0;
+  }
+  .chart-bars { width: 100%; gap: 6px; }
+  .chart-bar {
+    min-width: 64px;
+    padding: 4px 10px;
+    height: auto;
+  }
+  .chart-bar-val { white-space: nowrap; font-size: 11px; }
+  .chart-totals {
+    text-align: left;
+    font-size: 13px;
+    color: var(--bone-dim);
+    padding-left: 0;
+  }
+
+  /* Before/after table → card list (each row stacks vertically) */
+  .ba-table { display: block; overflow-x: visible; white-space: normal; }
+  .ba-table thead { display: none; }
+  .ba-table tbody { display: block; width: 100%; }
+  .ba-table tbody tr {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--bone-hairline);
+  }
+  .ba-table tbody tr.ba-detail { padding: 0; }
+  .ba-table tbody tr.ba-detail > td { padding: var(--space-3); display: block; }
+  .ba-table tbody td {
+    display: inline-block;
+    padding: 0;
+    vertical-align: middle;
+    border: none;
+  }
+  .ba-table tbody td:first-child {
+    display: block;
+    font-size: 17px;
+    margin-bottom: 8px;
+    color: var(--bone);
+  }
+  .ba-table tbody td.num {
+    display: inline-block;
+    min-width: 80px;
+    font-size: 22px;
+    padding: 0 var(--space-3) 0 0;
+  }
+  .ba-table tbody td.num.before::before {
+    content: "Before ";
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bone-fainter);
+    margin-right: 4px;
+    display: block;
+  }
+  .ba-table tbody td.num.after::before {
+    content: "After ";
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--lamp-amber);
+    margin-right: 4px;
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .forensics-stat { font-size: 34px; }
+  .ba-table tbody td.num { font-size: 20px; min-width: 72px; }
+  .header-tabs .tab { padding: 0.4rem 0.6rem; font-size: 11px; }
+}
 </style>
 </head>
 <body>
