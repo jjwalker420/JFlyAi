@@ -1353,6 +1353,85 @@ a:focus-visible, button:focus-visible {
   .chart-row { grid-template-columns: 1fr; gap: 0.5rem; }
   .chart-totals { text-align: left; }
 }
+
+/* ============================================================================
+   MOBILE OPTIMIZATION — FINAL PASS (added 2026-05-29)
+   Closes the remaining gaps: type-display, architecture grid, wide tables,
+   Tab 05 two-up grids (inline-styled), and dense flex chips.
+   ============================================================================ */
+@media (max-width: 720px) {
+  :root {
+    --type-display: 56px;
+    --space-7: 48px;
+    --space-8: 64px;
+  }
+
+  /* Body padding tightens */
+  main { padding-left: 0; padding-right: 0; }
+  .panel { padding-left: 0; padding-right: 0; }
+  .tab-container { padding-left: 1rem; padding-right: 1rem; }
+
+  /* Architecture-style 3-col table → stack vertically */
+  .arch-row,
+  [class*="arch-table"] > div,
+  div[style*="grid-template-columns: 220px"],
+  div[style*="grid-template-columns:220px"] {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-2) !important;
+  }
+
+  /* Tab 05 (Why Now) inline two-up grids → stack */
+  div[style*="grid-template-columns:1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-3) !important;
+  }
+
+  /* Wide comparison + before/after tables → horizontal scroll */
+  .cmp-table,
+  .ba-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    white-space: nowrap;
+  }
+  .cmp-table thead,
+  .cmp-table tbody,
+  .cmp-table tr,
+  .ba-table thead,
+  .ba-table tbody,
+  .ba-table tr {
+    display: table;
+    width: max-content;
+    min-width: 100%;
+    table-layout: auto;
+  }
+
+  /* Snap-code blocks tighter */
+  .snap-code { font-size: 10px; padding: var(--space-2); max-height: 280px; }
+
+  /* Footer wrap-friendly */
+  .footer-text { font-size: 11px; padding: 0 1rem; text-align: center; line-height: 1.6; }
+
+  /* Section ledes don't lock to single-line on mobile */
+  .prh-lede,
+  .section-intro .lede { white-space: normal !important; }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --type-display: 44px;
+  }
+  h1 { font-size: clamp(30px, 8vw, 44px); }
+  h2 { font-size: clamp(22px, 6vw, 28px); }
+  .brand-wordmark { font-size: 28px; }
+  .brand-tagline { font-size: 10px; }
+  .header-tabs .tab { padding: 0.35rem 0.45rem; font-size: 10px; }
+  .header-tabs .tab .tab-num { font-size: 9px; }
+  .panel-nav { flex-direction: column; gap: var(--space-3); }
+  .panel-nav-btn { width: 100%; text-align: center; }
+}
 </style>
 </head>
 <body>
