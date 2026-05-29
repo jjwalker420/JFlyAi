@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 // Auth flow: form POST → cookie set → all /proposals/* requests check cookie.
 
 export const config = {
-  matcher: ['/proposals/:path*'],
+  matcher: ['/proposals/:path*', '/diningout-funnel-proposal'],
 };
 
 const COOKIE_NAME = 'jfly-proposal-auth';
@@ -70,7 +70,7 @@ export async function proxy(req: NextRequest) {
         httpOnly: true,
         secure: true,
         sameSite: 'lax',
-        path: '/proposals',
+        path: '/',
         maxAge: 60 * 60 * 24 * 30, // 30 days
       });
       return res;
